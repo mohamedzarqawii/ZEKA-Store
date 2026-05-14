@@ -9,7 +9,7 @@ const Header = () => {
   const pathname = usePathname();
 
   const menuItems = [
-    { name: "HOME", href: "/home" },
+    { name: "HOME", href: "/" },
     { name: "SHOP", href: "/shop" },
     // { name: "CATEGORY", href: "/category" },
     { name: "ABOUT", href: "/about" },
