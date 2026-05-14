@@ -1,0 +1,63 @@
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <div className="mx-10">
+      <div className="flex justify-center items-center h-[calc(100vh-155px)]">
+        {/* body */}
+        <div className="flex flex-col justify-center items-center gap-7 bg-[#1a1a1a]/20 backdrop-blur-md p-12 border border-[#F97A14] rounded-3xl w-130 h-fit">
+          {/* 1 */}
+          <div className="flex flex-col justify-center items-center gap-4">
+            <div className="text-[#F97A14] text-4xl">WELCOME BACK</div>
+            <div className="text-md text-zinc-400">
+              Login to access your performance data
+            </div>
+          </div>
+
+          {/* 2 */}
+
+          <div className="group flex flex-col justify-center items-end gap-4 w-full">
+            <div className="flex flex-col gap-2 w-full">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                className="px-4 py-3 border border-[#F97A14] rounded-lg outline-none focus:ring-[#F97A14] focus:ring-2"
+              />
+            </div>
+            <div className="flex flex-col gap-2 w-full">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                className="px-4 py-3 border border-[#F97A14] rounded-lg outline-none focus:ring-[#F97A14] focus:ring-2"
+              />
+            </div>
+            <Link
+              href="/forgotPassword"
+              className="text-[#F97A14] hover:text-[#F95A20] text-xs"
+            >
+              Forgot password?
+            </Link>
+          </div>
+
+          {/* 3 */}
+          <div className="flex flex-col justify-center items-center gap-4 w-full">
+            <button className="bg-[#F97A14] hover:bg-[#F95A20] px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer">
+              LOG IN
+            </button>
+            <div>
+              Don't have an account?{" "}
+              <Link
+                href="/register"
+                className="text-[#F97A14] hover:text-[#F95A20] transition-colors duration-300"
+              >
+                Sign up
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
