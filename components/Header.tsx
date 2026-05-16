@@ -46,7 +46,7 @@ const Header = () => {
           <div>
             <Link
               href="/login"
-              className={`login-button ${pathname === "/login" ? "text-[#FC6216]" : " hover:text-[#FC6216] "}`}
+              className={`login-button ${pathname === "/login" ? "text-primary" : " hover:text-primary "}`}
             >
               LOG IN
             </Link>
@@ -54,10 +54,10 @@ const Header = () => {
 
           <Link
             href="/cart"
-            className="p-1 rounded-lg hover:text-[#F97A14] transition-color duration-300"
+            className="p-1 rounded-lg hover:text-primary transition-color duration-300"
           >
             <IconShoppingCart
-              className={`${pathname === "/cart" ? "text-[#F97A14]" : "hover:text-[#F95A20]"}`}
+              className={`${pathname === "/cart" ? "text-primary" : "hover:text-secondary"}`}
             />
           </Link>
         </div>

@@ -26,6 +26,9 @@ input[type="number"] {
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-primary: #f97a14;
+  --color-secondary: #f95a20;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -54,26 +57,30 @@ body {
   after:h-0.5
   after:rounded-full
   after:w-full
-  after:bg-[#FC6216]
+  after:bg-primary
   after:content-['']
   after:-translate-x-1/2
   after:origin-center
   after:transition-transform;
 }
 .menu-item-inactive {
-  @apply after:bg-[#FC6216]
+  @apply after:bg-primary
   after:scale-x-0
   hover:after:scale-x-100;
 }
 
 .menu-item-active {
-  @apply text-[#FC6216]
-  after:bg-[#FC6216]
+  @apply text-primary
+  after:bg-primary
   after:scale-x-10;
 }
 
 .login-button {
   @apply p-1.5 border rounded-lg transition-colors duration-300;
+}
+
+.size-option {
+  @apply flex justify-center items-center hover:bg-primary p-2 border border-primary rounded-lg w-full transition-colors duration-300 cursor-pointer;
 }
 
 @keyframes heartPop {

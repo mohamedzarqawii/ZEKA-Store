@@ -1,0 +1,123 @@
+import { ProductType } from "@/types/product";
+
+export const products: ProductType[] = [
+  {
+    id: 1,
+    name: "Tennis Ball Pro",
+    description: "Professional tennis ball for matches and training.",
+    price: 500,
+    category: "Tennis",
+    image: "/images/tennis.jpeg",
+    stock: 20,
+    brand: "Wilson",
+    featured: true,
+  },
+
+  {
+    id: 2,
+    name: "Tennis Ball Match",
+    description: "Premium match ball with high durability.",
+    price: 550,
+    category: "Tennis",
+    image: "/images/tennis2.jpeg",
+    stock: 18,
+    brand: "Nike",
+    featured: false,
+  },
+
+  {
+    id: 3,
+    name: "Tennis Starter Kit",
+    description: "Lightweight tennis equipment for beginners.",
+    price: 650,
+    category: "Tennis",
+    image: "/images/tennis3.jpeg",
+    stock: 12,
+    brand: "Adidas",
+    featured: true,
+  },
+
+  {
+    id: 4,
+    name: "Basketball Elite",
+    description: "Official size basketball for indoor games.",
+    price: 750,
+    category: "Basketball",
+    image: "/images/basketball.jpeg",
+    stock: 14,
+    brand: "Spalding",
+    featured: true,
+  },
+
+  {
+    id: 5,
+    name: "Dumbbells 5KG",
+    description: "Perfect dumbbells for home workouts.",
+    price: 900,
+    category: "Gym",
+    image: "/images/dumbbles.jpeg",
+    stock: 16,
+    brand: "Reebok",
+    featured: false,
+  },
+
+  {
+    id: 6,
+    name: "Dumbbells Pro",
+    description: "Heavy-duty dumbbells for advanced training.",
+    price: 1300,
+    category: "Gym",
+    image: "/images/dumbbles1.jpeg",
+    stock: 10,
+    brand: "Puma",
+    featured: true,
+  },
+
+  {
+    id: 7,
+    name: "Gym Equipment Set",
+    description: "Complete fitness equipment for daily workouts.",
+    price: 2200,
+    category: "Fitness",
+    image: "/images/gym.jpeg",
+    stock: 7,
+    brand: "Under Armour",
+    featured: true,
+  },
+
+  {
+    id: 8,
+    name: "Training Machine",
+    description: "Multi-purpose machine for strength training.",
+    price: 3500,
+    category: "Fitness",
+    image: "/images/gym1.jpeg",
+    stock: 5,
+    brand: "Adidas",
+    featured: false,
+  },
+
+  {
+    id: 9,
+    name: "Hamster Wheel Trainer",
+    description: "Compact training wheel for active pets.",
+    price: 300,
+    category: "Accessories",
+    image: "/images/hamester.jpeg",
+    stock: 25,
+    brand: "PetFit",
+    featured: false,
+  },
+
+  {
+    id: 10,
+    name: "Premium Tennis Pack",
+    description: "Professional set designed for tennis players.",
+    price: 1100,
+    category: "Tennis",
+    image: "/images/tennis2.jpeg",
+    stock: 9,
+    brand: "Wilson",
+    featured: true,
+  },
+];

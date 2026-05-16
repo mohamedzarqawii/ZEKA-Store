@@ -9,7 +9,7 @@ export default function Home() {
     <div className="mx-10">
       <div className="flex flex-col gap-10 mt-15">
         {/* 1 */}
-        <div className="text-[#F97A14] text-3xl">YOUR SHOPPING BAG</div>
+        <div className="text-primary text-3xl">YOUR SHOPPING BAG</div>
 
         {/* 2 */}
 
@@ -29,7 +29,7 @@ export default function Home() {
 
           {/* right */}
 
-          <div className="top-24 sticky flex flex-col gap-6 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-[#F97A14] rounded-3xl w-200 h-fit">
+          <div className="top-24 sticky flex flex-col gap-6 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-200 h-fit">
             <div>ORDER SUMMARY</div>
 
             <div>
@@ -56,7 +56,7 @@ export default function Home() {
                 <div>$19.99</div>
               </div>
 
-              <button className="bg-[#F97A14] hover:bg-[#F95A20] px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300 hover:cursor-pointer">
+              <button className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300 hover:cursor-pointer">
                 PROCEED TO CHECKOUT
               </button>
             </div>

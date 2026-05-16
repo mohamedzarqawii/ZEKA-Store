@@ -17,11 +17,11 @@ export default function Home() {
         {/* first slide */}
         <div className="flex justify-center items-center mt-15">
           <div className="flex flex-col gap-15">
-            <div className="font-bold text-[#FC6216]">NEW COLLECTION</div>
+            <div className="font-bold text-primary">NEW COLLECTION</div>
 
             <div className="flex flex-col gap-10">
               <div className="text-6xl">
-                PUSH YOUR <span className="text-[#FC6216]">LIMITS</span> FURTHER
+                PUSH YOUR <span className="text-primary">LIMITS</span> FURTHER
               </div>
               <div className="flex flex-col gap-15">
                 <div>
@@ -32,7 +32,7 @@ export default function Home() {
                 <div>
                   <a
                     href="/shop"
-                    className="bg-[#F97A14] hover:bg-[#F95A20] p-3 rounded-lg text-[#FEFEFE] hover:text-[#FEFEFE] transition-colors duration-300"
+                    className="bg-primary hover:bg-secondary p-3 rounded-lg text-[#FEFEFE] hover:text-[#FEFEFE] transition-colors duration-300"
                   >
                     Explore Shop
                   </a>
@@ -43,28 +43,17 @@ export default function Home() {
           <div>
             <img
               src="/images/hamester.jpeg"
-              className="shadow-[#F97A14] shadow-[0_0_50px] rounded-[65px] w-175"
+              className="shadow-[0_0_50px] shadow-primary rounded-[65px] w-175"
             />
           </div>
         </div>
         {/* second slide */}
         <div className="flex flex-col gap-10 mt-20">
           <div className="flex justify-between items-end">
-            <div className="text-[#F97A14] text-3xl">MOST PRODUCT POPULAR</div>
+            <div className="text-primary text-3xl">MOST PRODUCT POPULAR</div>
           </div>
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4 w-full">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {/* <ProductCard /> */}
           </div>
         </div>
       </div>

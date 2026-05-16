@@ -16,7 +16,7 @@ const CategoryCard = () => {
 
         {/* text */}
         <div className="absolute inset-0 flex flex-col justify-center items-center">
-          <h2 className="font-bold text-[#F97A14] text-3xl">GYM & FITNESS</h2>
+          <h2 className="font-bold text-primary text-3xl">GYM & FITNESS</h2>
         </div>
         <div className="absolute inset-0 flex flex-col justify-end items-center mb-5">
           <h3 className="font-light text-sm">80 PRODUCTS</h3>

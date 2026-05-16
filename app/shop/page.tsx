@@ -1,6 +1,6 @@
 import ProductCard from "@/components/ProductCard";
-import Image from "next/image";
-import Link from "next/link";
+import { products } from "@/data/products";
+
 import Header from "@/components/Header";
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
       <div className="flex gap-10 mt-15">
         {/* Left */}
 
-        <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-[#F97A14] rounded-3xl w-full max-w-xs h-fit">
+        <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-full max-w-xs h-fit">
           {/* 1 L */}
           <div className="flex flex-col gap-3">
             <div>FILTERS</div>
@@ -20,7 +20,7 @@ export default function Home() {
           {/* 2 L */}
 
           <div className="flex flex-col gap-4 mt-8">
-            <div className="font-bold text-[#F97A14] text-lg">CATEGORY</div>
+            <div className="font-bold text-primary text-lg">CATEGORY</div>
 
             <div className="flex flex-col gap-5">
               <div className="flex items-center gap-3">
@@ -58,7 +58,7 @@ export default function Home() {
           {/* 3 L */}
 
           <div className="flex flex-col gap-4">
-            <div className="font-bold text-[#F97A14] text-lg">COMPANY</div>
+            <div className="font-bold text-primary text-lg">COMPANY</div>
 
             <div className="flex flex-col gap-5">
               <div className="flex items-center gap-3">
@@ -91,11 +91,11 @@ export default function Home() {
           {/* 4 L */}
 
           <div className="flex flex-col gap-4 mt-8 w-full">
-            <div className="text-[#F97A14] text-sm">PRICE</div>
+            <div className="text-primary text-sm">PRICE</div>
             <div className="flex">
               <div className="flex flex-col gap-1 mr-3">
                 <input
-                  className="px-3 py-2 border border-[#F97A14] rounded-lg outline-none focus:ring-[#F97A14] focus:ring-2 w-full scroll"
+                  className="px-3 py-2 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full scroll"
                   type="number"
                   placeholder="From"
                   min={0}
@@ -103,7 +103,7 @@ export default function Home() {
               </div>
               <div>
                 <input
-                  className="px-3 py-2 border border-[#F97A14] rounded-lg outline-none focus:ring-[#F97A14] focus:ring-2 w-full"
+                  className="px-3 py-2 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full"
                   type="number"
                   placeholder="To"
                   min={0}
@@ -117,43 +117,15 @@ export default function Home() {
         <div className="flex flex-col gap-10 w-full">
           {/* 1 R */}
           <div className="flex justify-between items-end">
-            <div className="text-[#F97A14] text-3xl">ALL PRODUCTS</div>
+            <div className="text-primary text-3xl">ALL PRODUCTS</div>
             <div className="text-[13px]">Showing 1-12 of 120 products</div>
           </div>
 
           {/* 2 R */}
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </div>

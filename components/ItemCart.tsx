@@ -5,7 +5,7 @@ import { IconTrash } from "@tabler/icons-react";
 
 const ItemCart = () => {
   return (
-    <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-[#F97A14] rounded-3xl">
+    <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl">
       {/* 1 */}
       <div className="flex items-center gap-5">
         {/* image */}
@@ -41,7 +41,7 @@ const ItemCart = () => {
         <div className="font-bold text-xl">$19.99</div>
 
         {/* delete */}
-        <div className="text-[#F97A14] hover:text-[#F95A20] hover:cursor-pointer">
+        <div className="text-primary hover:text-secondary hover:cursor-pointer">
           <IconTrash />
         </div>
       </div>
