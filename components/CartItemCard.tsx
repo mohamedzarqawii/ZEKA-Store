@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { ProductType } from "@/types/product";
-import CategoryCard from "./CategoryCard";
+import { CartItemType } from "@/context/CartContext";
 import { IconTrash } from "@tabler/icons-react";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 
-const ItemCart = ({ product }: { product: ProductType }) => {
+const ItemCart = ({ product }: { product: CartItemType }) => {
   const { removeFromCart, updateQuantity } = useCart();
   const [quantity, setQuantity] = useState(product.quantity);
 

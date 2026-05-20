@@ -1,9 +1,7 @@
 "use client";
 
-import Header from "@/components/Header";
 import ItemCart from "@/components/CartItemCard";
 import { useCart } from "@/context/CartContext";
-import { products } from "@/data/products";
 
 export default function CartPage() {
   const { cart } = useCart();
