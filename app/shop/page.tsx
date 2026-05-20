@@ -3,12 +3,39 @@
 import * as React from "react";
 import { Field, FieldDescription, FieldTitle } from "@/components/ui/field";
 import { Slider } from "@/components/ui/slider";
-
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
+import { useState } from "react";
 
-export default function Home() {
+export default function Shop() {
   const [value, setValue] = React.useState([200, 800]);
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  function filterByCategory(category: string) {
+    if (category === "all") {
+      setFilteredProducts(products);
+      return;
+    }
+
+    setFilteredProducts(products.filter((p) => p.category === category));
+  }
+
+  const filterMenu = [
+    {
+      title: "CATEGORY",
+      options: [
+        "FLOORING",
+        "GYM & FITNESS",
+        "SPORT WEAR",
+        "EQUIPMENT",
+        "SOCCAR",
+        "TENNIS",
+      ],
+    },
+    {
+      title: "COMPANY",
+      options: ["NIKE", "ADIDAS", "PUMA", "REEBOK", "UNDER ARMOUR", "ASICS"],
+    },
+  ];
 
   return (
     <div className="mx-10">
@@ -25,98 +52,53 @@ export default function Home() {
 
           {/* 2 L */}
 
-          <div className="flex flex-col gap-4 mt-8">
-            <div className="font-bold text-primary text-lg">CATEGORY</div>
+          <div className="flex flex-col gap-8 mt-8">
+            {filterMenu.map((menu, i) => (
+              <div key={i} className="flex flex-col gap-5">
+                <div className="font-bold text-primary text-lg">
+                  {menu.title}
+                </div>
 
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">FLOORING</label>
+                <div className="flex flex-col gap-5">
+                  {menu.options.map((option: string, j: number) => (
+                    <div key={j} className="flex items-center gap-3">
+                      <input type="checkbox" />
+                      <label className="text-zinc-400 text-sm">{option}</label>
+                    </div>
+                  ))}
+                </div>
               </div>
+            ))}
 
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">GYM & FITNESS</label>
+            {/* price filter */}
+            <div className="flex flex-col gap-4 w-full">
+              <div>
+                <Field className="w-full max-w-xs">
+                  <FieldTitle className="text-primary text-lg">
+                    PRICE
+                  </FieldTitle>
+                  <FieldDescription className="text-sm">
+                    ($
+                    <span className="font-medium tabular-nums">
+                      {value[0]}
+                    </span>{" "}
+                    -{" "}
+                    <span className="font-medium tabular-nums">{value[1]}</span>
+                    )
+                  </FieldDescription>
+                  <Slider
+                    value={value}
+                    onValueChange={(value) =>
+                      setValue(value as [number, number])
+                    }
+                    max={1000}
+                    min={0}
+                    step={10}
+                    className="mt-2 w-full"
+                    aria-label="Price Range"
+                  />
+                </Field>
               </div>
-
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">SPORT WEAR</label>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">EQUIPMENT</label>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">SOCCAR</label>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">TENNIS</label>
-              </div>
-            </div>
-          </div>
-
-          {/* 3 L */}
-
-          <div className="flex flex-col gap-4">
-            <div className="font-bold text-primary text-lg">COMPANY</div>
-
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">NIKE</label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">ADIDAS</label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">PUMA</label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">REEBOK</label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">UNDER ARMOUR</label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input type="checkbox" />
-                <label className="text-zinc-400 text-sm">ASICS</label>
-              </div>
-            </div>
-          </div>
-
-          {/* 4 L */}
-
-          <div className="flex flex-col gap-4 mt-8 w-full">
-            <div>
-              <Field className="w-full max-w-xs">
-                <FieldTitle className="text-primary text-lg">PRICE</FieldTitle>
-                <FieldDescription className="text-sm">
-                  ($
-                  <span className="font-medium tabular-nums">
-                    {value[0]}
-                  </span> -{" "}
-                  <span className="font-medium tabular-nums">{value[1]}</span>)
-                </FieldDescription>
-                <Slider
-                  value={value}
-                  onValueChange={(value) => setValue(value as [number, number])}
-                  max={1000}
-                  min={0}
-                  step={10}
-                  className="mt-2 w-full"
-                  aria-label="Price Range"
-                />
-              </Field>
             </div>
           </div>
         </div>
@@ -131,7 +113,7 @@ export default function Home() {
 
           {/* 2 R */}
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

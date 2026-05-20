@@ -1,20 +1,26 @@
 "use client";
 
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { products } from "@/data/products";
 import { useParams } from "next/navigation";
+import { ProductType } from "@/types/product";
+import { useCart } from "@/context/CartContext";
+import { useFavorites } from "@/context/FavoritesContext";
 
 const ProductPage = () => {
   const { id } = useParams();
+  const product: ProductType | undefined = products.find(
+    (p) => p.id === Number(id),
+  );
 
-  const product = products.find((p) => p.id === Number(id));
-
-  if (!product) return <div>Not found</div>;
-
-  const [liked, setLiked] = useState(false);
   const sizes = [8, 9, 10, 11, 12];
   const [selectedSize, setSelectedSize] = useState<number>(sizes[0]);
+  const { cart, addToCart, removeFromCart } = useCart();
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+  if (!product) return <div>Not found</div>;
+  const isInCart = cart.some((item) => item.id === product.id);
+  const isInFavorites = favorites.some((item) => item.id === product.id);
 
   return (
     <div className="mx-10 mt-15">
@@ -27,7 +33,6 @@ const ProductPage = () => {
               src={product.image}
               className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
             />
-
             <img
               src={product.image}
               className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
@@ -100,14 +105,33 @@ const ProductPage = () => {
 
             {/* add to bag */}
             <div className="flex items-center gap-3 w-full">
-              <button className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer">
-                ADD TO CART
-              </button>
-              <div
-                className={`border-primary border hover:border-secondary px-6 py-6 rounded-2xl hover:scale-105 transition-transform duration-300 w-fit cursor-pointer ${liked ? "animate-[heartPop_300ms_ease]" : ""}`}
-                onClick={() => setLiked(!liked)}
+              {/* add to cart button  */}
+              <button
+                className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (isInCart) {
+                    removeFromCart(product.id);
+                  } else {
+                    addToCart(product, 1);
+                  }
+                }}
               >
-                {liked ? (
+                {isInCart ? "IN YOUR CART" : "ADD TO CART"}
+              </button>
+
+              {/* add to favorites button  */}
+              <div
+                className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl w-fit transition-transform duration-300 cursor-pointer"
+                onClick={() => {
+                  if (isInFavorites) {
+                    removeFromFavorites(product.id);
+                  } else {
+                    addToFavorites(product);
+                  }
+                }}
+              >
+                {isInFavorites ? (
                   <IconHeartFilled className="size-6 text-primary" />
                 ) : (
                   <IconHeart className="size-6 text-primary" />

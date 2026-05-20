@@ -3,6 +3,8 @@ import { Bruno_Ace, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { cn } from "@/lib/utils";
+import { CartProvider } from "@/context/CartContext";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,8 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans dark", inter.variable)}>
       <body className={bruno.className}>
-        <Header />
-        {children}
+        <FavoritesProvider>
+          <CartProvider>
+            <Header />
+            {children}
+          </CartProvider>
+        </FavoritesProvider>
       </body>
     </html>
   );

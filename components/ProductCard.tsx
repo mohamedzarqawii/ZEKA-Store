@@ -1,18 +1,22 @@
 "use client";
-
 import Link from "next/link";
 import { ProductType } from "@/types/product";
 import {
   IconHeartFilled,
   IconHeart,
-  IconShoppingCartCopy,
+  IconShoppingCartFilled,
   IconShoppingCartPlus,
 } from "@tabler/icons-react";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
+import { useFavorites } from "@/context/FavoritesContext";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const [liked, setLiked] = useState(false);
-  const [addToCart, setAddToCart] = useState(false);
+  const { cart, addToCart, removeFromCart } = useCart();
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+  const isInCart = cart.some((item) => item.id === product.id);
+  const isInFavorites = favorites.some((item) => item.id === product.id);
 
   return (
     <div>
@@ -21,16 +25,20 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           {/* image & cart icon */}
 
           <div className="relative">
-            {/* cart icon */}
+            {/* love icon */}
 
             <button
-              className={`top-4 right-4 absolute p-1.5 rounded-lg hover:scale-105 transition-transform duration-300 cursor-pointer ${liked ? "animate-[heartPop_300ms_ease]" : ""}`}
+              className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
               onClick={(e) => {
                 e.preventDefault();
-                setLiked(!liked);
+                if (isInFavorites) {
+                  removeFromFavorites(product.id);
+                } else {
+                  addToFavorites(product);
+                }
               }}
             >
-              {liked ? (
+              {isInFavorites ? (
                 <IconHeartFilled className="size-6 text-primary" />
               ) : (
                 <IconHeart className="size-6 text-primary" />
@@ -52,14 +60,18 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 {/* add to cart */}
 
                 <button
-                  className={`p-1.5 border border-primary rounded-lg hover:scale-105 transition-transform duration-600 group-hover:cursor-pointer ${addToCart ? "animate-[cartPop_300ms_ease]" : ""}`}
+                  className={`p-1.5 border border-primary rounded-lg hover:scale-105 transition-transform duration-600 group-hover:cursor-pointer ${isInCart ? "animate-[cartPop_300ms_ease]" : ""}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    setAddToCart(!addToCart);
+                    if (isInCart) {
+                      removeFromCart(product.id);
+                    } else {
+                      addToCart(product, 1);
+                    }
                   }}
                 >
-                  {addToCart ? (
-                    <IconShoppingCartCopy className="size-5 text-primary" />
+                  {isInCart ? (
+                    <IconShoppingCartFilled className="size-5 text-primary" />
                   ) : (
                     <IconShoppingCartPlus className="size-5 text-primary" />
                   )}
