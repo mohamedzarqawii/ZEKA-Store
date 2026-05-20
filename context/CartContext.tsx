@@ -2,9 +2,10 @@
 
 import { createContext, useContext, useState } from "react";
 import { ProductType } from "@/types/product";
+export type CartItemType = ProductType & { quantity: number };
 
 type CartContextType = {
-  cart: ProductType[];
+  cart: CartItemType[];
   addToCart: (product: ProductType, quantity: number) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
@@ -13,7 +14,7 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<ProductType[]>([]);
+  const [cart, setCart] = useState<CartItemType[]>([]);
 
   function addToCart(product: ProductType, quantity: number) {
     setCart((prev) => [...prev, { ...product, quantity }]);
