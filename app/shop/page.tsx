@@ -1,9 +1,15 @@
+"use client";
+
+import * as React from "react";
+import { Field, FieldDescription, FieldTitle } from "@/components/ui/field";
+import { Slider } from "@/components/ui/slider";
+
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
 
-import Header from "@/components/Header";
-
 export default function Home() {
+  const [value, setValue] = React.useState([200, 800]);
+
   return (
     <div className="mx-10">
       {/* body */}
@@ -91,24 +97,26 @@ export default function Home() {
           {/* 4 L */}
 
           <div className="flex flex-col gap-4 mt-8 w-full">
-            <div className="text-primary text-sm">PRICE</div>
-            <div className="flex">
-              <div className="flex flex-col gap-1 mr-3">
-                <input
-                  className="px-3 py-2 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full scroll"
-                  type="number"
-                  placeholder="From"
+            <div>
+              <Field className="w-full max-w-xs">
+                <FieldTitle className="text-primary text-lg">PRICE</FieldTitle>
+                <FieldDescription className="text-sm">
+                  ($
+                  <span className="font-medium tabular-nums">
+                    {value[0]}
+                  </span> -{" "}
+                  <span className="font-medium tabular-nums">{value[1]}</span>)
+                </FieldDescription>
+                <Slider
+                  value={value}
+                  onValueChange={(value) => setValue(value as [number, number])}
+                  max={1000}
                   min={0}
+                  step={10}
+                  className="mt-2 w-full"
+                  aria-label="Price Range"
                 />
-              </div>
-              <div>
-                <input
-                  className="px-3 py-2 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full"
-                  type="number"
-                  placeholder="To"
-                  min={0}
-                />
-              </div>
+              </Field>
             </div>
           </div>
         </div>

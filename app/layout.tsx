@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { Bruno_Ace } from "next/font/google";
+import { Bruno_Ace, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 const bruno = Bruno_Ace({
   weight: "400",
@@ -19,10 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans dark", inter.variable)}>
       <body className={bruno.className}>
         <Header />
-
         {children}
       </body>
     </html>
