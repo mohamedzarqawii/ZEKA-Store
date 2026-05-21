@@ -108,7 +108,7 @@ input[type="number"] {
 }
 
 .size-option {
-  @apply flex justify-center items-center hover:bg-primary p-2 border border-primary rounded-lg w-full transition-colors duration-300 cursor-pointer;
+  @apply flex justify-center items-center hover:bg-primary p-4 border border-primary rounded-lg w-full transition-colors duration-300 cursor-pointer;
 }
 
 @keyframes heartPop {

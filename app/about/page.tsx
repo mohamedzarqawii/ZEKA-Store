@@ -14,7 +14,7 @@ export default function Home() {
           {/* image */}
           <div className="w-400 h-170">
             <img
-              src="/images/gym1.jpeg"
+              src="/images/dummbles10.jpeg"
               className="shadow-[#FEFEFE] shadow-[0_0_15px] rounded-[65px] w-full h-full object-cover object-left"
             />
           </div>

@@ -32,17 +32,19 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
       {/* 2 */}
       <div className="flex items-center gap-6">
         {/* count */}
-        <div className="flex items-center bg-zinc-700 rounded-md">
+        <div className="flex items-center bg-zinc-700 px-1 py-1 rounded-md w-21">
           <button
             className="flex justify-center items-center w-6 h-6 hover:cursor-pointer"
             onClick={() => {
               if (quantity > 1) {
                 setQuantity(quantity - 1);
                 updateQuantity(product.id, quantity - 1);
+              } else {
+                removeFromCart(product.id);
               }
             }}
           >
-            -
+            {quantity > 1 ? "-" : <IconTrash className="size-4" />}
           </button>
           <span className="mx-3">{quantity}</span>
           <button

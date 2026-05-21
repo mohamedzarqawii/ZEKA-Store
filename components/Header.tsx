@@ -21,7 +21,7 @@ const Header = () => {
       <div className="flex justify-between items-center px-10 w-full h-20">
         <div className="">
           <img
-            src="/images/image2.png"
+            src="/images/zekaLogo.png"
             className="bg-transparent w-30 object-contain"
           />
         </div>

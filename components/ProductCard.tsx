@@ -55,7 +55,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           <div className="bg-zinc-900 p-4">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center">
-                <div className="font-light text-base">{product.name}</div>
+                <div className="font-light text-[15px]">{product.name}</div>
 
                 {/* add to cart */}
 
@@ -71,9 +71,9 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                   }}
                 >
                   {isInCart ? (
-                    <IconShoppingCartFilled className="size-5 text-primary" />
+                    <IconShoppingCartFilled className="size-4 text-primary" />
                   ) : (
-                    <IconShoppingCartPlus className="size-5 text-primary" />
+                    <IconShoppingCartPlus className="size-4 text-primary" />
                   )}
                 </button>
               </div>
@@ -84,10 +84,10 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
             <div className="flex justify-between items-center mt-3">
               {/* category */}
-              <div className="bg-zinc-800 px-1 border border-zinc-700 rounded-3xl text-zinc-400 text-xs">
+              <div className="bg-zinc-800 px-1 border border-zinc-700 rounded-3xl text-[10px] text-zinc-400">
                 {product.category}
               </div>
-              <div className="font-semibold text-sm text-right t">
+              <div className="font-semibold text-[14px] text-right">
                 {product.price} EGP
               </div>
             </div>
