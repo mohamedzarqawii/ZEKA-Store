@@ -10,6 +10,8 @@ import {
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
+import { CartItemType } from "@/context/CartContext";
+import Counter from "./Counter";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const [liked, setLiked] = useState(false);
@@ -17,6 +19,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const isInCart = cart.some((item) => item.id === product.id);
   const isInFavorites = favorites.some((item) => item.id === product.id);
+  const cartItem = cart.find((item) => item.id === product.id);
 
   return (
     <div>
@@ -59,23 +62,43 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
                 {/* add to cart */}
 
-                <button
-                  className={`p-1.5 border border-primary rounded-lg hover:scale-105 transition-transform duration-600 group-hover:cursor-pointer ${isInCart ? "animate-[cartPop_300ms_ease]" : ""}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (isInCart) {
-                      removeFromCart(product.id);
-                    } else {
-                      addToCart(product, 1);
-                    }
-                  }}
-                >
-                  {isInCart ? (
-                    <IconShoppingCartFilled className="size-4 text-primary" />
-                  ) : (
-                    <IconShoppingCartPlus className="size-4 text-primary" />
-                  )}
-                </button>
+                {/* <Counter
+                  product={cartItem}
+                  classname="flex justify-between items-center bg-primary px-4 py-6 rounded-2xl w-full font-extrabold text-lg text-center hover:cursor-pointer"
+                  plusClass="flex justify-center items-center w-6 h-6 text-lg"
+                  minusClass="flex justify-center items-center w-6 h-6 text-lg hover:cursor-pointer"
+                  spanClass="mx-3 text-lg"
+                  trashSize="size-5"
+                /> */}
+
+                {isInCart && cartItem ? (
+                  <Counter
+                    product={cartItem}
+                    classname="flex items-center bg-zinc-700 px-2 py-1 rounded-md w-18"
+                    plusClass="flex justify-center items-center w-full h-4 hover:cursor-pointer"
+                    minusClass="flex justify-center items-center w-full h-4 "
+                    spanClass="px-3"
+                    trashSize="size-4"
+                  />
+                ) : (
+                  <button
+                    className={`p-1.5 border border-primary rounded-lg hover:scale-105 transition-transform duration-600 group-hover:cursor-pointer ${isInCart ? "animate-[cartPop_300ms_ease]" : ""}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isInCart) {
+                        removeFromCart(product.id);
+                      } else {
+                        addToCart(product, 1);
+                      }
+                    }}
+                  >
+                    {isInCart ? (
+                      <IconShoppingCartFilled className="size-4 text-primary" />
+                    ) : (
+                      <IconShoppingCartPlus className="size-4 text-primary" />
+                    )}
+                  </button>
+                )}
               </div>
               <p className="text-gray-400 text-xs line-clamp-1">
                 {product.description}
@@ -88,7 +111,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 {product.category}
               </div>
               <div className="font-semibold text-[14px] text-right">
-                {product.price} EGP
+                ${product.price}
               </div>
             </div>
           </div>

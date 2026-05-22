@@ -25,10 +25,9 @@ input[type="number"] {
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-
   --color-primary: #f97a14;
   --color-secondary: #f95a20;
-  --font-heading: var(--font-sans);
+  --color-font-primary: #fefefe;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

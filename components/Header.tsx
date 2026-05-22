@@ -46,7 +46,7 @@ const Header = () => {
           <div>
             <Link
               href="/login"
-              className={`login-button ${pathname === "/login" ? "text-primary" : " hover:text-primary "}`}
+              className={`login-button ${pathname === "/login" ? "text-primary border-primary " : " hover:text-primary hover:border-primary "}`}
             >
               LOG IN
             </Link>

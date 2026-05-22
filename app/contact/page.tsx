@@ -4,13 +4,26 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
     <div className="mx-10">
       {/* body */}
 
-      <div className="my-50">
-        <div className="flex justify-between items-center gap-14 bg-[#1a1a1a]/20 backdrop-blur-md mx-20 p-7 border border-primary rounded-3xl">
+      <div className="flex justify-center items-center h-[calc(100vh-155px)]">
+        <div className="flex justify-between items-center gap-14 bg-[#1a1a1a]/20 backdrop-blur-md mx-20 p-6 border border-primary rounded-3xl">
           {/* Left */}
 
           <div className="flex flex-col justify-start gap-8 p-10 w-full">
@@ -53,7 +66,7 @@ export default function Home() {
           </div>
 
           {/* Right */}
-          <div className="flex flex-col gap-10 w-full">
+          <div className="flex flex-col gap-6 w-full">
             {/* 1 */}
 
             <div className="flex flex-col gap-4">
@@ -73,11 +86,32 @@ export default function Home() {
                 rows={4}
               />
             </div>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button className="bg-primary hover:bg-secondary px-4 py-8 rounded-lg text-white text-xl text-center transition-colors duration-300 hover:cursor-pointer">
+                  SUBMIT
+                </Button>
+              </AlertDialogTrigger>
 
-            {/* 3 */}
-            <button className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg text-white text-center transition-colors duration-300 hover:cursor-pointer">
-              SUBMIT
-            </button>
+              <AlertDialogContent className="flex flex-col gap-6 bg-[#1a1a1a]/20 backdrop-blur-md p-6 border border-primary rounded-3xl">
+                <AlertDialogHeader className="flex flex-col gap-4 w-full text-center">
+                  <AlertDialogTitle className="flex flex-col w-full font-bold text-[16px] text-primary text-center">
+                    THANK YOU FOR CONTACT US!
+                  </AlertDialogTitle>
+
+                  <AlertDialogDescription className="flex flex-col justify-center items-center gap-3 w-full text-font-primary font-bold text-center">
+                    We appreciate you reaching out and will get back to you as
+                    soon as possible.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                  <AlertDialogAction className="bg-primary hover:bg-secondary px-5 py-6 rounded-lg w-full text-white text-center transition-colors duration-300 hover:cursor-pointer">
+                    CLOSE
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </div>

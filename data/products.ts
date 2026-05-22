@@ -9,7 +9,7 @@ export const products: ProductType[] = [
     price: 49.99,
     category: "EQUIPMENT",
     image: "/images/basketball.jpeg",
-    stock: 20,
+    stock: 5,
     brand: "NIKE",
     featured: true,
   },
