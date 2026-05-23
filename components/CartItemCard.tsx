@@ -32,25 +32,24 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
             <div>{product.name}</div>
 
             <div className="flex gap-1">
+              {/* size  */}
+              <div className="text-zinc-500 text-sm">
+                Size: {cartItem?.size}
+              </div>
+
               {/* color  */}
               <div>
                 {product.color != null ? (
                   <div className="text-zinc-500 text-sm">
-                    Color:
+                    | Color:
                     <span
                       style={{ color: product.colorCode ?? undefined }}
                       className="mx-1"
                     >
                       {product.color}
                     </span>
-                    |
                   </div>
                 ) : null}
-              </div>
-
-              {/* size  */}
-              <div className="text-zinc-500 text-sm">
-                Size: {cartItem?.size}
               </div>
             </div>
           </div>
