@@ -8,4 +8,6 @@ export type ProductType = {
   stock: number;
   brand: string;
   featured: boolean;
+  color: string | null;
+  colorCode: string | null;
 };

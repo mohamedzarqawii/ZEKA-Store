@@ -6,32 +6,58 @@ import { IconTrash } from "@tabler/icons-react";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import Counter from "@/components/Counter";
+import Link from "next/link";
 
 const ItemCart = ({ product }: { product: CartItemType }) => {
-  const { removeFromCart } = useCart();
+  const { cart, addToCart, removeFromCart, updateQuantity, updateSize } =
+    useCart();
+  const cartItem = cart.find((item) => item.id === product.id);
 
   return (
     <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl">
       {/* 1 */}
-      <div className="flex items-center gap-5">
-        {/* image */}
 
-        <img
-          src={product.image}
-          className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-        />
+      <Link href={`/shop/${product.id}`} className="block">
+        <div className="flex items-center gap-5">
+          {/* image */}
 
-        {/* content */}
+          <img
+            src={product.image}
+            className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+          />
 
-        <div className="flex flex-col gap-1">
-          <div>{product.name}</div>
-          <div className="text-zinc-500 text-sm">
-            Size: 10.5 | Color: Yellow
+          {/* content */}
+
+          <div className="flex flex-col gap-1">
+            <div>{product.name}</div>
+
+            <div className="flex gap-1">
+              {/* color  */}
+              <div>
+                {product.color != null ? (
+                  <div className="text-zinc-500 text-sm">
+                    Color:
+                    <span
+                      style={{ color: product.colorCode ?? undefined }}
+                      className="mx-1"
+                    >
+                      {product.color}
+                    </span>
+                    |
+                  </div>
+                ) : null}
+              </div>
+
+              {/* size  */}
+              <div className="text-zinc-500 text-sm">
+                Size: {cartItem?.size}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
       {/* 2 */}
-      <div className="flex items-center gap-6">
+      <div className="flex justify-between items-center gap-6">
         {/* Counter */}
         <Counter
           product={product}

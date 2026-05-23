@@ -12,6 +12,8 @@ export const products: ProductType[] = [
     stock: 5,
     brand: "NIKE",
     featured: true,
+    color: "orange",
+    colorCode: "#FF6B2B",
   },
   {
     id: 2,
@@ -24,6 +26,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 3,
@@ -36,6 +40,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: "brown",
+    colorCode: "#8B4513",
   },
   {
     id: 4,
@@ -48,6 +54,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 5,
@@ -60,6 +68,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "UNDER ARMOUR",
     featured: true,
+    color: "black",
+    colorCode: "#1A1A1A",
   },
 
   // ─── DUMBBELLS ────────────────────────────────────────────
@@ -74,6 +84,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: true,
+    color: "silver",
+    colorCode: "#C0C0C0",
   },
   {
     id: 7,
@@ -86,6 +98,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: "black",
+    colorCode: "#1A1A1A",
   },
   {
     id: 8,
@@ -98,6 +112,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 9,
@@ -110,6 +126,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: "chrome",
+    colorCode: "#D4D4D4",
   },
   {
     id: 10,
@@ -122,6 +140,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: "pink",
+    colorCode: "#FF69B4",
   },
   {
     id: 11,
@@ -134,6 +154,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: "purple",
+    colorCode: "#7B2FBE",
   },
   {
     id: 12,
@@ -146,6 +168,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 13,
@@ -158,6 +182,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "UNDER ARMOUR",
     featured: false,
+    color: "teal",
+    colorCode: "#008080",
   },
   {
     id: 14,
@@ -170,6 +196,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: true,
+    color: "red",
+    colorCode: "#D72638",
   },
   {
     id: 15,
@@ -182,6 +210,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 16,
@@ -194,6 +224,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ASICS",
     featured: false,
+    color: "lavender",
+    colorCode: "#967BB6",
   },
   {
     id: 17,
@@ -206,6 +238,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ASICS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
 
   // ─── FOOTBALL ─────────────────────────────────────────────
@@ -220,6 +254,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: true,
+    color: "white",
+    colorCode: "#FFFFFF",
   },
   {
     id: 19,
@@ -232,6 +268,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: "yellow",
+    colorCode: "#FFD700",
   },
   {
     id: 20,
@@ -244,6 +282,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 21,
@@ -256,6 +296,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: false,
+    color: "blue",
+    colorCode: "#1E90FF",
   },
   {
     id: 22,
@@ -268,6 +310,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: true,
+    color: "gold",
+    colorCode: "#C9A84C",
   },
   {
     id: 23,
@@ -280,6 +324,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: null,
+    colorCode: null,
   },
 
   // ─── HAMSTER WHEEL / FITNESS WHEEL ────────────────────────
@@ -294,6 +340,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "UNDER ARMOUR",
     featured: false,
+    color: "gray",
+    colorCode: "#6B6B6B",
   },
   {
     id: 25,
@@ -306,6 +354,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 26,
@@ -318,6 +368,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: "navy",
+    colorCode: "#1B2A4A",
   },
   {
     id: 27,
@@ -330,6 +382,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: true,
+    color: "green",
+    colorCode: "#2E8B57",
   },
   {
     id: 28,
@@ -342,6 +396,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 29,
@@ -354,6 +410,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ASICS",
     featured: false,
+    color: "coral",
+    colorCode: "#FF6F61",
   },
   {
     id: 30,
@@ -366,6 +424,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "UNDER ARMOUR",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 31,
@@ -378,6 +438,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: false,
+    color: "crimson",
+    colorCode: "#DC143C",
   },
   {
     id: 32,
@@ -390,6 +452,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: "sky blue",
+    colorCode: "#87CEEB",
   },
   {
     id: 33,
@@ -402,6 +466,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: true,
+    color: null,
+    colorCode: null,
   },
 
   // ─── PING PONG TABLE ──────────────────────────────────────
@@ -416,6 +482,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: true,
+    color: "forest green",
+    colorCode: "#228B22",
   },
   {
     id: 35,
@@ -428,6 +496,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 36,
@@ -440,6 +510,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: "royal blue",
+    colorCode: "#4169E1",
   },
   {
     id: 37,
@@ -452,6 +524,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: true,
+    color: null,
+    colorCode: null,
   },
   {
     id: 38,
@@ -464,6 +538,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "UNDER ARMOUR",
     featured: false,
+    color: "charcoal",
+    colorCode: "#36454F",
   },
   {
     id: 39,
@@ -476,6 +552,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ASICS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 40,
@@ -488,6 +566,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: "scarlet",
+    colorCode: "#FF2400",
   },
 
   // ─── PING PONG BALLS ──────────────────────────────────────
@@ -502,6 +582,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 42,
@@ -514,6 +596,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: "white",
+    colorCode: "#FFFFFF",
   },
   {
     id: 43,
@@ -526,10 +610,11 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: "multicolor",
+    colorCode: "#FF4500",
   },
 
   // ─── TENNIS RACKET ────────────────────────────────────────
-
   {
     id: 45,
     name: "Beginner Tennis Racket",
@@ -541,6 +626,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: "lime green",
+    colorCode: "#32CD32",
   },
   {
     id: 46,
@@ -553,6 +640,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 47,
@@ -565,6 +654,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "REEBOK",
     featured: true,
+    color: "matte black",
+    colorCode: "#28282B",
   },
   {
     id: 48,
@@ -577,6 +668,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "UNDER ARMOUR",
     featured: false,
+    color: null,
+    colorCode: null,
   },
   {
     id: 49,
@@ -589,6 +682,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ASICS",
     featured: false,
+    color: "electric blue",
+    colorCode: "#007FFF",
   },
 
   // ─── TENNIS BALLS ─────────────────────────────────────────
@@ -603,6 +698,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "NIKE",
     featured: false,
+    color: "yellow",
+    colorCode: "#CCFF00",
   },
   {
     id: 51,
@@ -615,6 +712,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ADIDAS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
 
   // ─── WHITE TENNIS BALLS ───────────────────────────────────
@@ -629,6 +728,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "PUMA",
     featured: false,
+    color: "white",
+    colorCode: "#F5F5F5",
   },
   {
     id: 53,
@@ -641,6 +742,8 @@ export const products: ProductType[] = [
     stock: 20,
     brand: "ASICS",
     featured: false,
+    color: null,
+    colorCode: null,
   },
 ];
 

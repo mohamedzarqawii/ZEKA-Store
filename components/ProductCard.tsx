@@ -88,7 +88,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                       if (isInCart) {
                         removeFromCart(product.id);
                       } else {
-                        addToCart(product, 1);
+                        addToCart(product, 8, 1);
                       }
                     }}
                   >

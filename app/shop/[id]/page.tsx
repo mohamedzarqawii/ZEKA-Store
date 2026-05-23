@@ -4,17 +4,14 @@ import {
   IconHeartFilled,
   IconStar,
   IconStarFilled,
-  IconTrash,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { products } from "@/data/products";
 import { useParams } from "next/navigation";
 import { ProductType } from "@/types/product";
-import { CartItemType } from "@/context/CartContext";
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import ProductCard from "@/components/ProductCard";
-import { Cart } from "@hugeicons/core-free-icons";
 import Counter from "@/components/Counter";
 
 const ProductPage = () => {
@@ -24,57 +21,59 @@ const ProductPage = () => {
   );
 
   const sizes = [8, 9, 10, 11, 12];
-  const [selectedSize, setSelectedSize] = useState<number>(sizes[0]);
-  const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
+
+  const { cart, addToCart, removeFromCart, updateSize } = useCart();
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+
   if (!product) return <div>Not found</div>;
+
   const isInCart = cart.some((item) => item.id === product.id);
   const isInFavorites = favorites.some((item) => item.id === product.id);
-  const productCategory = products.find((p) => p.id === Number(id))?.category;
+  const productCategory = product?.category;
   const cartItem = cart.find((item) => item.id === product.id);
-  const [quantity, setQuantity] = useState(cartItem?.quantity ?? 1);
+
+  // 1. هون منخلي الـ state الابتدائية تاخد المقاس المخزن بالكرت إذا موجود، وإذا لأ بتاخد أول مقاس
+  const [selectedSize, setSelectedSize] = useState<number>(
+    cartItem?.size ?? sizes[0],
+  );
   const [rating, setRating] = useState(0);
+
+  // 2. هاد الـ Effect بيضمن إذا تغير الكرت (مثلاً تم حذفه أو تعديله من مكان تاني)، الـ Size بالصفحة يتحدث
+  useEffect(() => {
+    if (cartItem?.size) {
+      setSelectedSize(cartItem.size);
+    }
+  }, [cartItem?.size]);
+
+  // 3. دالة التعامل مع تغيير المقاس
+  const handleSizeChange = (size: number) => {
+    setSelectedSize(size);
+    if (isInCart) {
+      updateSize(product.id, size); // بيتعدل فوراً بالـ Context والـ LocalStorage إذا عم تستخدمه
+    }
+  };
 
   return (
     <div className="mx-10 mt-15">
       <div className="flex gap-6 w-full h-fit">
         {/* left */}
         <div className="flex gap-8 w-full max-w-2xl">
-          {/* 1 */}
-
-          <div className="flex flex-col gap-4 h-130 overflow-y-auto shrink- no-scrollbar">
-            <img
-              src={product.image}
-              className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-            />
-            <img
-              src={product.image}
-              className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-            />
-
-            <img
-              src={product.image}
-              className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-            />
-            <img
-              src={product.image}
-              className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-            />
-            <img
-              src={product.image}
-              className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-            />
-            <img
-              src={product.image}
-              className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-            />
+          <div className="flex flex-col gap-4 h-130 overflow-y-auto shrink-0 no-scrollbar">
+            {[...Array(6)].map((_, i) => (
+              <img
+                key={i}
+                src={product.image}
+                className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+                alt={product.name}
+              />
+            ))}
           </div>
 
-          {/* 2 */}
           <div>
             <img
               src={product.image}
               className="border border-primary rounded-2xl w-130 h-130 object-center object-cover hover:cursor-pointer"
+              alt={product.name}
             />
           </div>
         </div>
@@ -82,17 +81,12 @@ const ProductPage = () => {
         {/* right */}
         <div className="flex flex-col justify-between gap-4 w-full h-130">
           <div>
-            {/* category */}
             <div className="text-primary"> {product.category}</div>
-
-            {/* title */}
             <div className="mt-6 text-5xl">{product.name}</div>
 
             {/* Rates */}
-
             <div className="flex items-center gap-2 mt-5">
-              <div className="text-sm">{rating}</div>
-
+              {rating !== 0 && <div className="text-sm">{rating}</div>}
               {[1, 2, 3, 4, 5].map((star: number) => (
                 <button key={star} onClick={() => setRating(star)}>
                   {star <= rating ? (
@@ -102,7 +96,6 @@ const ProductPage = () => {
                   )}
                 </button>
               ))}
-
               <div className="pl-2 border-zinc-400 border-l-2 text-zinc-400">
                 1501 Ratings
               </div>
@@ -115,7 +108,7 @@ const ProductPage = () => {
 
             {/* description */}
             <div className="flex flex-col gap-2 mt-6">
-              Desciption:
+              Description:
               <div className="text-zinc-400 text-sm">{product.description}</div>
             </div>
 
@@ -126,8 +119,12 @@ const ProductPage = () => {
                 {sizes.map((size, i) => (
                   <div
                     key={i}
-                    className={`size-option ${size === selectedSize ? "bg-primary" : ""}`}
-                    onClick={() => setSelectedSize(size)}
+                    className={`size-option p-2 border rounded-lg cursor-pointer transition-colors ${
+                      size === selectedSize
+                        ? "bg-primary text-white"
+                        : "border-gray-300"
+                    }`}
+                    onClick={() => handleSizeChange(size)}
                   >
                     {size}
                   </div>
@@ -138,9 +135,7 @@ const ProductPage = () => {
 
           <div className="flex flex-col justify-between gap-6">
             <div className="flex items-center gap-3 w-full">
-              {/* add to cart button  */}
-
-              {/* Counter */}
+              {/* Counter or Add to Cart */}
               {isInCart && cartItem ? (
                 <Counter
                   product={cartItem}
@@ -155,18 +150,15 @@ const ProductPage = () => {
                   className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full font-extrabold text-lg text-center transition-colors duration-300 hover:cursor-pointer"
                   onClick={(e) => {
                     e.preventDefault();
-                    if (isInCart) {
-                      removeFromCart(product.id);
-                    } else {
-                      addToCart(product, 1);
-                    }
+                    // منمرر الـ selectedSize الحالي للـ cart عند الإضافة
+                    addToCart({ ...product }, selectedSize, 1);
                   }}
                 >
-                  {isInCart ? "REMOVE FROM CART" : "ADD TO CART"}
+                  ADD TO CART
                 </button>
               )}
 
-              {/* add to favorites button  */}
+              {/* add to favorites button */}
               <button
                 className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl w-fit text-lg transition-transform duration-300 cursor-pointer"
                 onClick={() => {
@@ -188,16 +180,17 @@ const ProductPage = () => {
         </div>
       </div>
 
+      {/* suggested products */}
       <div>
-        {/* suggested products */}
         <div className="flex flex-col gap-8 mt-20">
           <div className="text-3xl">YOU MIGHT ALSO LIKE</div>
           <div className="flex gap-6 overflow-x-auto no-scrollbar">
             <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {products.map(
-                (product) =>
-                  product.category === productCategory && (
-                    <ProductCard key={product.id} product={product} />
+                (p) =>
+                  p.category === productCategory &&
+                  p.id !== product.id && ( // استثناء المنتج الحالي من المقترحات
+                    <ProductCard key={p.id} product={p} />
                   ),
               )}
             </div>
