@@ -71,12 +71,12 @@ export default function Shop() {
     {
       title: "CATEGORY",
       options: [
-        "FLOORING",
         "GYM & FITNESS",
-        "SPORT WEAR",
         "EQUIPMENT",
         "SOCCAR",
         "TENNIS",
+        "SPORT WEAR",
+        "FLOORING",
       ],
     },
     {
