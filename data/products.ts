@@ -6,7 +6,7 @@ export const products: ProductType[] = [
     name: "Pro Basketball",
     description:
       "Official size and weight basketball ideal for indoor and outdoor courts. Superior grip and durability for competitive play.",
-    price: 49.99,
+    price: 499.99,
     category: "EQUIPMENT",
     image: "/images/basketball.jpeg",
     stock: 5,
@@ -20,7 +20,7 @@ export const products: ProductType[] = [
     name: "Street Basketball",
     description:
       "Durable rubber basketball built for outdoor courts. Retains shape and bounce in all weather conditions.",
-    price: 34.99,
+    price: 349.99,
     category: "EQUIPMENT",
     image: "/images/basketball1.jpeg",
     stock: 20,
@@ -34,7 +34,7 @@ export const products: ProductType[] = [
     name: "Indoor Basketball",
     description:
       "Premium composite leather basketball designed for smooth indoor hardwood play. Excellent feel and control.",
-    price: 59.99,
+    price: 599.99,
     category: "EQUIPMENT",
     image: "/images/basketball2.jpeg",
     stock: 20,
@@ -48,7 +48,7 @@ export const products: ProductType[] = [
     name: "Junior Basketball",
     description:
       "Lightweight basketball sized for younger players. Perfect for developing skills and building confidence on the court.",
-    price: 24.99,
+    price: 249.99,
     category: "EQUIPMENT",
     image: "/images/basketball3.jpeg",
     stock: 20,
@@ -62,7 +62,7 @@ export const products: ProductType[] = [
     name: "Elite Basketball",
     description:
       "Competition-grade basketball with advanced grip technology. Used by professional leagues worldwide.",
-    price: 79.99,
+    price: 799.99,
     category: "EQUIPMENT",
     image: "/images/basketball4.jpeg",
     stock: 20,
@@ -92,7 +92,7 @@ export const products: ProductType[] = [
     name: "Rubber Dumbbell",
     description:
       "Hex-shaped rubber-coated dumbbell for safe, non-slip workouts. Ideal for home or commercial gym use.",
-    price: 19.99,
+    price: 199.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles1.jpeg",
     stock: 20,
@@ -106,7 +106,7 @@ export const products: ProductType[] = [
     name: "Hex Dumbbell",
     description:
       "Heavy-duty 10kg dumbbell with rubber hex ends to protect floors and prevent rolling.",
-    price: 34.99,
+    price: 349.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles2.jpeg",
     stock: 20,
@@ -120,7 +120,7 @@ export const products: ProductType[] = [
     name: "Chrome Dumbbell",
     description:
       "Sleek chrome-plated dumbbell with knurled grip handle for maximum comfort during long training sessions.",
-    price: 29.99,
+    price: 299.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles3.jpeg",
     stock: 20,
@@ -134,7 +134,7 @@ export const products: ProductType[] = [
     name: "Neoprene Dumbbell",
     description:
       "Color-coded neoprene dumbbell, soft and comfortable. Perfect for aerobic and toning exercises.",
-    price: 14.99,
+    price: 149.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles4.jpeg",
     stock: 20,
@@ -148,7 +148,7 @@ export const products: ProductType[] = [
     name: "Neoprene Dumbbell",
     description:
       "5kg neoprene dumbbell with a soft, anti-slip surface. Great for sculpting and light strength training.",
-    price: 19.99,
+    price: 199.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles5.jpeg",
     stock: 20,
@@ -162,7 +162,7 @@ export const products: ProductType[] = [
     name: "Cast Dumbbell",
     description:
       "Solid cast iron construction for maximum durability. Flat ends prevent rolling during rest periods.",
-    price: 39.99,
+    price: 399.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles6.jpeg",
     stock: 20,
@@ -176,7 +176,7 @@ export const products: ProductType[] = [
     name: "Vinyl Dumbbell",
     description:
       "Beginner-friendly vinyl dumbbell set. Comfortable grip for warm-up routines and rehabilitation.",
-    price: 12.99,
+    price: 129.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles7.jpeg",
     stock: 20,
@@ -190,7 +190,7 @@ export const products: ProductType[] = [
     name: "Pro Dumbbell",
     description:
       "Professional 15kg rubber dumbbell built for high-intensity training. Anti-slip knurl handle for a secure grip.",
-    price: 49.99,
+    price: 499.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles8.jpeg",
     stock: 20,
@@ -204,7 +204,7 @@ export const products: ProductType[] = [
     name: "Rubber Dumbbell",
     description:
       "Heavy-duty 20kg rubber dumbbell for advanced lifters. Reinforced steel handle with ergonomic knurling.",
-    price: 64.99,
+    price: 649.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles9.jpeg",
     stock: 20,
@@ -218,7 +218,7 @@ export const products: ProductType[] = [
     name: "Studio Dumbbell",
     description:
       "Studio-style dumbbell with smooth finish and balanced weight distribution. Ideal for yoga and Pilates-inspired workouts.",
-    price: 17.99,
+    price: 179.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles10.jpeg",
     stock: 20,
@@ -232,7 +232,7 @@ export const products: ProductType[] = [
     name: "Studio Dumbbell 6kg",
     description:
       "6kg studio dumbbell with contoured grip. Excellent for functional training and HIIT circuits.",
-    price: 22.99,
+    price: 229.99,
     category: "GYM & FITNESS",
     image: "/images/dummbles11.jpeg",
     stock: 20,
@@ -248,7 +248,7 @@ export const products: ProductType[] = [
     name: "Match Football",
     description:
       "FIFA-approved match ball with thermally bonded panels for precise flight and consistent performance.",
-    price: 44.99,
+    price: 449.99,
     category: "SOCCAR",
     image: "/images/football.jpeg",
     stock: 20,
@@ -276,7 +276,7 @@ export const products: ProductType[] = [
     name: "Street Football",
     description:
       "Tough rubber football designed for street and concrete play. Abrasion-resistant outer panel.",
-    price: 24.99,
+    price: 249.99,
     category: "SOCCAR",
     image: "/images/football2.jpeg",
     stock: 20,
@@ -290,7 +290,7 @@ export const products: ProductType[] = [
     name: "Youth Football",
     description:
       "Size 4 football built for young players aged 8–12. Lightweight and easy to control for skill development.",
-    price: 19.99,
+    price: 199.99,
     category: "SOCCAR",
     image: "/images/football3.jpeg",
     stock: 20,
@@ -304,7 +304,7 @@ export const products: ProductType[] = [
     name: "League Football",
     description:
       "High-performance match ball with 32-panel design for optimal aerodynamics and a true flight path.",
-    price: 59.99,
+    price: 597.99,
     category: "SOCCAR",
     image: "/images/football4.jpeg",
     stock: 20,
@@ -318,7 +318,7 @@ export const products: ProductType[] = [
     name: "Futsal Ball",
     description:
       "Low-bounce futsal ball for indoor court play. Encourages close control and technical skill.",
-    price: 34.99,
+    price: 344.99,
     category: "SOCCAR",
     image: "/images/football5.jpeg",
     stock: 20,
@@ -334,7 +334,7 @@ export const products: ProductType[] = [
     name: "Wheel Roller",
     description:
       "Compact ab roller wheel for core strengthening. Non-slip handles and wide wheel for stability during intense rollouts.",
-    price: 19.99,
+    price: 192.99,
     category: "GYM & FITNESS",
     image: "/images/hamester.jpeg",
     stock: 20,
@@ -348,7 +348,7 @@ export const products: ProductType[] = [
     name: "Double Wheel",
     description:
       "Double-wheel ab roller for extra balance and control. Ideal for beginners progressing to advanced core training.",
-    price: 24.99,
+    price: 243.99,
     category: "GYM & FITNESS",
     image: "/images/hamester1.jpeg",
     stock: 20,
@@ -362,7 +362,7 @@ export const products: ProductType[] = [
     name: "Knee Pad",
     description:
       "Ab roller set including a cushioned knee pad for comfort. Builds a strong core and improves stability.",
-    price: 27.99,
+    price: 272.99,
     category: "GYM & FITNESS",
     image: "/images/hamester2.jpeg",
     stock: 20,
@@ -376,7 +376,7 @@ export const products: ProductType[] = [
     name: "Base Roller",
     description:
       "Extra-wide roller design for maximum balance. Targets abs, obliques, and lower back in one motion.",
-    price: 29.99,
+    price: 294.99,
     category: "GYM & FITNESS",
     image: "/images/hamester3.jpeg",
     stock: 20,
@@ -390,7 +390,7 @@ export const products: ProductType[] = [
     name: "360° Ab Wheel",
     description:
       "Rotating 360° ab wheel for multi-directional core engagement. Challenges balance and strengthens deep core muscles.",
-    price: 34.99,
+    price: 344.99,
     category: "GYM & FITNESS",
     image: "/images/hamester4.jpeg",
     stock: 20,
@@ -404,7 +404,7 @@ export const products: ProductType[] = [
     name: "Compact Roller",
     description:
       "Lightweight and foldable ab roller perfect for travel and small home gyms. No-slip rubber wheel.",
-    price: 22.99,
+    price: 222.99,
     category: "GYM & FITNESS",
     image: "/images/hamester5.jpeg",
     stock: 20,
@@ -418,7 +418,7 @@ export const products: ProductType[] = [
     name: "Heavy Wheel",
     description:
       "Reinforced steel axle ab wheel for heavy-duty training. Supports up to 150kg for powerful rollout exercises.",
-    price: 39.99,
+    price: 396.99,
     category: "GYM & FITNESS",
     image: "/images/hamester6.jpeg",
     stock: 20,
@@ -432,7 +432,7 @@ export const products: ProductType[] = [
     name: "Spring Return",
     description:
       "Automatic spring-assisted return mechanism helps you maintain form throughout the exercise. Great for beginners.",
-    price: 44.99,
+    price: 444.99,
     category: "GYM & FITNESS",
     image: "/images/hamester7.jpeg",
     stock: 20,
@@ -446,7 +446,7 @@ export const products: ProductType[] = [
     name: "Foam Grip",
     description:
       "Soft foam grip handles reduce hand fatigue during extended core workouts. Wide dual-wheel design for stability.",
-    price: 26.99,
+    price: 266.99,
     category: "GYM & FITNESS",
     image: "/images/hamester8.jpeg",
     stock: 20,
@@ -560,7 +560,7 @@ export const products: ProductType[] = [
     name: "Ping-Pong Paddle",
     description:
       "Professional paddle set with rubber-coated blades and ergonomic handles. Includes carrying case and 6 balls.",
-    price: 39.99,
+    price: 349.99,
     category: "EQUIPMENT",
     image: "/images/pingpong6.jpeg",
     stock: 20,
@@ -590,7 +590,7 @@ export const products: ProductType[] = [
     name: "Ping-Pong Balls",
     description:
       "Durable ABS plastic training balls for everyday practice. Uniform size and weight for reliable play.",
-    price: 7.99,
+    price: 76.99,
     category: "EQUIPMENT",
     image: "/images/pingpongball1.jpeg",
     stock: 20,
@@ -604,7 +604,7 @@ export const products: ProductType[] = [
     name: "Colored Tennis Balls",
     description:
       "Bright colored ping pong balls for easy visibility and fun recreational games. Set of 6 assorted colors.",
-    price: 5.99,
+    price: 52.99,
     category: "EQUIPMENT",
     image: "/images/pingpongball2.jpeg",
     stock: 20,
@@ -620,7 +620,7 @@ export const products: ProductType[] = [
     name: "Beginner Tennis Racket",
     description:
       "Aluminum-frame tennis racket ideal for beginners. Pre-strung and ready to play, with a comfortable grip.",
-    price: 34.99,
+    price: 364.99,
     category: "TENNIS",
     image: "/images/tennis1.jpeg",
     stock: 20,
@@ -662,7 +662,7 @@ export const products: ProductType[] = [
     name: "Pro Tennis Racket",
     description:
       "Balanced intermediate racket offering control and power. Ideal for players transitioning from beginner to advanced.",
-    price: 59.99,
+    price: 539.99,
     category: "TENNIS",
     image: "/images/tennis4.jpeg",
     stock: 20,

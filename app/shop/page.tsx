@@ -8,10 +8,20 @@ import { products } from "@/data/products";
 import { useState } from "react";
 
 export default function Shop() {
-  const [value, setValue] = React.useState([200, 800]);
+  const [value, setValue] = React.useState([0, 1000]);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const productsPerPage = 12;
+  const lastProductIndex = currentPage * productsPerPage;
+  const firstProductIndex = lastProductIndex - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    firstProductIndex,
+    lastProductIndex,
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   function handleFilterChange(
     item: string,
@@ -28,6 +38,31 @@ export default function Shop() {
 
     setSelected(updated);
   }
+
+  React.useEffect(() => {
+    let filtered = products;
+
+    if (selectedCategories.length) {
+      filtered = filtered.filter((product) =>
+        selectedCategories.includes(product.category.toUpperCase()),
+      );
+    }
+
+    if (selectedCompanies.length) {
+      filtered = filtered.filter((product) =>
+        selectedCompanies.includes(product.brand.toUpperCase()),
+      );
+    }
+
+    if (value.length) {
+      filtered = filtered.filter(
+        (product) => product.price >= value[0] && product.price <= value[1],
+      );
+    }
+
+    setFilteredProducts(filtered);
+  }, [selectedCategories, selectedCompanies, value]);
+
   const filterMenu = [
     {
       title: "CATEGORY",
@@ -46,27 +81,10 @@ export default function Shop() {
     },
   ];
 
-  React.useEffect(() => {
-    let filtered = products;
-
-    if (selectedCategories.length) {
-      filtered = filtered.filter((product) =>
-        selectedCategories.includes(product.category.toUpperCase()),
-      );
-    }
-
-    if (selectedCompanies.length) {
-      filtered = filtered.filter((product) =>
-        selectedCompanies.includes(product.brand.toUpperCase()),
-      );
-    }
-
-    setFilteredProducts(filtered);
-  }, [selectedCategories, selectedCompanies]);
-
   return (
     <div className="mx-10">
       {/* body */}
+
       <div className="flex gap-10 mt-15">
         {/* Left */}
 
@@ -164,10 +182,25 @@ export default function Shop() {
 
           {/* 2 R */}
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredProducts.map((product) => (
+            {currentProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
+        </div>
+      </div>
+      <div className="flex flex-col items-center my-8">
+        <div className="flex gap-3">
+          {Array.from({
+            length: totalPages,
+          }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              className="px-4 py-2 border"
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
     </div>
