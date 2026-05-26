@@ -15,15 +15,13 @@ export default function Shop() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const productsPerPage = 12;
-  const lastProductIndex = Math.min(
-    currentPage * productsPerPage,
-    filteredProducts.length,
-  );
+  const lastProductIndex = currentPage * productsPerPage;
   const firstProductIndex = lastProductIndex - productsPerPage;
   const currentProducts = filteredProducts.slice(
     firstProductIndex,
     lastProductIndex,
   );
+  const lastItemIndex = Math.min(lastProductIndex, filteredProducts.length);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   function handleFilterChange(
@@ -44,6 +42,7 @@ export default function Shop() {
 
   React.useEffect(() => {
     let filtered = products;
+    setCurrentPage(1);
 
     if (selectedCategories.length) {
       filtered = filtered.filter((product) =>
@@ -185,7 +184,7 @@ export default function Shop() {
               <span className="text-primary">
                 {filteredProducts.length === 0 ? 0 : firstProductIndex + 1} -
               </span>{" "}
-              <span className="text-primary">{lastProductIndex}</span> of{" "}
+              <span className="text-primary">{lastItemIndex}</span> of{" "}
               <span className="text-primary">{filteredProducts.length}</span>{" "}
               products
             </div>
