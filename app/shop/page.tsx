@@ -196,7 +196,9 @@ export default function Shop() {
             <button
               key={index}
               onClick={() => setCurrentPage(index + 1)}
-              className="px-4 py-2 border"
+              className={`px-4 py-2 border w-full rounded-md cursor-pointer transition ${
+                currentPage === index + 1 ? "bg-primary" : ""
+              }`}
             >
               {index + 1}
             </button>
