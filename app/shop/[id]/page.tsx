@@ -139,10 +139,10 @@ const ProductPage = () => {
               {isInCart && cartItem ? (
                 <Counter
                   product={cartItem}
-                  classname="flex justify-between items-center bg-primary px-4 py-6 rounded-2xl w-full font-extrabold text-lg text-center hover:cursor-pointer"
-                  plusClass="flex justify-center items-center w-6 h-6 text-lg"
-                  minusClass="flex justify-center items-center w-6 h-6 text-lg hover:cursor-pointer"
-                  spanClass="mx-3 text-lg"
+                  classname="flex justify-between items-center bg-primary h-19 rounded-2xl w-full font-extrabold text-lg text-center "
+                  plusClass="flex justify-center items-center px-10 py-6  text-lg hover:cursor-pointer "
+                  minusClass="flex justify-center items-center px-10 py-6 text-lg "
+                  spanClass="mx-auto text-lg select-none"
                   trashSize="size-5"
                 />
               ) : (

@@ -10,15 +10,24 @@ import { useState } from "react";
 export default function Shop() {
   const [value, setValue] = React.useState([200, 800]);
   const [filteredProducts, setFilteredProducts] = useState(products);
-  function filterByCategory(category: string) {
-    if (category === "all") {
-      setFilteredProducts(products);
-      return;
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
+
+  function handleFilterChange(
+    item: string,
+    selected: string[],
+    setSelected: React.Dispatch<React.SetStateAction<string[]>>,
+  ) {
+    let updated;
+
+    if (selected.includes(item)) {
+      updated = selected.filter((x) => x !== item);
+    } else {
+      updated = [...selected, item];
     }
 
-    setFilteredProducts(products.filter((p) => p.category === category));
+    setSelected(updated);
   }
-
   const filterMenu = [
     {
       title: "CATEGORY",
@@ -36,6 +45,24 @@ export default function Shop() {
       options: ["NIKE", "ADIDAS", "PUMA", "REEBOK", "UNDER ARMOUR", "ASICS"],
     },
   ];
+
+  React.useEffect(() => {
+    let filtered = products;
+
+    if (selectedCategories.length) {
+      filtered = filtered.filter((product) =>
+        selectedCategories.includes(product.category.toUpperCase()),
+      );
+    }
+
+    if (selectedCompanies.length) {
+      filtered = filtered.filter((product) =>
+        selectedCompanies.includes(product.brand.toUpperCase()),
+      );
+    }
+
+    setFilteredProducts(filtered);
+  }, [selectedCategories, selectedCompanies]);
 
   return (
     <div className="mx-10">
@@ -62,7 +89,31 @@ export default function Shop() {
                 <div className="flex flex-col gap-5">
                   {menu.options.map((option: string, j: number) => (
                     <div key={j} className="flex items-center gap-3">
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        checked={
+                          menu.title === "CATEGORY"
+                            ? selectedCategories.includes(option)
+                            : selectedCompanies.includes(option)
+                        }
+                        onChange={() => {
+                          if (menu.title === "CATEGORY") {
+                            handleFilterChange(
+                              option,
+                              selectedCategories,
+                              setSelectedCategories,
+                            );
+                          }
+
+                          if (menu.title === "COMPANY") {
+                            handleFilterChange(
+                              option,
+                              selectedCompanies,
+                              setSelectedCompanies,
+                            );
+                          }
+                        }}
+                      />
                       <label className="text-zinc-400 text-sm">{option}</label>
                     </div>
                   ))}

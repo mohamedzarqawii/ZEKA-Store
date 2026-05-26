@@ -24,7 +24,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
   return (
     <div>
       <Link href={`/shop/${product.id}`}>
-        <div className="group border border-zinc-700 rounded-3xl w-full overflow-hidden">
+        <div className="group border border-zinc-700 rounded-3xl w-full h-96 overflow-hidden">
           {/* image & cart icon */}
 
           <div className="relative">
@@ -58,27 +58,20 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           <div className="bg-zinc-900 p-4">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center">
-                <div className="font-light text-[15px]">{product.name}</div>
+                <div className="font-light text-[15px] line-clamp-1">
+                  {product.name}
+                </div>
 
                 {/* add to cart */}
-
-                {/* <Counter
-                  product={cartItem}
-                  classname="flex justify-between items-center bg-primary px-4 py-6 rounded-2xl w-full font-extrabold text-lg text-center hover:cursor-pointer"
-                  plusClass="flex justify-center items-center w-6 h-6 text-lg"
-                  minusClass="flex justify-center items-center w-6 h-6 text-lg hover:cursor-pointer"
-                  spanClass="mx-3 text-lg"
-                  trashSize="size-5"
-                /> */}
 
                 {isInCart && cartItem ? (
                   <Counter
                     product={cartItem}
-                    classname="flex items-center bg-zinc-700 px-2 py-1 rounded-md w-18"
-                    plusClass="flex justify-center items-center w-full h-4 hover:cursor-pointer"
-                    minusClass="flex justify-center items-center w-full h-4 "
-                    spanClass="px-3"
-                    trashSize="size-4"
+                    classname="flex items-center bg-zinc-700 h-7 rounded-md w-18"
+                    plusClass="flex justify-center items-center pl-2 py-0.5 hover:cursor-pointer"
+                    minusClass="flex justify-center items-center pr-2 py-0.5"
+                    spanClass="mx-auto select-none"
+                    trashSize="size-4 text-primary"
                   />
                 ) : (
                   <button
@@ -101,7 +94,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 )}
               </div>
               <p className="text-gray-400 text-xs line-clamp-1">
-                {product.description}
+                {product.brand}
               </p>
             </div>
 

@@ -57,25 +57,28 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
       </Link>
       {/* 2 */}
       <div className="flex justify-between items-center gap-6">
+        {/* price */}
+        <div className="min-w-3 font-bold text-xl">
+          ${product.price.toFixed(2)}
+        </div>
+
         {/* Counter */}
         <Counter
           product={product}
-          classname="flex items-center bg-zinc-700 px-1 py-1 rounded-md w-21"
-          plusClass="flex justify-center items-center w-6 h-6 hover:cursor-pointer"
-          minusClass="flex justify-center items-center w-6 h-6 "
-          spanClass="mx-3"
-          trashSize="size-4"
+          classname="flex justify-between items-center bg-zinc-700 h-8 rounded-md w-21 "
+          plusClass="flex justify-center items-center px-2 py-1 hover:cursor-pointer"
+          minusClass="flex justify-center items-center px-2 py-1"
+          spanClass="mx-auto select-none"
+          trashSize="size-4 text-primary"
         />
 
-        {/* price */}
-        <div className="font-bold text-xl">${product.price.toFixed(2)}</div>
-        {/* delete */}
+        {/* delete
         <button
           className="text-primary hover:text-secondary hover:cursor-pointer"
           onClick={() => removeFromCart(product.id)}
         >
           <IconTrash />
-        </button>
+        </button> */}
       </div>
     </div>
   );

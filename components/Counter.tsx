@@ -23,7 +23,12 @@ const Counter = ({
   const [quantity, setQuantity] = useState(product.quantity);
 
   return (
-    <div className={classname}>
+    <div
+      className={classname}
+      onClick={(e) => {
+        e.preventDefault();
+      }}
+    >
       <button
         className={plusClass}
         onClick={(e) => {
@@ -38,16 +43,9 @@ const Counter = ({
       >
         {quantity > 1 ? "-" : <IconTrash className={trashSize} />}
       </button>
-      <div
-        className={` ${spanClass}`}
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-      >
-        {quantity}
-      </div>
+      <div className={` ${spanClass}`}>{quantity}</div>
       <button
-        className={`${minusClass} ${quantity >= product.stock ? "text-zinc-400 cursor-not-allowed" : "hover:cursor-pointer"}`}
+        className={`${minusClass} ${quantity >= product.stock ? "text-zinc-500 cursor-not-allowed" : "hover:cursor-pointer"}`}
         disabled={quantity >= product.stock}
         onClick={(e) => {
           e.preventDefault();
