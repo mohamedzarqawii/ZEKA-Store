@@ -5,6 +5,7 @@ import {
   IconStar,
   IconStarFilled,
 } from "@tabler/icons-react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { products } from "@/data/products";
 import { useParams } from "next/navigation";
@@ -32,24 +33,21 @@ const ProductPage = () => {
   const productCategory = product?.category;
   const cartItem = cart.find((item) => item.id === product.id);
 
-  // 1. هون منخلي الـ state الابتدائية تاخد المقاس المخزن بالكرت إذا موجود، وإذا لأ بتاخد أول مقاس
   const [selectedSize, setSelectedSize] = useState<number>(
     cartItem?.size ?? sizes[0],
   );
   const [rating, setRating] = useState(0);
 
-  // 2. هاد الـ Effect بيضمن إذا تغير الكرت (مثلاً تم حذفه أو تعديله من مكان تاني)، الـ Size بالصفحة يتحدث
   useEffect(() => {
     if (cartItem?.size) {
       setSelectedSize(cartItem.size);
     }
   }, [cartItem?.size]);
 
-  // 3. دالة التعامل مع تغيير المقاس
   const handleSizeChange = (size: number) => {
     setSelectedSize(size);
     if (isInCart) {
-      updateSize(product.id, size); // بيتعدل فوراً بالـ Context والـ LocalStorage إذا عم تستخدمه
+      updateSize(product.id, size);
     }
   };
 
@@ -81,7 +79,9 @@ const ProductPage = () => {
         {/* right */}
         <div className="flex flex-col justify-between gap-4 w-full h-130">
           <div>
-            <div className="text-primary"> {product.category}</div>
+            <Link href="/shop" className="text-primary">
+              {product.category}
+            </Link>
             <div className="mt-6 text-5xl">{product.name}</div>
 
             {/* Rates */}

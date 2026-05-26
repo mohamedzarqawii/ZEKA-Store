@@ -30,12 +30,12 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <a
+                  <Link
                     href="/shop"
                     className="bg-primary hover:bg-secondary p-3 rounded-lg text-[#FEFEFE] hover:text-[#FEFEFE] transition-colors duration-300"
                   >
                     Explore Shop
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
