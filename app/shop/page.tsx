@@ -8,12 +8,10 @@ import { products } from "@/data/products";
 import { useState } from "react";
 
 export default function Shop() {
-  const [value, setValue] = React.useState([0, 1000]);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-
   const productsPerPage = 12;
   const lastProductIndex = currentPage * productsPerPage;
   const firstProductIndex = lastProductIndex - productsPerPage;
@@ -23,6 +21,10 @@ export default function Shop() {
   );
   const lastItemIndex = Math.min(lastProductIndex, filteredProducts.length);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const minPrice = Math.min(...products.map((product) => product.price));
+  const maxPrice = Math.max(...products.map((product) => product.price));
+  const [value, setValue] = React.useState([minPrice, maxPrice]);
 
   function handleFilterChange(
     item: string,
@@ -162,8 +164,8 @@ export default function Shop() {
                     onValueChange={(value) =>
                       setValue(value as [number, number])
                     }
-                    max={1000}
-                    min={0}
+                    max={maxPrice}
+                    min={minPrice}
                     step={10}
                     className="mt-2 w-full"
                     aria-label="Price Range"
