@@ -88,8 +88,7 @@ export default function Shop() {
   return (
     <div className="mx-10">
       {/* body */}
-
-      <div className="flex gap-10 mt-15">
+      <div className="flex flex-wrap gap-10 mt-15">
         {/* Left */}
 
         <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-full max-w-xs h-fit">
@@ -177,7 +176,7 @@ export default function Shop() {
         </div>
 
         {/* Right */}
-        <div className="flex flex-col gap-10 w-full">
+        <div className="flex flex-col flex-1 gap-10 w-full">
           {/* 1 R */}
           <div className="flex justify-between items-end">
             <div className="text-primary text-3xl">ALL PRODUCTS</div>
@@ -198,23 +197,27 @@ export default function Shop() {
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
+
+          {/* 3 R */}
         </div>
-      </div>
-      <div className="flex flex-col items-center my-8">
-        <div className="flex gap-3">
-          {Array.from({
-            length: totalPages,
-          }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              className={`px-4 py-2 border w-full rounded-md cursor-pointer transition ${
-                currentPage === index + 1 ? "bg-primary" : ""
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
+
+        {/* Pagination */}
+        <div className="flex justify-center mb-8 w-full">
+          <div className="flex gap-3">
+            {Array.from({
+              length: totalPages,
+            }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                className={`px-4 py-2 border w-full rounded-md cursor-pointer transition ${
+                  currentPage === index + 1 ? "bg-primary" : ""
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
