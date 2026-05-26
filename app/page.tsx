@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
+import products from "@/data/products";
 import Image from "next/image";
 import Link from "next/link";
 import { use } from "react";
@@ -53,7 +54,9 @@ export default function Home() {
             <div className="text-primary text-3xl">MOST PRODUCT POPULAR</div>
           </div>
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4 w-full">
-            {/* <ProductCard /> */}
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </div>
