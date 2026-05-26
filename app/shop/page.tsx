@@ -15,7 +15,10 @@ export default function Shop() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const productsPerPage = 12;
-  const lastProductIndex = currentPage * productsPerPage;
+  const lastProductIndex = Math.min(
+    currentPage * productsPerPage,
+    filteredProducts.length,
+  );
   const firstProductIndex = lastProductIndex - productsPerPage;
   const currentProducts = filteredProducts.slice(
     firstProductIndex,
@@ -177,7 +180,15 @@ export default function Shop() {
           {/* 1 R */}
           <div className="flex justify-between items-end">
             <div className="text-primary text-3xl">ALL PRODUCTS</div>
-            <div className="text-[13px]">Showing 1-12 of 120 products</div>
+            <div className="text-[13px]">
+              Showing{" "}
+              <span className="text-primary">
+                {filteredProducts.length === 0 ? 0 : firstProductIndex + 1} -
+              </span>{" "}
+              <span className="text-primary">{lastProductIndex}</span> of{" "}
+              <span className="text-primary">{filteredProducts.length}</span>{" "}
+              products
+            </div>
           </div>
 
           {/* 2 R */}
