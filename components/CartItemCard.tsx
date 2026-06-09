@@ -42,12 +42,7 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
                 {product.color != null ? (
                   <div className="text-zinc-500 text-sm">
                     | Color:
-                    <span
-                      style={{ color: product.colorCode ?? undefined }}
-                      className="mx-1"
-                    >
-                      {product.color}
-                    </span>
+                    <span className="mx-1">{product.color}</span>
                   </div>
                 ) : null}
               </div>

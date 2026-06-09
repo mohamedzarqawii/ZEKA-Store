@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user.password === password,
     );
     if (!foundUser) {
-      alert("Invalid email or phone number or password");
+      alert("Invalid email or phone number or password please register first!");
       return;
     } else if (!email || !password) {
       alert("Please fill in all fields");

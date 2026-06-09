@@ -13,9 +13,8 @@ export default function Home() {
 
   function handleLogin() {
     login(email, password);
-    if (currentUser) {
-      router.push("/profile");
-    }
+
+    router.push("/profile");
   }
 
   return (
