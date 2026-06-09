@@ -1,7 +1,10 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ProductType } from "@/types/product";
+import { useAuth } from "@/context/AuthContext";
+import { products } from "@/data/products";
+
 export type CartItemType = ProductType & { quantity: number; size?: number };
 
 type CartContextType = {
@@ -15,6 +18,32 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const { currentUser } = useAuth();
+  const { addToUserCart, removeFromUserCart } = useAuth();
+
+  useEffect(() => {
+    if (!currentUser?.cart) {
+      setCart([]);
+      return;
+    }
+
+    const loadedCart: CartItemType[] = currentUser.cart
+      .map((cartItem) => {
+        const product = products.find((p) => p.id === cartItem.productId);
+
+        if (!product) return null;
+
+        return {
+          ...product,
+          quantity: cartItem.quantity,
+          size: cartItem.size,
+        };
+      })
+      .filter(Boolean) as CartItemType[];
+
+    setCart(loadedCart);
+  }, [currentUser]);
+
   const [cart, setCart] = useState<CartItemType[]>([]);
 
   function addToCart(product: ProductType, size: number, quantity: number) {
@@ -25,7 +54,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       );
 
       if (existingItem) {
-        // إذا موجود، بس بنزيد الكمية
         return prev.map((item) =>
           item.id === product.id && item.size === size
             ? { ...item, quantity: item.quantity + quantity }
@@ -33,13 +61,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         );
       }
 
-      // إذا مش موجود، بنضيفه كعنصر جديد مع الـ size والـ quantity
       return [...prev, { ...product, size, quantity }];
     });
+
+    addToUserCart(product.id, quantity, size);
   }
 
   function removeFromCart(id: number) {
     setCart((prev) => prev.filter((item) => item.id !== id));
+    removeFromUserCart(id);
   }
 
   function updateQuantity(id: number, quantity: number) {

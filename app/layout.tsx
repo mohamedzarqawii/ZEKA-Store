@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { cn } from "@/lib/utils";
 import { CartProvider } from "@/context/CartContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,12 +30,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans dark", inter.variable)}>
       <body className={bruno.className}>
-        <FavoritesProvider>
-          <CartProvider>
-            <Header />
-            {children}
-          </CartProvider>
-        </FavoritesProvider>
+        <AuthProvider>
+          <FavoritesProvider>
+            <CartProvider>
+              <Header />
+              {children}
+            </CartProvider>
+          </FavoritesProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,7 +1,11 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ProductType } from "@/types/product";
+import { useAuth } from "@/context/AuthContext";
+import { products } from "@/data/products";
+
+export type CartItemType = ProductType & { quantity: number; size?: number };
 
 type FavoritesContextType = {
   favorites: ProductType[];
@@ -12,6 +16,24 @@ type FavoritesContextType = {
 const FavoritesContext = createContext<FavoritesContextType | null>(null);
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
+  const { currentUser } = useAuth();
+  const { addToUserFavorites, removeFromUserFavorites } = useAuth();
+
+  useEffect(() => {
+    if (!currentUser?.wishlist) {
+      setFavorites([]);
+      return;
+    }
+
+    const loadedFavorites = currentUser.wishlist
+      .map((favoriteItem) => {
+        return products.find((p) => p.id === favoriteItem.productId);
+      })
+      .filter(Boolean) as ProductType[];
+
+    setFavorites(loadedFavorites);
+  }, [currentUser]);
+
   const [favorites, setFavorites] = useState<ProductType[]>([]);
   function addToFavorites(product: ProductType) {
     setFavorites((prev) => {
@@ -21,10 +43,14 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
       return [...prev, product];
     });
+
+    addToUserFavorites(product.id);
   }
 
   function removeFromFavorites(id: number) {
     setFavorites((prev) => prev.filter((item) => item.id !== id));
+
+    removeFromUserFavorites(id);
   }
 
   return (

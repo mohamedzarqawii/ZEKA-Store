@@ -5,7 +5,7 @@ import {
   IconStar,
   IconStarFilled,
 } from "@tabler/icons-react";
-import Link from "next/link";
+
 import { useState, useEffect } from "react";
 import { products } from "@/data/products";
 import { useParams } from "next/navigation";
@@ -14,6 +14,7 @@ import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import ProductCard from "@/components/ProductCard";
 import Counter from "@/components/Counter";
+import Link from "next/link";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -28,7 +29,9 @@ const ProductPage = () => {
 
   if (!product) return <div>Not found</div>;
 
-  const isInCart = cart.some((item) => item.id === product.id);
+  const isInCart = cart.some(
+    (item) => item.id === product.id && item.size === 8,
+  );
   const isInFavorites = favorites.some((item) => item.id === product.id);
   const productCategory = product?.category;
   const cartItem = cart.find((item) => item.id === product.id);

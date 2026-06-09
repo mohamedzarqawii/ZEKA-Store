@@ -1,9 +1,10 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
 import { IconShoppingCart } from "@tabler/icons-react";
-import { Phone, ShoppingCart } from "lucide-react";
+import { CircleUser, Phone, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -11,10 +12,11 @@ const Header = () => {
   const menuItems = [
     { name: "HOME", href: "/" },
     { name: "SHOP", href: "/shop" },
-    // { name: "CATEGORY", href: "/category" },
     { name: "ABOUT", href: "/about" },
     { name: "CONTACT", href: "/contact" },
   ];
+
+  const { currentUser } = useAuth();
 
   return (
     <header className="top-0 left-0 z-50 sticky backdrop-blur-md w-full">
@@ -42,14 +44,22 @@ const Header = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <div>
-            <Link
-              href="/login"
-              className={`login-button ${pathname === "/login" ? "text-primary border-primary " : " hover:text-primary hover:border-primary "}`}
-            >
-              LOG IN
-            </Link>
+            {currentUser ? (
+              <Link href="/profile">
+                <CircleUser
+                  className={` p-1 size-8 hover:text-primary transition-color duration-300 ${pathname === "/profile" ? "text-primary" : " hover:text-primary"}`}
+                />
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className={`login-button ${pathname === "/login" ? "text-primary border-primary " : " hover:text-primary hover:border-primary "}`}
+              >
+                LOG IN
+              </Link>
+            )}
           </div>
 
           <Link

@@ -12,14 +12,18 @@ import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import { CartItemType } from "@/context/CartContext";
 import Counter from "./Counter";
+import NewCounter from "./NewCounter";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const [liked, setLiked] = useState(false);
   const { cart, addToCart, removeFromCart } = useCart();
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
-  const isInCart = cart.some((item) => item.id === product.id);
+  const isInCart = cart.some(
+    (item) => item.id === product.id && item.size === 8,
+  );
   const isInFavorites = favorites.some((item) => item.id === product.id);
   const cartItem = cart.find((item) => item.id === product.id);
+  const [quantity, setQuantity] = useState(0);
 
   return (
     <div>
@@ -57,7 +61,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           {/* content */}
           <div className="bg-zinc-900 p-4">
             <div className="flex flex-col gap-4">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center h-7">
                 <div className="font-light text-[15px] line-clamp-1">
                   {product.name}
                 </div>
@@ -65,17 +69,19 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 {/* add to cart */}
 
                 {isInCart && cartItem ? (
-                  <Counter
-                    product={cartItem}
-                    classname="flex items-center bg-zinc-700 h-7 rounded-md w-18"
-                    plusClass="flex justify-center items-center pl-2 py-0.5 hover:cursor-pointer"
-                    minusClass="flex justify-center items-center pr-2 py-0.5"
-                    spanClass="mx-auto select-none"
-                    trashSize="size-4 text-primary"
-                  />
+                  <>
+                    <Counter
+                      product={cartItem}
+                      classname="flex items-center bg-zinc-700 h-7 rounded-md w-18"
+                      plusClass="flex justify-center items-center pl-2 py-0.5 hover:cursor-pointer"
+                      minusClass="flex justify-center items-center pr-2 py-0.5"
+                      spanClass="mx-auto select-none"
+                      trashSize="size-4 text-primary"
+                    />
+                  </>
                 ) : (
                   <button
-                    className={`p-1.5 border border-primary rounded-lg hover:scale-105 transition-transform duration-600 group-hover:cursor-pointer ${isInCart ? "animate-[cartPop_300ms_ease]" : ""}`}
+                    className="p-1.5 border border-primary rounded-lg hover:scale-105 transition-transform duration-600 group-hover:cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
                       if (isInCart) {
@@ -85,14 +91,11 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                       }
                     }}
                   >
-                    {isInCart ? (
-                      <IconShoppingCartFilled className="size-4 text-primary" />
-                    ) : (
-                      <IconShoppingCartPlus className="size-4 text-primary" />
-                    )}
+                    <IconShoppingCartPlus className="size-4 text-primary" />
                   </button>
                 )}
               </div>
+
               <p className="text-gray-400 text-xs line-clamp-1">
                 {product.brand}
               </p>
