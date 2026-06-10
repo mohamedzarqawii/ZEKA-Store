@@ -14,10 +14,16 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+::-webkit-scrollbar {
+  display: none;
+}
 
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+* {
+  scrollbar-width: none;
 }
 
 @theme inline {

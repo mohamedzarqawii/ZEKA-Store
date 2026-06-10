@@ -1,10 +1,9 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import { IconShoppingCart } from "@tabler/icons-react";
-import { CircleUser, Phone, ShoppingCart, User } from "lucide-react";
+import { CircleUser } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { use, useEffect } from "react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -49,13 +48,17 @@ const Header = () => {
             {currentUser ? (
               <Link href="/profile">
                 <CircleUser
-                  className={` p-1 size-8 hover:text-primary transition-color duration-300 ${pathname === "/profile" ? "text-primary" : " hover:text-primary"}`}
+                  className={`p-1 size-8 hover:text-primary transition-color duration-300  ${
+                    pathname === "/profile"
+                      ? "text-primary"
+                      : "hover:text-primary"
+                  }`}
                 />
               </Link>
             ) : (
               <Link
                 href="/login"
-                className={`login-button ${pathname === "/login" ? "text-primary border-primary " : " hover:text-primary hover:border-primary "}`}
+                className={`login-button ${pathname === "/login " ? "text-primary border-primary " : " hover:text-primary hover:border-primary "}`}
               >
                 LOG IN
               </Link>
