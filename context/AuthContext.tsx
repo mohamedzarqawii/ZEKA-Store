@@ -5,7 +5,7 @@ import { User } from "@/types/user";
 
 type AuthContextType = {
   currentUser: User | null;
-  login: (emailORPhonenNumber: string, password: string) => void;
+  login: (emailORPhonenNumber: string, password: string) => boolean;
   logout: () => void;
   signup: (
     firstName: string,
@@ -13,7 +13,7 @@ type AuthContextType = {
     email: string,
     password: string,
     phoneNumber?: string,
-  ) => void;
+  ) => boolean;
   firstName: string;
   setFirstName: (firstName: string) => void;
   lastName: string;
@@ -58,13 +58,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
     if (!foundUser) {
       alert("Invalid email or phone number or password please register first!");
-      return;
+      return false;
     } else if (!email || !password) {
       alert("Please fill in all fields");
-      return;
+      return false;
+    } else {
+      localStorage.setItem("currentUser", JSON.stringify(foundUser));
+      setCurrentUser(foundUser);
+      return true;
     }
-    localStorage.setItem("currentUser", JSON.stringify(foundUser));
-    setCurrentUser(foundUser);
   }
 
   function logout() {
@@ -83,26 +85,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const existingUser = users.find((user: any) => user.email === email.trim());
     if (existingUser) {
       alert("Email already exists");
-      return;
+      return false;
     } else if (!firstName || !lastName || !email || !password) {
       alert("Please fill in all fields");
-      return;
-    }
-    const newUser = {
-      id: Date.now(),
-      firstName,
-      lastName,
-      email,
-      password,
-      phoneNumber,
-      wishlist: [],
-      cart: [],
-    };
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
+      return false;
+    } else {
+      const newUser = {
+        id: Date.now(),
+        firstName,
+        lastName,
+        email,
+        password,
+        phoneNumber,
+        wishlist: [],
+        cart: [],
+      };
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
 
-    alert("Account Created Successfully");
+      alert("Account Created Successfully");
+      return true;
+    }
   }
 
   function updateProfile(newFirstName?: string, newLastName?: string) {

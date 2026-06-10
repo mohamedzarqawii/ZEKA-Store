@@ -10,12 +10,11 @@ export default function Home() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const { signup, currentUser } = useAuth();
 
   function handleSignup() {
-    signup(firstName, lastName, email, password);
-    if (currentUser) {
+    const res = signup(firstName, lastName, email, password);
+    if (res == true) {
       router.push("/profile");
     }
   }

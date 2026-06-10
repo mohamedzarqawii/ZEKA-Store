@@ -1,23 +1,49 @@
-import Header from "@/components/Header";
-import ProductCard from "@/components/ProductCard";
+"use client";
+
 import { Mail, MapPin, Phone } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [buttonText, setButtonText] = useState("SUBMIT");
+  const [isAlertOpen, setIsAlertOpen] = useState(false); // التحكم في ظهور الـ Popup عند النجاح
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!formRef.current) return;
+
+    setButtonText("SENDING...");
+
+    const serviceID = "default_service";
+    const templateID = "template_bp2hz3o";
+    const publicKey = "AOq4bhkAry0qF8tdT";
+
+    emailjs
+      .sendForm(serviceID, templateID, formRef.current, publicKey)
+      .then(() => {
+        setButtonText("SUBMIT");
+        setIsAlertOpen(true);
+        formRef.current?.reset();
+      })
+      .catch((err) => {
+        setButtonText("SUBMIT");
+        alert("Error sending email: " + JSON.stringify(err));
+      });
+  };
+
   return (
     <div className="mx-10">
       {/* body */}
@@ -66,53 +92,70 @@ export default function Home() {
           </div>
 
           {/* Right */}
-          <div className="flex flex-col gap-6 w-full">
-            {/* 1 */}
 
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-6 w-full"
+          >
             <div className="flex flex-col gap-4">
               <input
-                className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full"
+                className="bg-transparent px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full text-white"
                 type="text"
+                name="name"
                 placeholder="Full Name "
+                required
               />
+
               <input
-                className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full"
-                type="text"
+                className="bg-transparent px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full text-white"
+                type="email"
+                name="email"
                 placeholder="Email Address"
+                required
               />
+
               <textarea
-                className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full resize-none"
+                className="bg-transparent px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full text-white resize-none"
+                name="message"
                 placeholder="How can we help you?"
                 rows={4}
+                required
               />
             </div>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button className="bg-primary hover:bg-secondary px-4 py-8 rounded-lg text-white text-xl text-center transition-colors duration-300 hover:cursor-pointer">
-                  SUBMIT
-                </Button>
-              </AlertDialogTrigger>
 
-              <AlertDialogContent className="flex flex-col gap-6 bg-[#1a1a1a]/20 backdrop-blur-md p-6 border border-primary rounded-3xl">
+            <Button
+              type="submit"
+              className="bg-primary hover:bg-secondary px-4 py-8 rounded-lg w-full text-white text-xl text-center transition-colors duration-300 hover:cursor-pointer"
+            >
+              {buttonText}
+            </Button>
+
+            {/* الـ AlertDialog يفتح فقط عندما تصبح قيمة isAlertOpen تساوي true */}
+            <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+              <AlertDialogContent className="flex flex-col gap-6 bg-[#1a1a1a]/90 backdrop-blur-md p-6 border border-primary rounded-3xl">
                 <AlertDialogHeader className="flex flex-col gap-4 w-full text-center">
                   <AlertDialogTitle className="flex flex-col w-full font-bold text-[16px] text-primary text-center">
-                    THANK YOU FOR CONTACT US!
+                    THANK YOU FOR CONTACTING US!
                   </AlertDialogTitle>
 
-                  <AlertDialogDescription className="flex flex-col justify-center items-center gap-3 w-full text-font-primary font-bold text-center">
+                  <AlertDialogDescription className="flex flex-col justify-center items-center gap-3 w-full font-bold text-zinc-300 text-center">
                     We appreciate you reaching out and will get back to you as
                     soon as possible.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
 
                 <AlertDialogFooter>
-                  <AlertDialogAction className="bg-primary hover:bg-secondary px-5 py-6 rounded-lg w-full text-white text-center transition-colors duration-300 hover:cursor-pointer">
+                  <AlertDialogAction
+                    onClick={() => setIsAlertOpen(false)}
+                    className="bg-primary hover:bg-secondary px-5 py-6 rounded-lg w-full text-white text-center transition-colors duration-300 hover:cursor-pointer"
+                  >
                     CLOSE
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </div>
+          </form>
         </div>
       </div>
     </div>

@@ -8,13 +8,15 @@ import { useAuth } from "@/context/AuthContext";
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, currentUser } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
 
   function handleLogin() {
-    login(email, password);
+    const res = login(email, password);
 
-    router.push("/profile");
+    if (res == true) {
+      router.push("/profile");
+    }
   }
 
   return (
