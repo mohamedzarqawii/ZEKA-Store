@@ -46,7 +46,7 @@ export default function CartPage() {
               ))}
             </div>
 
-            {/* rightt */}
+            {/* right */}
 
             <div className="top-24 sticky flex flex-col gap-8 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-200 h-fit">
               <div>ORDER SUMMARY</div>
