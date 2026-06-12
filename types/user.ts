@@ -1,3 +1,5 @@
+import { OrderType } from "./order";
+
 export type User = {
   id: number;
   firstName: string;
@@ -5,10 +7,13 @@ export type User = {
   email: string;
   password: string;
   phoneNumber?: string;
-  cart?: {
+  cart: {
     productId: number;
     quantity: number;
     size?: number;
   }[];
-  wishlist?: { productId: number }[];
+  wishlist: { productId: number }[];
+  birthday?: string;
+  gender?: string;
+  orders: OrderType[];
 };

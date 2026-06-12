@@ -38,6 +38,7 @@ export default function Home() {
             <div className="flex flex-col gap-2 w-full">
               <label htmlFor="email">Email</label>
               <input
+                name="email"
                 type="email"
                 id="email"
                 value={email}
@@ -48,6 +49,7 @@ export default function Home() {
             <div className="flex flex-col gap-2 w-full">
               <label htmlFor="password">Password</label>
               <input
+                name="password"
                 type="password"
                 id="password"
                 value={password}

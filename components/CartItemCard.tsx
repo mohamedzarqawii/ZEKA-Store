@@ -1,16 +1,12 @@
 "use client";
 
-import { ProductType } from "@/types/product";
 import { CartItemType } from "@/context/CartContext";
-import { IconTrash } from "@tabler/icons-react";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
 import Counter from "@/components/Counter";
 import Link from "next/link";
 
 const ItemCart = ({ product }: { product: CartItemType }) => {
-  const { cart, addToCart, removeFromCart, updateQuantity, updateSize } =
-    useCart();
+  const { cart } = useCart();
   const cartItem = cart.find((item) => item.id === product.id);
 
   return (
@@ -66,14 +62,6 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
           spanClass="mx-auto select-none"
           trashSize="size-4 text-primary"
         />
-
-        {/* delete
-        <button
-          className="text-primary hover:text-secondary hover:cursor-pointer"
-          onClick={() => removeFromCart(product.id)}
-        >
-          <IconTrash />
-        </button> */}
       </div>
     </div>
   );

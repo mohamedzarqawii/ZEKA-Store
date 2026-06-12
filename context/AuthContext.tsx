@@ -2,6 +2,9 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { User } from "@/types/user";
+import { daysInWeek } from "date-fns/constants";
+import { Day } from "@hugeicons/core-free-icons";
+import { OrderType } from "@/types/order";
 
 type AuthContextType = {
   currentUser: User | null;
@@ -12,42 +15,40 @@ type AuthContextType = {
     lastName: string,
     email: string,
     password: string,
-    phoneNumber?: string,
   ) => boolean;
-  firstName: string;
-  setFirstName: (firstName: string) => void;
-  lastName: string;
-  setLastName: (lastName: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  updateProfile: (newFirstName?: string, newLastName?: string) => void;
+
+  updateProfile: (data: Partial<User>) => void;
   deleteAccount: () => void;
-  addToUserCart: (
-    productId: number,
-
-    quantity: number,
-
-    size?: number,
-  ) => void;
+  addToUserCart: (productId: number, quantity: number, size?: number) => void;
 
   removeFromUserCart: (productId: number, size?: number) => void;
   addToUserFavorites: (productId: number) => void;
   removeFromUserFavorites: (productId: number) => void;
+  checkout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
     if (storedUser) {
       setCurrentUser(JSON.parse(storedUser));
     }
   }, []);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const updatedUsers = users.map((user: User) =>
+      user.id === currentUser.id ? currentUser : user,
+    );
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+  }, [currentUser]);
 
   function login(email: string, password: string) {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
@@ -79,7 +80,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     lastName: string,
     email: string,
     password: string,
-    phoneNumber?: string,
   ) {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
     const existingUser = users.find((user: any) => user.email === email.trim());
@@ -96,9 +96,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         lastName,
         email,
         password,
-        phoneNumber,
         wishlist: [],
         cart: [],
+        birthday: null,
+        gender: null,
+        orders: [],
       };
       users.push(newUser);
       localStorage.setItem("users", JSON.stringify(users));
@@ -109,31 +111,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  function updateProfile(newFirstName?: string, newLastName?: string) {
+  function checkout() {
+    if (!currentUser) return;
+
+    const cart = currentUser.cart;
+
+    const orders = [
+      ...currentUser.orders,
+      {
+        id: Date.now().toString(),
+        createdAt: new Date(),
+        products: cart,
+      },
+    ].sort((a, b) => b.id.localeCompare(a.id));
+
+    const newUser: User = {
+      ...currentUser,
+      orders: orders,
+      cart: [],
+    };
+
+    setCurrentUser(newUser);
+  }
+
+  function updateProfile(data: Partial<User>) {
     if (!currentUser) {
       alert("No user is currently logged in");
       return;
     }
+
+    const updatedUser = {
+      ...currentUser,
+      ...data,
+    };
+
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const updatedUsers = users.map((user: any) => {
-      if (user.email === currentUser.email) {
-        return {
-          ...user,
-          firstName: newFirstName ?? user.firstName,
-          lastName: newLastName ?? user.lastName,
-        };
-      }
-      return user;
-    });
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-    localStorage.setItem(
-      "currentUser",
-      JSON.stringify({
-        ...currentUser,
-        firstName: newFirstName ?? currentUser.firstName,
-        lastName: newLastName ?? currentUser.lastName,
-      }),
+
+    const updatedUsers = users.map((user: User) =>
+      user.id === currentUser.id ? updatedUser : user,
     );
+
+    setCurrentUser(updatedUser);
+
     alert("Profile updated successfully");
   }
 
@@ -197,31 +216,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setCurrentUser(updatedCurrentUser);
   }
 
-  function removeFromUserCart(productId: number) {
-    if (!currentUser) return;
-
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-
-    const updatedUsers = users.map((user: User) => {
-      if (user.id !== currentUser.id) return user;
-
-      return {
-        ...user,
-        cart: user.cart?.filter((item) => !(item.productId === productId)),
-      };
-    });
-
-    const updatedCurrentUser = updatedUsers.find(
-      (u: User) => u.id === currentUser.id,
-    );
-
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-
-    localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
-
-    setCurrentUser(updatedCurrentUser);
-  }
-
   function addToUserFavorites(productId: number) {
     if (!currentUser) return;
 
@@ -247,6 +241,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
 
     localStorage.setItem("users", JSON.stringify(updatedUsers));
+    localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
+
+    setCurrentUser(updatedCurrentUser);
+  }
+
+  function removeFromUserCart(productId: number) {
+    if (!currentUser) return;
+
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    const updatedUsers = users.map((user: User) => {
+      if (user.id !== currentUser.id) return user;
+
+      return {
+        ...user,
+        cart: user.cart?.filter((item) => !(item.productId === productId)),
+      };
+    });
+
+    const updatedCurrentUser = updatedUsers.find(
+      (u: User) => u.id === currentUser.id,
+    );
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
     localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
 
     setCurrentUser(updatedCurrentUser);
@@ -286,15 +305,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         logout,
         signup: signup,
-        firstName,
-        setFirstName,
-        lastName,
-        setLastName,
-        password,
-        setPassword,
         updateProfile,
         deleteAccount,
         addToUserCart,
+        checkout,
         removeFromUserCart,
         addToUserFavorites,
         removeFromUserFavorites,

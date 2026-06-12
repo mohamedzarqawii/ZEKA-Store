@@ -1,16 +1,33 @@
 "use client";
 
 import ItemCart from "@/components/CartItemCard";
+import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import Link from "next/link";
+import { useState } from "react";
 
 export default function CartPage() {
+  const [checkoutStatus, setCheckoutStatus] = useState<
+    "idle" | "processing" | "success"
+  >("idle");
   const { cart } = useCart();
+  const { checkout } = useAuth();
   const subtotal = cart.reduce((sum, item) => {
     return sum + item.price * item.quantity;
   }, 0);
   const shippingFee = cart.length > 0 ? 20 : 0;
   const total = subtotal + shippingFee;
+
+  async function handleCheckout() {
+    setCheckoutStatus("processing");
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setCheckoutStatus("success");
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    checkout();
+  }
 
   return (
     <div className="mx-10">
@@ -53,8 +70,16 @@ export default function CartPage() {
                   <div className="font-bold text-2xl">${total.toFixed(2)}</div>
                 </div>
 
-                <button className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300 hover:cursor-pointer">
-                  PROCEED TO CHECKOUT
+                <button
+                  onClick={handleCheckout}
+                  disabled={checkoutStatus !== "idle"}
+                  className="bg-primary hover:bg-secondary disabled:opacity-70 px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300"
+                >
+                  {checkoutStatus === "idle" && "PROCEED TO CHECKOUT"}
+
+                  {checkoutStatus === "processing" && "PROCESSING..."}
+
+                  {checkoutStatus === "success" && "ORDER PLACED ✓"}
                 </button>
               </div>
             </div>

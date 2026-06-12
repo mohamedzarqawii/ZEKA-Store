@@ -48,7 +48,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   function addToCart(product: ProductType, size: number, quantity: number) {
     setCart((prev) => {
-      // بنشيك إذا المنتج موجود بنفس الـ ID ونفس الـ Size مسبقاً
       const existingItem = prev.find(
         (item) => item.id === product.id && item.size === size,
       );

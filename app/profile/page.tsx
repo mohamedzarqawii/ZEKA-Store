@@ -11,27 +11,46 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/context/AuthContext";
-import { CircleUser, Pencil } from "lucide-react";
-import { useState } from "react";
+import { Mars, Pencil, Venus } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { IconCalendarEvent } from "@tabler/icons-react";
 
 export default function Profile() {
   const router = useRouter();
-  const { currentUser, logout, updateProfile, deleteAccount } = useAuth();
+  const { currentUser, updateProfile, deleteAccount } = useAuth();
   const [firstName, setFirstName] = useState(currentUser?.firstName || "");
   const [lastName, setLastName] = useState(currentUser?.lastName || "");
-
+  const [birthday, setBirthday] = useState(currentUser?.birthday || "");
+  const [gender, setGender] = useState(currentUser?.gender || "");
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
-  const handleUpdateProfile = () => {
-    updateProfile(firstName, lastName);
+  useEffect(() => {
+    if (!currentUser) return;
+
+    setFirstName(currentUser.firstName || "");
+    setLastName(currentUser.lastName || "");
+    setGender(currentUser.gender || "");
+    setBirthday(currentUser.birthday || "");
+
+    if (currentUser.birthday) {
+      setDate(new Date(currentUser.birthday));
+    }
+  }, [currentUser]);
+
+  const handleGender = (gender: string) => {
+    if (gender == "male") {
+      setGender("male");
+    } else setGender("female");
   };
 
-  const handleLogout = () => {
-    logout();
-    router.push("/login");
+  const handleUpdateProfile = () => {
+    updateProfile({
+      firstName,
+      lastName,
+      gender,
+      birthday,
+    });
   };
 
   const handleDeleteAccount = () => {
@@ -79,7 +98,7 @@ export default function Profile() {
               <input
                 className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-100"
                 type="text"
-                defaultValue={currentUser.firstName}
+                value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
             </div>
@@ -88,13 +107,13 @@ export default function Profile() {
               <input
                 className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-100"
                 type="text"
-                defaultValue={currentUser.lastName}
+                value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
           </div>
-          <div>
-            <div className="relative flex">
+          <div className="flex items-center gap-4">
+            <div>
               <Field className="w-100">
                 <FieldLabel htmlFor="date" className="text-primary text-sm">
                   Birthday
@@ -104,7 +123,7 @@ export default function Profile() {
                     <Button
                       variant="outline"
                       id="date"
-                      className="justify-start !bg-background p-6 border border-primary rounded-lg outline-none text-md ab"
+                      className="justify-start bg-background! p-6 border border-primary rounded-lg outline-none text-md ab"
                     >
                       {date ? date.toLocaleDateString() : "Select date"}
                     </Button>
@@ -120,15 +139,45 @@ export default function Profile() {
                       defaultMonth={date}
                       captionLayout="dropdown"
                       className="w-80"
-                      onSelect={(date) => {
-                        setDate(date);
+                      onSelect={(selectedDate) => {
+                        setDate(selectedDate);
+
+                        if (selectedDate) {
+                          setBirthday(selectedDate.toISOString());
+                        }
+
                         setOpen(false);
                       }}
                     />
                   </PopoverContent>
                 </Popover>
               </Field>
-              <IconCalendarEvent />
+            </div>
+
+            <div className="flex flex-col justify-center gap-2">
+              <div className="text-primary text-sm">Gender</div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    handleGender("male");
+                  }}
+                  className={`flex justify-center items-center gap-1.5 px-4 py-3 border focus:ring-secondary focus:ring-2 border-primary rounded-lg outline-none w-35 hover:cursor-pointer
+                    ${gender == "male" ? "ring-secondary ring-2" : null} `}
+                >
+                  <Mars className="size-5" />
+                  Male
+                </button>
+                <button
+                  onClick={() => {
+                    handleGender("female");
+                  }}
+                  className={`flex justify-center items-center gap-1.5 px-4 py-3 border  border-primary rounded-lg focus:ring-secondary focus:ring-2 outline-none w-35 hover:cursor-pointer
+                    ${gender == "female" ? "ring-secondary ring-2" : null} `}
+                >
+                  <Venus className="size-5" />
+                  Female
+                </button>
+              </div>
             </div>
           </div>
         </div>
