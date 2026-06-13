@@ -25,7 +25,11 @@ const ProductPage = () => {
   const sizes = [8, 9, 10, 11, 12];
 
   const { cart, addToCart, removeFromCart, updateSize } = useCart();
-  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+  const {
+    wishlist: favorites,
+    addToFavorites,
+    removeFromFavorites,
+  } = useFavorites();
 
   if (!product) return <div>Not found</div>;
 

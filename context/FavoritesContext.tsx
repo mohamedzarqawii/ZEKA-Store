@@ -8,7 +8,7 @@ import { products } from "@/data/products";
 export type CartItemType = ProductType & { quantity: number; size?: number };
 
 type FavoritesContextType = {
-  favorites: ProductType[];
+  wishlist: ProductType[];
   addToFavorites: (product: ProductType) => void;
   removeFromFavorites: (id: number) => void;
 };
@@ -55,7 +55,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <FavoritesContext.Provider
-      value={{ favorites, addToFavorites, removeFromFavorites }}
+      value={{ wishlist: favorites, addToFavorites, removeFromFavorites }}
     >
       {children}
     </FavoritesContext.Provider>

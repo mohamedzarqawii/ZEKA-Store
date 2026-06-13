@@ -4,26 +4,24 @@ import { ProductType } from "@/types/product";
 import {
   IconHeartFilled,
   IconHeart,
-  IconShoppingCartFilled,
   IconShoppingCartPlus,
 } from "@tabler/icons-react";
-import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
-import { CartItemType } from "@/context/CartContext";
 import Counter from "./Counter";
-import NewCounter from "./NewCounter";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
-  const [liked, setLiked] = useState(false);
   const { cart, addToCart, removeFromCart } = useCart();
-  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+  const {
+    wishlist: favorites,
+    addToFavorites,
+    removeFromFavorites,
+  } = useFavorites();
   const isInCart = cart.some(
     (item) => item.id === product.id && item.size === 8,
   );
   const isInFavorites = favorites.some((item) => item.id === product.id);
   const cartItem = cart.find((item) => item.id === product.id);
-  const [quantity, setQuantity] = useState(0);
 
   return (
     <div>

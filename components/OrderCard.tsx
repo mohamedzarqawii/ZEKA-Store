@@ -1,8 +1,6 @@
 import products from "@/data/products";
 import { OrderType } from "@/types/order";
 import Link from "next/link";
-import React from "react";
-import Counter from "./Counter";
 import { Button } from "./ui/button";
 
 type OrderCardProps = {
