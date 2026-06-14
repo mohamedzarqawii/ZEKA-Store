@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -12,9 +13,17 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const { signup, currentUser } = useAuth();
 
+  useEffect(() => {
+    if (currentUser) {
+      router.replace("/profile");
+    }
+  }, [currentUser, router]);
+
+  if (currentUser) return null;
+
   function handleSignup() {
     const res = signup(firstName, lastName, email, password);
-    if (res == true) {
+    if (res == false) {
       router.push("/profile");
     }
   }
@@ -23,7 +32,11 @@ export default function Home() {
     <div className="mx-10">
       <div className="flex justify-center items-center h-[calc(100vh-155px)]">
         {/* body */}
-        <div className="flex flex-col justify-center items-center gap-8 bg-[#1a1a1a]/20 backdrop-blur-md p-12 border border-primary rounded-3xl w-135 h-fit">
+
+        <form
+          onSubmit={handleSignup}
+          className="flex flex-col justify-center items-center gap-8 bg-[#1a1a1a]/20 backdrop-blur-md p-12 border border-primary rounded-3xl w-135 h-fit"
+        >
           {/* 1 */}
           <div className="flex flex-col justify-center items-center gap-4 w-full">
             <div className="text-primary text-4xl">JOIN THE ELITE</div>
@@ -43,6 +56,7 @@ export default function Home() {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full"
+                  required
                 />
               </div>
               <div className="flex flex-col flex-1 gap-2">
@@ -64,6 +78,7 @@ export default function Home() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary"
+                required
               />
             </div>
 
@@ -75,6 +90,7 @@ export default function Home() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary"
+                required
               />
             </div>
           </div>
@@ -83,7 +99,7 @@ export default function Home() {
           <div className="flex flex-col justify-center items-center gap-4 w-full">
             <button
               className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
-              onClick={handleSignup}
+              type="submit"
             >
               CREATE ACCOUNT
             </button>
@@ -97,7 +113,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

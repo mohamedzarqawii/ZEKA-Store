@@ -157,7 +157,6 @@ const ProductPage = () => {
                   className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full font-extrabold text-lg text-center transition-colors duration-300 hover:cursor-pointer"
                   onClick={(e) => {
                     e.preventDefault();
-                    // منمرر الـ selectedSize الحالي للـ cart عند الإضافة
                     addToCart({ ...product }, selectedSize, 1);
                   }}
                 >
@@ -189,18 +188,15 @@ const ProductPage = () => {
 
       {/* suggested products */}
       <div>
-        <div className="flex flex-col gap-8 mt-20">
+        <div className="flex flex-col gap-8 mt-15">
           <div className="text-3xl">YOU MIGHT ALSO LIKE</div>
-          <div className="flex gap-6 overflow-x-auto no-scrollbar">
-            <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-              {products.map(
-                (p) =>
-                  p.category === productCategory &&
-                  p.id !== product.id && ( // استثناء المنتج الحالي من المقترحات
-                    <ProductCard key={p.id} product={p} />
-                  ),
-              )}
-            </div>
+
+          <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4">
+            {products.map(
+              (p) =>
+                p.category === productCategory &&
+                p.id !== product.id && <ProductCard key={p.id} product={p} />,
+            )}
           </div>
         </div>
       </div>

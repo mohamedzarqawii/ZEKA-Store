@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { CartProvider } from "@/context/CartContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
             <CartProvider>
               <Header />
               {children}
+              <Toaster className="font-bruno!" />
             </CartProvider>
           </FavoritesProvider>
         </AuthProvider>

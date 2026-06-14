@@ -5,6 +5,9 @@ import { ProductType } from "@/types/product";
 import { useAuth } from "@/context/AuthContext";
 import { products } from "@/data/products";
 
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 export type CartItemType = ProductType & { quantity: number; size?: number };
 
 type FavoritesContextType = {
@@ -17,6 +20,7 @@ const FavoritesContext = createContext<FavoritesContextType | null>(null);
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const { currentUser } = useAuth();
+  const router = useRouter();
   const { addToUserFavorites, removeFromUserFavorites } = useAuth();
 
   useEffect(() => {
@@ -36,15 +40,25 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
   const [favorites, setFavorites] = useState<ProductType[]>([]);
   function addToFavorites(product: ProductType) {
-    setFavorites((prev) => {
-      const exists = prev.some((item) => item.id === product.id);
+    if (currentUser) {
+      setFavorites((prev) => {
+        const exists = prev.some((item) => item.id === product.id);
 
-      if (exists) return prev;
+        if (exists) return prev;
 
-      return [...prev, product];
-    });
+        return [...prev, product];
+      });
 
-    addToUserFavorites(product.id);
+      addToUserFavorites(product.id);
+    } else {
+      toast.info("Plase login to add favorites", {
+        position: "top-center",
+        action: {
+          label: "Login",
+          onClick: () => router.push("/login"),
+        },
+      });
+    }
   }
 
   function removeFromFavorites(id: number) {

@@ -14,6 +14,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Mars, Pencil, Venus } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Profile() {
   const router = useRouter();
@@ -51,16 +52,6 @@ export default function Profile() {
       gender,
       birthday,
     });
-  };
-
-  const handleDeleteAccount = () => {
-    const confirmDelete = confirm(
-      "Are you sure you want to delete your account? This action cannot be undone.",
-    );
-    if (confirmDelete) {
-      deleteAccount();
-      router.push("/login");
-    }
   };
 
   if (!currentUser) {
@@ -212,12 +203,18 @@ export default function Profile() {
 
       {/* Buttons */}
       <div className="flex gap-3 mt-6">
-        <button
-          className="bg-primary hover:bg-secondary px-4 py-3 rounded-lg text-center transition-colors duration-300 hover:cursor-pointer"
-          onClick={handleUpdateProfile}
+        <Button
+          variant="default"
+          className="justify-start p-6 rounded-lg outline-none text-md"
+          onClick={() => {
+            handleUpdateProfile();
+            toast.success("Update Profile Successfully !", {
+              position: "bottom-right",
+            });
+          }}
         >
           Update Profile
-        </button>
+        </Button>
       </div>
     </div>
   );

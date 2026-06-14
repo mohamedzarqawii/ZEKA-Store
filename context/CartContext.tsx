@@ -4,6 +4,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { ProductType } from "@/types/product";
 import { useAuth } from "@/context/AuthContext";
 import { products } from "@/data/products";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export type CartItemType = ProductType & { quantity: number; size?: number };
 
@@ -18,6 +20,7 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const { currentUser } = useAuth();
   const { addToUserCart, removeFromUserCart } = useAuth();
 
@@ -47,23 +50,34 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItemType[]>([]);
 
   function addToCart(product: ProductType, size: number, quantity: number) {
-    setCart((prev) => {
-      const existingItem = prev.find(
-        (item) => item.id === product.id && item.size === size,
-      );
-
-      if (existingItem) {
-        return prev.map((item) =>
-          item.id === product.id && item.size === size
-            ? { ...item, quantity: item.quantity + quantity }
-            : item,
+    if (currentUser) {
+      setCart((prev) => {
+        const existingItem = prev.find(
+          (item) => item.id === product.id && item.size === size,
         );
-      }
 
-      return [...prev, { ...product, size, quantity }];
-    });
+        if (existingItem) {
+          return prev.map((item) =>
+            item.id === product.id && item.size === size
+              ? { ...item, quantity: item.quantity + quantity }
+              : item,
+          );
+        }
 
-    addToUserCart(product.id, quantity, size);
+        return [...prev, { ...product, size, quantity }];
+      });
+
+      addToUserCart(product.id, quantity, size);
+    } else {
+      toast.info("Plase login first", {
+        position: "top-center",
+
+        action: {
+          label: "Login",
+          onClick: () => router.push("/login"),
+        },
+      });
+    }
   }
 
   function removeFromCart(id: number) {

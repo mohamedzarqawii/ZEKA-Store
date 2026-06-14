@@ -5,6 +5,8 @@ import { User } from "@/types/user";
 import { daysInWeek } from "date-fns/constants";
 import { Day } from "@hugeicons/core-free-icons";
 import { OrderType } from "@/types/order";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type AuthContextType = {
   currentUser: User | null;
@@ -31,6 +33,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
@@ -87,7 +90,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       alert("Email already exists");
       return false;
     } else if (!firstName || !lastName || !email || !password) {
-      alert("Please fill in all fields");
+      toast.success("Update Profile Successfully !", {
+        position: "bottom-right",
+      });
       return false;
     } else {
       const newUser = {
@@ -106,7 +111,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem("users", JSON.stringify(users));
       localStorage.setItem("currentUser", JSON.stringify(newUser));
 
-      alert("Account Created Successfully");
+      toast.success("Account Created Successfully", {
+        position: "bottom-right",
+      });
+      router.push("/profile");
       return true;
     }
   }
@@ -152,8 +160,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
 
     setCurrentUser(updatedUser);
-
-    alert("Profile updated successfully");
   }
 
   function deleteAccount() {
@@ -165,7 +171,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
     localStorage.setItem("users", JSON.stringify(updatedUsers));
     logout();
-    alert("Account deleted successfully");
   }
 
   function addToUserCart(productId: number, quantity: number, size?: number) {
