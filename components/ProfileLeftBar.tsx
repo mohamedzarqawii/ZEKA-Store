@@ -90,7 +90,7 @@ const ProfileLeftBar = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-4 hover:bg-primary p-3 rounded-xl outline-none w-full text-start transition-colors hover:cursor-pointer ${pathname == item.href ? "bg-primary" : null} `}
+                  className={`flex items-center gap-4 hover:bg-primary/20 p-3 rounded-xl outline-none w-full text-start transition-colors hover:cursor-pointer ${pathname == item.href ? "bg-primary/20" : null} `}
                 >
                   <Icon className="size-5" />
                   <span>{item.name}</span>
@@ -102,11 +102,11 @@ const ProfileLeftBar = () => {
       ))}
 
       {/* 5 L */}
-      <div className="flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-3 border border-primary rounded-3xl h-fit">
+      <div className="flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-2 border border-primary rounded-3xl h-fit">
         <div className="flex flex-col justify-center items-start gap-3 w-full">
           <div
             onClick={handleLogout}
-            className="flex items-center gap-3 hover:bg-primary p-3 rounded-xl outline-none w-full text-start transition-colors duration-400 hover:cursor-pointer"
+            className="flex items-center gap-3 hover:bg-primary/20 p-3 rounded-xl outline-none w-full text-start transition-colors duration-400 hover:cursor-pointer"
           >
             <IconLogout2 className="size-5" />
             <span>Sign Out</span>
