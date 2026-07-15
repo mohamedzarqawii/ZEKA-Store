@@ -1,4 +1,5 @@
 "use client";
+
 import {
   IconHeart,
   IconHeartFilled,
@@ -7,7 +8,6 @@ import {
 } from "@tabler/icons-react";
 
 import { useState, useEffect } from "react";
-import { products } from "@/data/products";
 import { useParams } from "next/navigation";
 import { ProductType } from "@/types/product";
 import { useCart } from "@/context/CartContext";
@@ -15,68 +15,82 @@ import { useFavorites } from "@/context/FavoritesContext";
 import ProductCard from "@/components/ProductCard";
 import Counter from "@/components/Counter";
 import Link from "next/link";
+import { getImageUrl } from "@/utils/getImageUrl";
+import { getProduct, getRelatedProductsByBrand } from "@/services/shop.service";
 
 const ProductPage = () => {
   const { id } = useParams();
-  const product: ProductType | undefined = products.find(
-    (p) => p.id === Number(id),
-  );
 
-  const sizes = [8, 9, 10, 11, 12];
+  const [product, setProduct] = useState<ProductType | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<ProductType[]>([]);
+  const [rating, setRating] = useState(3);
+  const [imageUrl, setImageUrl] = useState<string>("");
 
-  const { cart, addToCart, removeFromCart, updateSize } = useCart();
-  const {
-    wishlist: favorites,
-    addToFavorites,
-    removeFromFavorites,
-  } = useFavorites();
+  // ------------- get product -------------
+  useEffect(() => {
+    if (!id) return;
 
-  if (!product) return <div>Not found</div>;
+    const lodadProduct = async () => {
+      const product = await getProduct(id as string);
+      setProduct(product);
+    };
 
-  const isInCart = cart.some(
-    (item) => item.id === product.id && item.size === 8,
-  );
-  const isInFavorites = favorites.some((item) => item.id === product.id);
-  const productCategory = product?.category;
-  const cartItem = cart.find((item) => item.id === product.id);
+    lodadProduct();
+  }, [id]);
 
-  const [selectedSize, setSelectedSize] = useState<number>(
-    cartItem?.size ?? sizes[0],
-  );
-  const [rating, setRating] = useState(0);
+  // ------------- handle change images -------------
+  const handlChangeImage = (url: string) => {
+    setImageUrl(url);
+  };
+
+  // ------------- get related product by category -------------
 
   useEffect(() => {
-    if (cartItem?.size) {
-      setSelectedSize(cartItem.size);
-    }
-  }, [cartItem?.size]);
+    if (!product) return;
 
-  const handleSizeChange = (size: number) => {
-    setSelectedSize(size);
-    if (isInCart) {
-      updateSize(product.id, size);
-    }
-  };
+    const loadRelated = async () => {
+      const data = await getRelatedProductsByBrand(product.category.id);
+
+      setRelatedProducts(data.filter((p: ProductType) => p.id !== product.id));
+      setImageUrl(product.images[0].url);
+    };
+    loadRelated();
+  }, [product]);
+
+  if (!product) {
+    return (
+      <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
+        {/* 1 */}
+        <div className="flex flex-col items-center gap-4">
+          <div className="text-primary text-3xl">Loading Product...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-10 mt-15">
       <div className="flex gap-6 w-full h-fit">
         {/* left */}
-        <div className="flex gap-8 w-full max-w-2xl">
-          <div className="flex flex-col gap-4 h-130 overflow-y-auto shrink-0 no-scrollbar">
-            {[...Array(6)].map((_, i) => (
+        <div className="relative flex gap-8 w-full max-w-2xl">
+          <div className="flex flex-col gap-4 rounded-2xl h-130 overflow-y-auto shrink-0 no-scrollbar">
+            {product.images.map((image) => (
               <img
-                key={i}
-                src={product.image}
-                className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+                key={image.id}
+                src={getImageUrl(image.url)}
+                onClick={() => {
+                  handlChangeImage(image.url);
+                }}
                 alt={product.name}
+                className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
               />
             ))}
+            <div className="right-0 bottom-0 left-0 absolute bg-linear-to-t from-black/60 to-transparent rounded-b-2xl h-12 pointer-events-none"></div>
           </div>
 
           <div>
             <img
-              src={product.image}
+              src={getImageUrl(imageUrl)}
               className="border border-primary rounded-2xl w-130 h-130 object-center object-cover hover:cursor-pointer"
               alt={product.name}
             />
@@ -86,9 +100,9 @@ const ProductPage = () => {
         {/* right */}
         <div className="flex flex-col justify-between gap-4 w-full h-130">
           <div>
-            <Link href="/shop" className="text-primary">
-              {product.category}
-            </Link>
+            <span className="text-primary">{product.category.name} | </span>
+            <span className="text-primary">{product.brand.name}</span>
+
             <div className="mt-6 text-5xl">{product.name}</div>
 
             {/* Rates */}
@@ -103,7 +117,7 @@ const ProductPage = () => {
                   )}
                 </button>
               ))}
-              <div className="pl-2 border-zinc-400 border-l-2 text-zinc-400">
+              <div className="pl-2 border-zinc-400 border-l-2 text-zinc-400 text-sm">
                 1501 Ratings
               </div>
             </div>
@@ -118,32 +132,13 @@ const ProductPage = () => {
               Description:
               <div className="text-zinc-400 text-sm">{product.description}</div>
             </div>
-
-            {/* size */}
-            <div className="flex flex-col gap-4 mt-8">
-              <div>CHOOSE SIZE (US)</div>
-              <div className="flex items-center gap-2 w-full">
-                {sizes.map((size, i) => (
-                  <div
-                    key={i}
-                    className={`size-option p-2 border rounded-lg cursor-pointer transition-colors ${
-                      size === selectedSize
-                        ? "bg-primary text-white"
-                        : "border-gray-300"
-                    }`}
-                    onClick={() => handleSizeChange(size)}
-                  >
-                    {size}
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
           <div className="flex flex-col justify-between gap-6">
             <div className="flex items-center gap-3 w-full">
               {/* Counter or Add to Cart */}
-              {isInCart && cartItem ? (
+
+              {/* {isInCart && cartItem ? (
                 <Counter
                   product={cartItem}
                   classname="flex justify-between items-center bg-primary h-19 rounded-2xl w-full font-extrabold text-lg text-center "
@@ -152,34 +147,19 @@ const ProductPage = () => {
                   spanClass="mx-auto text-lg select-none"
                   trashSize="size-5"
                 />
-              ) : (
-                <button
-                  className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full font-extrabold text-lg text-center transition-colors duration-300 hover:cursor-pointer"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    addToCart({ ...product }, selectedSize, 1);
-                  }}
-                >
-                  ADD TO CART
-                </button>
-              )}
+              ) : ( */}
+              <button className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full font-extrabold text-lg text-center transition-colors duration-300 hover:cursor-pointer">
+                ADD TO CART
+              </button>
+              {/* )} */}
 
               {/* add to favorites button */}
-              <button
-                className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl w-fit text-lg transition-transform duration-300 cursor-pointer"
-                onClick={() => {
-                  if (isInFavorites) {
-                    removeFromFavorites(product.id);
-                  } else {
-                    addToFavorites(product);
-                  }
-                }}
-              >
-                {isInFavorites ? (
+              <button className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl w-fit text-lg transition-transform duration-300 cursor-pointer">
+                {/* {isInFavorites ? (
                   <IconHeartFilled className="size-7 text-primary" />
-                ) : (
-                  <IconHeart className="size-7 text-primary" />
-                )}
+                ) : ( */}
+                <IconHeart className="size-7 text-primary" />
+                {/* )} */}
               </button>
             </div>
           </div>
@@ -192,11 +172,9 @@ const ProductPage = () => {
           <div className="text-3xl">YOU MIGHT ALSO LIKE</div>
 
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4">
-            {products.map(
-              (p) =>
-                p.category === productCategory &&
-                p.id !== product.id && <ProductCard key={p.id} product={p} />,
-            )}
+            {relatedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </div>

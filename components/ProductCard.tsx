@@ -10,49 +10,47 @@ import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import Counter from "./Counter";
 
+import { useState } from "react";
+
 const ProductCard = ({ product }: { product: ProductType }) => {
+  const [isFavorite, setIsFavorite] = useState(() => product.isFavorite);
   const { cart, addToCart, removeFromCart } = useCart();
-  const {
-    wishlist: favorites,
-    addToFavorites,
-    removeFromFavorites,
-  } = useFavorites();
-  const isInCart = cart.some(
-    (item) => item.id === product.id && item.size === 8,
-  );
-  const isInFavorites = favorites.some((item) => item.id === product.id);
+  const { handleAddFavorite, handleRemoveFavorite, favoritesData } =
+    useFavorites();
+  const isInCart = cart.some((item) => item.id === product.id);
+
   const cartItem = cart.find((item) => item.id === product.id);
 
   return (
     <div>
-      <Link href={`/shop/${product.id}`}>
+      <Link href={`/shop/${product.documentId}`}>
         <div className="group border border-zinc-700 rounded-3xl w-full h-96 overflow-hidden">
           {/* image & cart icon */}
 
           <div className="relative">
             {/* love icon */}
-
             <button
               className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
               onClick={(e) => {
                 e.preventDefault();
-                if (isInFavorites) {
-                  removeFromFavorites(product.id);
+                if (isFavorite && product.favoriteDocId) {
+                  handleRemoveFavorite(product.favoriteDocId);
                 } else {
-                  addToFavorites(product);
+                  handleAddFavorite(product.documentId);
                 }
+                setIsFavorite((prev) => !prev);
               }}
             >
-              {isInFavorites ? (
+              {isFavorite ? (
                 <IconHeartFilled className="size-6 text-primary" />
               ) : (
                 <IconHeart className="size-6 text-primary" />
               )}
             </button>
-
             {/* image */}
             <img
-              src={product.image}
+              src={`http://localhost:1337${product.images[0].url}`}
+              alt={product.name}
               className="w-full h-64 object-center object-cover hover:cursor-pointer"
             />
           </div>
@@ -85,7 +83,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                       if (isInCart) {
                         removeFromCart(product.id);
                       } else {
-                        addToCart(product, 8, 1);
+                        addToCart(product, 1);
                       }
                     }}
                   >
@@ -95,14 +93,14 @@ const ProductCard = ({ product }: { product: ProductType }) => {
               </div>
 
               <p className="text-gray-400 text-xs line-clamp-1">
-                {product.brand}
+                {product.brand.name}
               </p>
             </div>
 
             <div className="flex justify-between items-center mt-3">
               {/* category */}
               <div className="bg-zinc-800 px-1 border border-zinc-700 rounded-3xl text-[10px] text-zinc-400">
-                {product.category}
+                {product.category.name}
               </div>
               <div className="font-semibold text-[14px] text-right">
                 ${product.price}

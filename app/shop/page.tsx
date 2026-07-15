@@ -4,86 +4,107 @@ import * as React from "react";
 import { Field, FieldDescription, FieldTitle } from "@/components/ui/field";
 import { Slider } from "@/components/ui/slider";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/products";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { ProductType } from "@/types/product";
+import { getBrands, getCategories, getProducts } from "@/services/shop.service";
+type Option = {
+  label: string;
+  value: string;
+};
 
 export default function Shop() {
-  const [filteredProducts, setFilteredProducts] = useState(products);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 12;
-  const lastProductIndex = currentPage * productsPerPage;
-  const firstProductIndex = lastProductIndex - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    firstProductIndex,
-    lastProductIndex,
-  );
-  const lastItemIndex = Math.min(lastProductIndex, filteredProducts.length);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const [totalPages, setTotalPages] = useState(1);
+  const [productsNumber, setProductsNumber] = useState(1);
+  const [categoriesOptions, setCategoriesOptions] = useState<Option[]>([]);
+  const [brandsOptions, setBrandsOptions] = useState<Option[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
+  const [value, setValue] = useState<number[]>([0, 1000]);
 
-  const minPrice = Math.min(...products.map((product) => product.price));
-  const maxPrice = Math.max(...products.map((product) => product.price));
-  const [value, setValue] = React.useState([minPrice, maxPrice]);
+  // ----------- calculate first and last product in page ------------
 
-  function handleFilterChange(
-    item: string,
-    selected: string[],
-    setSelected: React.Dispatch<React.SetStateAction<string[]>>,
-  ) {
-    let updated;
+  const fromItem = products.length === 0 ? 0 : (currentPage - 1) * 12 + 1;
+  const toItem = Math.min(currentPage * 12, productsNumber);
 
-    if (selected.includes(item)) {
-      updated = selected.filter((x) => x !== item);
-    } else {
-      updated = [...selected, item];
-    }
+  // ----------- Showing Products Processes ------------
 
-    setSelected(updated);
-  }
-
-  React.useEffect(() => {
-    let filtered = products;
-    setCurrentPage(1);
-
-    if (selectedCategories.length) {
-      filtered = filtered.filter((product) =>
-        selectedCategories.includes(product.category.toUpperCase()),
+  useEffect(() => {
+    // ----------- load products ------------
+    const loadProducts = async () => {
+      const products = await getProducts(
+        currentPage,
+        selectedCategories,
+        selectedBrands,
+        priceRange[0],
+        priceRange[1],
       );
-    }
 
-    if (selectedCompanies.length) {
-      filtered = filtered.filter((product) =>
-        selectedCompanies.includes(product.brand.toUpperCase()),
-      );
-    }
+      if (products) {
+        setProducts(products.data);
+        setTotalPages(products.meta.pagination.pageCount);
+        setProductsNumber(products.meta.pagination.total);
+      }
+    };
+    loadProducts();
+  }, [currentPage, selectedCategories, selectedBrands, priceRange]);
 
-    if (value.length) {
-      filtered = filtered.filter(
-        (product) => product.price >= value[0] && product.price <= value[1],
-      );
-    }
+  useEffect(() => {
+    // ----------- get categories names ------------
+    const loadCategories = () => {
+      getCategories().then((res) => {
+        if (Array.isArray(res)) {
+          const categories = res.map((category: any) => ({
+            label: category.name,
+            value: category.id,
+          })) as unknown as Option[];
+          setCategoriesOptions(categories);
+        }
+      });
+    };
+    loadCategories();
 
-    setFilteredProducts(filtered);
-  }, [selectedCategories, selectedCompanies, value]);
+    // ----------- get brands names ------------
+    const loadBrands = () => {
+      getBrands().then((res) => {
+        if (Array.isArray(res)) {
+          const brands = res.map((brand: any) => ({
+            label: brand.name,
+            value: brand.id,
+          })) as unknown as Option[];
+          setBrandsOptions(brands);
+        }
+      });
+    };
+    loadBrands();
+  }, []);
 
   const filterMenu = [
     {
       title: "CATEGORY",
-      options: [
-        "GYM & FITNESS",
-        "EQUIPMENT",
-        "SOCCAR",
-        "TENNIS",
-        "SPORT WEAR",
-        "FLOORING",
-      ],
+      options: categoriesOptions,
     },
     {
-      title: "COMPANY",
-      options: ["NIKE", "ADIDAS", "PUMA", "REEBOK", "UNDER ARMOUR", "ASICS"],
+      title: "BRAND",
+      options: brandsOptions,
     },
   ];
+
+  const handleFilterChange = (
+    item: string,
+    selected: string[],
+    setSelected: React.Dispatch<React.SetStateAction<string[]>>,
+  ) => {
+    if (selected.includes(item)) {
+      setSelected(selected.filter((x) => x !== item));
+    } else {
+      setSelected([...selected, item]);
+    }
+    setCurrentPage(1);
+  };
 
   return (
     <div className="mx-10">
@@ -108,34 +129,36 @@ export default function Shop() {
                 </div>
 
                 <div className="flex flex-col gap-5">
-                  {menu.options.map((option: string, j: number) => (
+                  {menu.options.map((option, j: number) => (
                     <div key={j} className="flex items-center gap-3">
                       <input
                         type="checkbox"
                         checked={
                           menu.title === "CATEGORY"
-                            ? selectedCategories.includes(option)
-                            : selectedCompanies.includes(option)
+                            ? selectedCategories.includes(option.value)
+                            : selectedBrands.includes(option.value)
                         }
                         onChange={() => {
                           if (menu.title === "CATEGORY") {
                             handleFilterChange(
-                              option,
+                              option.value,
                               selectedCategories,
                               setSelectedCategories,
                             );
                           }
 
-                          if (menu.title === "COMPANY") {
+                          if (menu.title === "BRAND") {
                             handleFilterChange(
-                              option,
-                              selectedCompanies,
-                              setSelectedCompanies,
+                              option.value,
+                              selectedBrands,
+                              setSelectedBrands,
                             );
                           }
                         }}
                       />
-                      <label className="text-zinc-400 text-sm">{option}</label>
+                      <label className="text-zinc-400 text-sm">
+                        {option.label}
+                      </label>
                     </div>
                   ))}
                 </div>
@@ -160,11 +183,10 @@ export default function Shop() {
                   </FieldDescription>
                   <Slider
                     value={value}
-                    onValueChange={(value) =>
-                      setValue(value as [number, number])
-                    }
-                    max={maxPrice}
-                    min={minPrice}
+                    onValueChange={(val) => setValue(val)}
+                    onValueCommit={(val) => setPriceRange(val)}
+                    min={0}
+                    max={1000}
                     step={10}
                     className="mt-2 w-full"
                     aria-label="Price Range"
@@ -181,21 +203,18 @@ export default function Shop() {
           <div className="flex justify-between items-end">
             <div className="text-primary text-3xl">ALL PRODUCTS</div>
             <div className="text-[13px]">
-              Showing{" "}
-              <span className="text-primary">
-                {filteredProducts.length === 0 ? 0 : firstProductIndex + 1} -
-              </span>{" "}
-              <span className="text-primary">{lastItemIndex}</span> of{" "}
-              <span className="text-primary">{filteredProducts.length}</span>{" "}
-              products
+              Showing <span className="text-primary">{fromItem} - </span>{" "}
+              <span className="text-primary">{toItem}</span> of{" "}
+              <span className="text-primary">{productsNumber}</span> products
             </div>
           </div>
 
           {/* 2 R */}
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {currentProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {products?.length > 0 &&
+              products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
           </div>
 
           {/* 3 R */}
@@ -210,7 +229,7 @@ export default function Shop() {
               <button
                 key={index}
                 onClick={() => setCurrentPage(index + 1)}
-                className={`px-4 py-2 border w-full rounded-md cursor-pointer transition ${
+                className={`w-10 h-10 border rounded-md cursor-pointer transition ${
                   currentPage === index + 1 ? "bg-primary" : ""
                 }`}
               >

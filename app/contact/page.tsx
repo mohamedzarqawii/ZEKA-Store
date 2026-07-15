@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 export default function Home() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const [buttonText, setButtonText] = useState("SUBMIT");
-  const [isAlertOpen, setIsAlertOpen] = useState(false); // التحكم في ظهور الـ Popup عند النجاح
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +52,7 @@ export default function Home() {
         <div className="flex justify-between items-center gap-14 bg-[#1a1a1a]/20 backdrop-blur-md mx-20 p-6 border border-primary rounded-3xl">
           {/* Left */}
 
-          <div className="flex flex-col justify-start gap-8 p-10 w-full">
+          <div className="flex flex-col justify-start gap-8 py-10 pl-10 w-full">
             <div className="flex flex-col gap-5">
               <div className="font-extrabold text-4xl">
                 GET IN <span className="text-primary">TOUCH</span>
@@ -96,7 +96,7 @@ export default function Home() {
           <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="flex flex-col gap-6 w-full"
+            className="flex flex-col gap-6 py-10 pr-10 w-full"
           >
             <div className="flex flex-col gap-4">
               <input
@@ -131,7 +131,6 @@ export default function Home() {
               {buttonText}
             </Button>
 
-            {/* الـ AlertDialog يفتح فقط عندما تصبح قيمة isAlertOpen تساوي true */}
             <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
               <AlertDialogContent className="flex flex-col gap-6 bg-[#1a1a1a]/90 backdrop-blur-md p-6 border border-primary rounded-3xl">
                 <AlertDialogHeader className="flex flex-col gap-4 w-full text-center">

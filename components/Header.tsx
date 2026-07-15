@@ -49,7 +49,7 @@ const Header = () => {
               <Link href="/profile">
                 <CircleUser
                   className={`p-1 size-8 hover:text-primary transition-color duration-300  ${
-                    pathname === "/profile"
+                    pathname.includes("/profile")
                       ? "text-primary"
                       : "hover:text-primary"
                   }`}

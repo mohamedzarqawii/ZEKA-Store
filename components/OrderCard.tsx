@@ -28,17 +28,6 @@ const OrderProduct = ({ productId }: { productId: number }) => {
           <div className="flex flex-col gap-1">
             <div className="text-primary">{product?.name}</div>
 
-            <div className="flex gap-1">
-              {/* color  */}
-              {/* <div>
-                {product?.color != null ? (
-                  <div className="text-zinc-500 text-sm">
-                    Color:
-                    <span className="mx-1">{product?.color}</span>
-                  </div>
-                ) : null}
-              </div> */}
-            </div>
             {/* price */}
             <div className="min-w-3 font-bold text-sm">
               ${product?.price.toFixed(2)}

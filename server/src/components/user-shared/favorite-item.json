@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_user_shared_favorite_items",
+  "info": {
+    "displayName": "Favorite_Item",
+    "icon": "heart"
+  },
+  "options": {},
+  "attributes": {
+    "product": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::product.product"
+    }
+  },
+  "config": {}
+}

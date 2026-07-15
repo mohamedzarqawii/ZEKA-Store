@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
@@ -19,10 +18,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import SecurityInfomationCard from "@/features/profile/components/securityInfomationCard";
 
 export default function test() {
   const router = useRouter();
-  const { deleteAccount } = useAuth();
+  const { haneleDeleteAccount: deleteAccount } = useAuth();
   const handleDeleteAccount = async () => {
     await deleteAccount();
     router.push("/login");
@@ -32,6 +32,8 @@ export default function test() {
     <div>
       <div className="text-primary text-3xl">SECURITY SETTINGS</div>
       <div className="mt-10">
+        <SecurityInfomationCard />
+
         <div className="flex justify-between items-center bg-[#1a1a1a]/20 backdrop-blur-md mt-6 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
           <div className="flex flex-col gap-2">
             <div className="text-primary text-xl">Account Deletion</div>
@@ -61,9 +63,9 @@ export default function test() {
                     <span className="text-destructive">
                       Deleting your account
                     </span>{" "}
-                    is permanent. All your profile information, orders, wishlist
-                    items, and account data will be removed and cannot be
-                    restored.
+                    is permanent. All your profile information, orders,
+                    favorites items, and account data will be removed and cannot
+                    be restored.
                   </AlertDialogDescription>
                 </div>
               </AlertDialogHeader>

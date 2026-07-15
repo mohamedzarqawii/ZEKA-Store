@@ -2,12 +2,23 @@
 
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
-import products from "@/data/products";
-import Image from "next/image";
+import { getProducts } from "@/lib/api";
+import { ProductType } from "@/types/product";
 import Link from "next/link";
-import { use } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [products, setProducts] = useState<ProductType[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const data = await getProducts();
+      setProducts(data);
+    };
+
+    load();
+  }, []);
+
   return (
     <div className="mx-10">
       {/* <div className="bg-[#FEFEFE] h-px"></div> */}
@@ -54,9 +65,10 @@ export default function Home() {
             <div className="text-primary text-3xl">MOST PRODUCT POPULAR</div>
           </div>
           <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4 w-full">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {products?.length > 0 &&
+              products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
           </div>
         </div>
       </div>

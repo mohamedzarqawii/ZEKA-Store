@@ -13,12 +13,13 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
     <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl">
       {/* 1 */}
 
-      <Link href={`/shop/${product.id}`} className="block">
+      <Link href={`/shop/${product.documentId}`} className="block">
         <div className="flex items-center gap-5">
           {/* image */}
 
           <img
             src={product.image}
+            alt={product.name}
             className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
           />
 
@@ -26,23 +27,6 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
 
           <div className="flex flex-col gap-1">
             <div>{product.name}</div>
-
-            <div className="flex gap-1">
-              {/* size  */}
-              <div className="text-zinc-500 text-sm">
-                Size: {cartItem?.size}
-              </div>
-
-              {/* color  */}
-              <div>
-                {product.color != null ? (
-                  <div className="text-zinc-500 text-sm">
-                    | Color:
-                    <span className="mx-1">{product.color}</span>
-                  </div>
-                ) : null}
-              </div>
-            </div>
           </div>
         </div>
       </Link>

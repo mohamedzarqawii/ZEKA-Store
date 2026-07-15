@@ -2,16 +2,32 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { Password } from "@hugeicons/core-free-icons";
+import { Input } from "@/components/ui/input";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { loginSchema } from "@/types/auth/login";
 
 export default function Home() {
   const { currentUser } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { handleLogin } = useAuth();
   const router = useRouter();
+
+  const loginFormik = useFormik({
+    initialValues: {
+      identifier: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      handleLogin(values);
+    },
+  });
+
+  const { values, errors, touched, handleSubmit, handleChange } = loginFormik;
 
   useEffect(() => {
     if (currentUser) {
@@ -21,22 +37,15 @@ export default function Home() {
 
   if (currentUser) return null;
 
-  function handleLogin(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const res = login(email, password);
-    if (res === true) {
-      router.push("/profile");
-    }
-  }
-
   return (
     <div className="mx-10">
       <div className="flex justify-center items-center h-[calc(100vh-155px)]">
         {/* body */}
 
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleSubmit}
           className="flex flex-col justify-center items-center gap-7 bg-[#1a1a1a]/20 backdrop-blur-md p-12 border border-primary rounded-3xl w-130 h-fit"
+          noValidate
         >
           {/* 1 */}
           <div className="flex flex-col justify-center items-center gap-4">
@@ -50,33 +59,40 @@ export default function Home() {
           {/* 2 */}
 
           <div className="group flex flex-col justify-center items-end gap-4 w-full">
-            <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="email">Email</label>
-
-              <input
-                name="email"
+            <Field>
+              <FieldLabel htmlFor="name">
+                Email<span className="text-destructive">*</span>
+              </FieldLabel>
+              <Input
+                name="identifier"
                 type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary"
-                required
+                value={values.identifier}
+                onChange={handleChange}
+                aria-invalid={!!errors.identifier && !!touched.identifier}
               />
-            </div>
+              {errors.identifier && touched.identifier && (
+                <FieldError>{errors.identifier}</FieldError>
+              )}
+            </Field>
 
-            <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="password">Password</label>
+            {/* ----------------------------------------------------- */}
+            <div className="flex flex-col gap-2 w-full"></div>
 
-              <input
+            <Field>
+              <FieldLabel htmlFor="name">
+                Password<span className="text-destructive">*</span>
+              </FieldLabel>
+              <Input
                 name="password"
                 type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary"
-                required
+                value={values.password}
+                onChange={handleChange}
+                aria-invalid={!!errors.password && !!touched.password}
               />
-            </div>
+              {errors.password && touched.password && (
+                <FieldError>{errors.password}</FieldError>
+              )}
+            </Field>
 
             <Link
               href="/forgotPassword"

@@ -7,14 +7,13 @@ import { products } from "@/data/products";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export type CartItemType = ProductType & { quantity: number; size?: number };
+export type CartItemType = ProductType & { quantity: number };
 
 type CartContextType = {
   cart: CartItemType[];
-  addToCart: (product: ProductType, size: number, quantity: number) => void;
+  addToCart: (product: ProductType, quantity: number) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
-  updateSize: (id: number, size: number) => void;
 };
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -22,7 +21,6 @@ const CartContext = createContext<CartContextType | null>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { currentUser } = useAuth();
-  const { addToUserCart, removeFromUserCart } = useAuth();
 
   useEffect(() => {
     if (!currentUser?.cart) {
@@ -32,14 +30,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const loadedCart: CartItemType[] = currentUser.cart
       .map((cartItem) => {
-        const product = products.find((p) => p.id === cartItem.productId);
+        const product = products.find((p) => p.id === cartItem.id);
 
         if (!product) return null;
 
         return {
           ...product,
           quantity: cartItem.quantity,
-          size: cartItem.size,
         };
       })
       .filter(Boolean) as CartItemType[];
@@ -49,25 +46,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const [cart, setCart] = useState<CartItemType[]>([]);
 
-  function addToCart(product: ProductType, size: number, quantity: number) {
+  function addToCart(product: ProductType, quantity: number) {
     if (currentUser) {
       setCart((prev) => {
-        const existingItem = prev.find(
-          (item) => item.id === product.id && item.size === size,
-        );
+        const existingItem = prev.find((item) => item.id === product.id);
 
         if (existingItem) {
           return prev.map((item) =>
-            item.id === product.id && item.size === size
+            item.id === product.id
               ? { ...item, quantity: item.quantity + quantity }
               : item,
           );
         }
 
-        return [...prev, { ...product, size, quantity }];
+        return [...prev, { ...product, quantity }];
       });
 
-      addToUserCart(product.id, quantity, size);
+      // addToUserCart(product.id, quantity);
     } else {
       toast.info("Plase login first", {
         position: "top-center",
@@ -82,7 +77,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   function removeFromCart(id: number) {
     setCart((prev) => prev.filter((item) => item.id !== id));
-    removeFromUserCart(id);
+    // removeFromUserCart(id);
   }
 
   function updateQuantity(id: number, quantity: number) {
@@ -91,15 +86,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
   }
 
-  function updateSize(id: number, size: number) {
-    setCart((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, size } : item)),
-    );
-  }
-
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, updateSize }}
+      value={{ cart, addToCart, removeFromCart, updateQuantity }}
     >
       {children}
     </CartContext.Provider>

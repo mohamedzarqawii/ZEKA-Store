@@ -3,73 +3,78 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { ProductType } from "@/types/product";
 import { useAuth } from "@/context/AuthContext";
-import { products } from "@/data/products";
-
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-export type CartItemType = ProductType & { quantity: number; size?: number };
+import {
+  addToFavorite,
+  getFavorites,
+  removeFromFavorite,
+} from "@/services/shop.service";
+import { FavoriteItem } from "@/types/shop/favorite";
 
 type FavoritesContextType = {
-  wishlist: ProductType[];
-  addToFavorites: (product: ProductType) => void;
-  removeFromFavorites: (id: number) => void;
+  favoritesData: FavoriteItem[];
+  refreshFavorites: () => void;
+  handleAddFavorite: (productDocId: string) => void;
+  handleRemoveFavorite: (favoriteDocId: string) => void;
 };
 
 const FavoritesContext = createContext<FavoritesContextType | null>(null);
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
-  const { currentUser } = useAuth();
   const router = useRouter();
-  const { addToUserFavorites, removeFromUserFavorites } = useAuth();
+  const { currentUser } = useAuth();
+  const [favoritesData, setFavoritesData] = useState<FavoriteItem[]>([]);
 
   useEffect(() => {
-    if (!currentUser?.wishlist) {
-      setFavorites([]);
+    refreshFavorites();
+  }, [currentUser]);
+
+  const refreshFavorites = () => {
+    if (!currentUser) {
+      setFavoritesData([]);
       return;
     }
 
-    const loadedFavorites = currentUser.wishlist
-      .map((favoriteItem) => {
-        return products.find((p) => p.id === favoriteItem.productId);
-      })
-      .filter(Boolean) as ProductType[];
+    getFavorites(currentUser.id).then((res) => {
+      setFavoritesData(res);
+    });
+  };
 
-    setFavorites(loadedFavorites);
-  }, [currentUser]);
-
-  const [favorites, setFavorites] = useState<ProductType[]>([]);
-  function addToFavorites(product: ProductType) {
-    if (currentUser) {
-      setFavorites((prev) => {
-        const exists = prev.some((item) => item.id === product.id);
-
-        if (exists) return prev;
-
-        return [...prev, product];
+  function handleAddFavorite(productDocId: string) {
+    if (!currentUser) {
+      toast.warning("Please login to add items to your favorites", {
+        position: "bottom-right",
       });
-
-      addToUserFavorites(product.id);
-    } else {
-      toast.info("Plase login to add favorites", {
-        position: "top-center",
-        action: {
-          label: "Login",
-          onClick: () => router.push("/login"),
-        },
-      });
+      return;
     }
+
+    addToFavorite(currentUser.id, productDocId).then(() => {
+      refreshFavorites();
+    });
   }
 
-  function removeFromFavorites(id: number) {
-    setFavorites((prev) => prev.filter((item) => item.id !== id));
+  async function handleRemoveFavorite(favoriteDocId: string) {
+    if (!currentUser) {
+      toast.warning("Please login to add items to your favorites", {
+        position: "bottom-right",
+      });
+      return;
+    }
 
-    removeFromUserFavorites(id);
+    removeFromFavorite(favoriteDocId).then(() => {
+      refreshFavorites();
+    });
   }
 
   return (
     <FavoritesContext.Provider
-      value={{ wishlist: favorites, addToFavorites, removeFromFavorites }}
+      value={{
+        favoritesData,
+        handleRemoveFavorite,
+        handleAddFavorite,
+        refreshFavorites,
+      }}
     >
       {children}
     </FavoritesContext.Provider>

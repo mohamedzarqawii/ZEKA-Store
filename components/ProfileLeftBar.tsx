@@ -21,7 +21,7 @@ import { usePathname } from "next/navigation";
 const ProfileLeftBar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, logout, updateProfile, deleteAccount } = useAuth();
+  const { currentUser, logout, haneleDeleteAccount: deleteAccount } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -37,7 +37,7 @@ const ProfileLeftBar = () => {
       title: "1",
       items: [
         { name: "Orders", href: "/profile/orders", icon: ShoppingBag },
-        { name: "Wishlists", href: "/profile/wishList", icon: IconHeart },
+        { name: "Favorites", href: "/profile/favorites", icon: IconHeart },
         {
           name: "Notification",
           href: "/profile/notifications",
@@ -49,7 +49,7 @@ const ProfileLeftBar = () => {
       title: "2",
       items: [
         { name: "Profile", href: "/profile", icon: CircleUser },
-        { name: "Adresses", href: "/profile/adresses", icon: IconMapPin },
+        { name: "Adresses", href: "/profile/addresses", icon: IconMapPin },
         { name: "Payments", href: "/profile/payments", icon: IconCreditCard },
         { name: "Gift Cards", href: "/profile/giftCards", icon: IconGiftCard },
       ],
@@ -90,7 +90,7 @@ const ProfileLeftBar = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-4 hover:bg-primary/20 p-3 rounded-xl outline-none w-full text-start transition-colors hover:cursor-pointer ${pathname == item.href ? "bg-primary/20" : null} `}
+                  className={`flex items-center gap-4 hover:bg-muted/40 p-3 rounded-xl outline-none w-full text-start transition-colors hover:cursor-pointer ${pathname == item.href ? "bg-primary/40 hover:bg-primary/40" : null} `}
                 >
                   <Icon className="size-5" />
                   <span>{item.name}</span>
@@ -106,7 +106,7 @@ const ProfileLeftBar = () => {
         <div className="flex flex-col justify-center items-start gap-3 w-full">
           <div
             onClick={handleLogout}
-            className="flex items-center gap-3 hover:bg-primary/20 p-3 rounded-xl outline-none w-full text-start transition-colors duration-400 hover:cursor-pointer"
+            className="flex items-center gap-3 hover:bg-muted/40 p-3 rounded-xl outline-none w-full text-start transition-colors duration-400 hover:cursor-pointer"
           >
             <IconLogout2 className="size-5" />
             <span>Sign Out</span>

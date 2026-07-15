@@ -1,4 +1,4 @@
-import CategoryCard from "@/components/CategoryCard";
+import CategoryCard from "@/app/category/CategoryCard";
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 import Image from "next/image";

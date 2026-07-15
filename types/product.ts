@@ -1,13 +1,27 @@
 export type ProductType = {
   id: number;
+  documentId: string;
   name: string;
   description: string;
   price: number;
-  category: string;
-  image: string;
   stock: number;
-  brand: string;
+
+  images: {
+    id: number;
+    url: string;
+  }[];
+
+  category: {
+    id: number;
+    name: string;
+  };
+
+  brand: {
+    id: number;
+    name: string;
+  };
+
   featured: boolean;
-  color: string | null;
-  colorCode: string | null;
+  isFavorite: boolean;
+  favoriteDocId: string | null;
 };

@@ -4,6 +4,5 @@ export type CategoryType = {
   description: string;
   price: number;
   photo: string;
-  color: string;
   colorCode: string;
 };
