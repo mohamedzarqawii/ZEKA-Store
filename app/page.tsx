@@ -16,6 +16,8 @@ export default function Home() {
       setProducts(data);
     };
 
+    console.log("products", products);
+
     load();
   }, []);
 
