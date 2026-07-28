@@ -15,8 +15,8 @@ import { FavoriteItem } from "@/types/shop/favorite";
 type FavoritesContextType = {
   favoritesData: FavoriteItem[];
   refreshFavorites: () => void;
-  handleAddFavorite: (productDocId: string) => void;
-  handleRemoveFavorite: (favoriteDocId: string) => void;
+  handleAddFavorite: (productDocId: string) => Promise<void>;
+  handleRemoveFavorite: (productId: string) => Promise<void>;
 };
 
 const FavoritesContext = createContext<FavoritesContextType | null>(null);
@@ -41,7 +41,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  function handleAddFavorite(productDocId: string) {
+  async function handleAddFavorite(productDocId: string) {
     if (!currentUser) {
       toast.warning("Please login to add items to your favorites", {
         position: "bottom-right",
@@ -49,22 +49,13 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    addToFavorite(currentUser.id, productDocId).then(() => {
-      refreshFavorites();
-    });
+    return addToFavorite(currentUser.id, productDocId);
   }
 
-  async function handleRemoveFavorite(favoriteDocId: string) {
-    if (!currentUser) {
-      toast.warning("Please login to add items to your favorites", {
-        position: "bottom-right",
-      });
-      return;
-    }
+  async function handleRemoveFavorite(productId: string) {
+    if (!currentUser) return;
 
-    removeFromFavorite(favoriteDocId).then(() => {
-      refreshFavorites();
-    });
+    return removeFromFavorite(productId);
   }
 
   return (

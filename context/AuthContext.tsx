@@ -63,16 +63,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     else localStorage.removeItem("currentUser");
   }, [currentUser]);
 
-  // const handleUserUpdate = (newUser: User | null) => {
-  //   setCurrentUser(newUser);
-  //   if (newUser) {
-  //     localStorage.setItem("currentUser", JSON.stringify(newUser));
-  //   } else {
-  //     localStorage.removeItem("currentUser");
-  //     localStorage.removeItem("token");
-  //   }
-  // };
-
   // ---------------- Login ----------------
   function handleLogin(data: ReqLoginType) {
     login(data)
@@ -114,6 +104,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem("token", res.jwt);
         const userId = res.user.id;
 
+        console.log({
+          username,
+
+          email,
+
+          password,
+        });
         updateProfile(userId, { firstName, lastName }).then((res) => {
           toast.success("Account Created Successfully", {
             position: "bottom-right",

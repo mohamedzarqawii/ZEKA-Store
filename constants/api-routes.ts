@@ -24,17 +24,24 @@ const API_ROUTES = {
     getPageNumber: "/api/products/meta",
   },
 
-  // cart: {
-  //   add: (userId: number) => `/api/users/${userId}`,
-  //   remove: (userId: number) => `/api/users/${userId}`,
-  // },
+  cart: {
+    add: (userId: number) => `/api/users/${userId}`,
+    remove: (userId: number) => `/api/users/${userId}`,
+  },
 
   favorite: {
     get: "/api/favorites",
 
     add: "/api/favorites",
 
-    remove: (favoriteDocId: string) => `/api/favorites/${favoriteDocId}`,
+    remove: "/api/favorites/remove-by-product",
+  },
+
+  admin: {
+    users: "/api/users",
+    products: "/api/products",
+    categories: "/api/categories",
+    brands: "/api/brands",
   },
 };
 

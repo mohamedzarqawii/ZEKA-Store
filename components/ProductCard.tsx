@@ -10,16 +10,19 @@ import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import Counter from "./Counter";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const [isFavorite, setIsFavorite] = useState(() => product.isFavorite);
+  const [isLoadingFav, setIsLoadingFav] = useState<boolean>();
   const { cart, addToCart, removeFromCart } = useCart();
-  const { handleAddFavorite, handleRemoveFavorite, favoritesData } =
-    useFavorites();
+  const { handleAddFavorite, handleRemoveFavorite } = useFavorites();
   const isInCart = cart.some((item) => item.id === product.id);
-
   const cartItem = cart.find((item) => item.id === product.id);
+
+  useEffect(() => {
+    console.log("isloadingFav", isLoadingFav);
+  }, [isLoadingFav]);
 
   return (
     <div>
@@ -32,11 +35,16 @@ const ProductCard = ({ product }: { product: ProductType }) => {
             <button
               className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
               onClick={(e) => {
+                setIsLoadingFav(true);
                 e.preventDefault();
-                if (isFavorite && product.favoriteDocId) {
-                  handleRemoveFavorite(product.favoriteDocId);
+                if (isFavorite) {
+                  handleRemoveFavorite(product.documentId).finally(() =>
+                    setIsLoadingFav(false),
+                  );
                 } else {
-                  handleAddFavorite(product.documentId);
+                  handleAddFavorite(product.documentId).finally(() =>
+                    setIsLoadingFav(false),
+                  );
                 }
                 setIsFavorite((prev) => !prev);
               }}

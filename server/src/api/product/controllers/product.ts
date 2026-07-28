@@ -73,6 +73,7 @@ module.exports = createCoreController("api::product.product", ({ strapi }) => ({
       data: {
         ...data,
         isFavorite: !!favorite,
+        favoriteDocId: favorite ? favorite.documentId : null,
       },
     };
   },

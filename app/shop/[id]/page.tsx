@@ -10,13 +10,12 @@ import {
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { ProductType } from "@/types/product";
-import { useCart } from "@/context/CartContext";
-import { useFavorites } from "@/context/FavoritesContext";
 import ProductCard from "@/components/ProductCard";
 import Counter from "@/components/Counter";
 import Link from "next/link";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { getProduct, getRelatedProductsByBrand } from "@/services/shop.service";
+import { useFavorites } from "@/context/FavoritesContext";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -25,6 +24,10 @@ const ProductPage = () => {
   const [relatedProducts, setRelatedProducts] = useState<ProductType[]>([]);
   const [rating, setRating] = useState(3);
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [isFavorite, setIsFavorite] = useState(
+    () => product?.isFavorite || false,
+  );
+  const { handleAddFavorite, handleRemoveFavorite } = useFavorites();
 
   // ------------- get product -------------
   useEffect(() => {
@@ -33,6 +36,7 @@ const ProductPage = () => {
     const lodadProduct = async () => {
       const product = await getProduct(id as string);
       setProduct(product);
+      setIsFavorite(product.isFavorite);
     };
 
     lodadProduct();
@@ -154,12 +158,23 @@ const ProductPage = () => {
               {/* )} */}
 
               {/* add to favorites button */}
-              <button className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl w-fit text-lg transition-transform duration-300 cursor-pointer">
-                {/* {isInFavorites ? (
+              <button
+                className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl w-fit text-lg transition-transform duration-300 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (isFavorite && product.favoriteDocId) {
+                    handleRemoveFavorite(product.favoriteDocId);
+                  } else {
+                    handleAddFavorite(product.documentId);
+                  }
+                  setIsFavorite((prev) => !prev);
+                }}
+              >
+                {isFavorite ? (
                   <IconHeartFilled className="size-7 text-primary" />
-                ) : ( */}
-                <IconHeart className="size-7 text-primary" />
-                {/* )} */}
+                ) : (
+                  <IconHeart className="size-7 text-primary" />
+                )}
               </button>
             </div>
           </div>

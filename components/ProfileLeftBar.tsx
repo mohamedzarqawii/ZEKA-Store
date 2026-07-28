@@ -17,11 +17,15 @@ import { CircleUser, ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useFavorites } from "@/context/FavoritesContext";
 
 const ProfileLeftBar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { currentUser, logout, haneleDeleteAccount: deleteAccount } = useAuth();
+  const { favoritesData } = useFavorites();
+
+  const favoritesCount = favoritesData.length;
 
   const handleLogout = () => {
     logout();
@@ -37,7 +41,12 @@ const ProfileLeftBar = () => {
       title: "1",
       items: [
         { name: "Orders", href: "/profile/orders", icon: ShoppingBag },
-        { name: "Favorites", href: "/profile/favorites", icon: IconHeart },
+        {
+          name: `Favorites`,
+          count: favoritesCount,
+          href: "/profile/favorites",
+          icon: IconHeart,
+        },
         {
           name: "Notification",
           href: "/profile/notifications",
@@ -94,6 +103,12 @@ const ProfileLeftBar = () => {
                 >
                   <Icon className="size-5" />
                   <span>{item.name}</span>
+
+                  {!!item.count && item.count > 0 && (
+                    <span className="bg-primary/20 ml-auto px-2 py-1 rounded-lg text-primary text-xs">
+                      {item.count} items
+                    </span>
+                  )}
                 </Link>
               );
             })}

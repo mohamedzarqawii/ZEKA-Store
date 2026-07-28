@@ -81,7 +81,7 @@ export const getCategories = async () => {
 export const getFavorites = async (userId: number) => {
   const { data } = await api.get<ResFavorite>(API_ROUTES.favorite.get, {
     params: {
-      "pagination[pageSize]": 12,
+      "pagination[pageSize]": 999,
       populate: ["product.images", "product.brand", "product.category"],
       filters: {
         user: {
@@ -105,7 +105,11 @@ export const addToFavorite = async (userId: number, productDocId: string) => {
   return data.data;
 };
 
-export const removeFromFavorite = async (favoriteDocId: string) => {
-  const { data } = await api.delete(API_ROUTES.favorite.remove(favoriteDocId));
+export const removeFromFavorite = async (productId: string) => {
+  const { data } = await api.delete(API_ROUTES.favorite.remove, {
+    params: {
+      productId,
+    },
+  });
   return data;
 };

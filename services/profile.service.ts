@@ -5,9 +5,7 @@ import { reqUpdateProfile } from "@/types/auth/profile";
 
 export const updateProfile = async (userId: number, body: reqUpdateProfile) => {
   const { data } = await api.put(API_ROUTES.profile.update(userId), body, {
-    params: {
-      populate: "cart,favorite",
-    },
+    params: {},
   });
   return data;
 };
@@ -16,16 +14,7 @@ export const updateProfile = async (userId: number, body: reqUpdateProfile) => {
 
 export const getProfile = async () => {
   const { data } = await api.get(API_ROUTES.profile.get, {
-    params: {
-      populate: {
-        cart: {
-          populate: "product",
-        },
-        favorite: {
-          populate: "product",
-        },
-      },
-    },
+    params: {},
   });
 
   return data;
