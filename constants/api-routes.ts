@@ -38,8 +38,16 @@ const API_ROUTES = {
   },
 
   admin: {
-    users: "/api/users",
-    products: "/api/products",
+    getUsers: "/api/users",
+    blockUser: (userId: string) => `/api/users/${userId}`,
+    deleteUser: (userId: string) => `/api/users/${userId}`,
+    updateUser: (userId: string) => `/api/users/${userId}`,
+
+    getProducts: "/api/products",
+    updateProduct: (productDocId: string) => `/api/products/${productDocId}`,
+    deleteProduct: (productDocId: string) => `/api/products/${productDocId}`,
+    createProduct: "/api/products",
+
     categories: "/api/categories",
     brands: "/api/brands",
   },

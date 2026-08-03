@@ -53,10 +53,17 @@ const ProductPage = () => {
     if (!product) return;
 
     const loadRelated = async () => {
-      const data = await getRelatedProductsByBrand(product.category.id);
-
-      setRelatedProducts(data.filter((p: ProductType) => p.id !== product.id));
-      setImageUrl(product.images[0].url);
+      if (product.category?.id) {
+        const data = await getRelatedProductsByBrand(product.category.id);
+        setRelatedProducts(
+          data.filter((p: ProductType) => p.id !== product.id),
+        );
+      }
+      if (product.images && product.images.length > 0) {
+        setImageUrl(product.images[0].url);
+      } else {
+        setImageUrl(""); // قيمة فارغة لتعمل مع الصورة الافتراضية
+      }
     };
     loadRelated();
   }, [product]);
@@ -72,29 +79,46 @@ const ProductPage = () => {
     );
   }
 
+  const mainImageSrc = imageUrl
+    ? getImageUrl(imageUrl)
+    : product.images?.[0]?.url
+      ? getImageUrl(product.images[0].url)
+      : "/placeholder.png";
+
   return (
     <div className="mx-10 mt-15">
       <div className="flex gap-6 w-full h-fit">
         {/* left */}
         <div className="relative flex gap-8 w-full max-w-2xl">
           <div className="flex flex-col gap-4 rounded-2xl h-130 overflow-y-auto shrink-0 no-scrollbar">
-            {product.images.map((image) => (
+            {product.images && product.images.length > 0 ? (
+              product.images.map((image) => (
+                <img
+                  key={image.id}
+                  src={getImageUrl(image.url)}
+                  onClick={() => {
+                    handlChangeImage(image.url);
+                  }}
+                  alt={product.name}
+                  className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+                />
+              ))
+            ) : (
               <img
-                key={image.id}
-                src={getImageUrl(image.url)}
-                onClick={() => {
-                  handlChangeImage(image.url);
-                }}
-                alt={product.name}
-                className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+                src="/placeholder.jpeg"
+                alt="No image available"
+                className="opacity-70 border border-primary/40 rounded-2xl w-25 h-25 object-center object-cover"
               />
-            ))}
+            )}
+            {product.images && product.images.length > 0 && (
+              <div className="right-0 bottom-0 left-0 absolute bg-linear-to-t from-black/60 to-transparent rounded-b-2xl h-12 pointer-events-none"></div>
+            )}
             <div className="right-0 bottom-0 left-0 absolute bg-linear-to-t from-black/60 to-transparent rounded-b-2xl h-12 pointer-events-none"></div>
           </div>
 
           <div>
             <img
-              src={getImageUrl(imageUrl)}
+              src={mainImageSrc}
               className="border border-primary rounded-2xl w-130 h-130 object-center object-cover hover:cursor-pointer"
               alt={product.name}
             />
@@ -104,8 +128,12 @@ const ProductPage = () => {
         {/* right */}
         <div className="flex flex-col justify-between gap-4 w-full h-130">
           <div>
-            <span className="text-primary">{product.category.name} | </span>
-            <span className="text-primary">{product.brand.name}</span>
+            <span className="text-primary">
+              {product.category?.name || "Uncategorized"} | |{" "}
+            </span>
+            <span className="text-primary">
+              {product.brand?.name || "No Brand"}
+            </span>
 
             <div className="mt-6 text-5xl">{product.name}</div>
 

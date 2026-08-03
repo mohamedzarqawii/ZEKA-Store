@@ -1,8 +1,8 @@
-import { getUsers } from "@/services/admin.service";
+import UsersPage from "@/features/dashboard/pages/users/UsersPage";
 import React from "react";
 
-const users = () => {
-  return <div></div>;
+const Users = () => {
+  return <UsersPage />;
 };
 
-export default users;
+export default Users;

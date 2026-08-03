@@ -1,5 +1,6 @@
 import API_ROUTES from "@/constants/api-routes";
 import api from "@/lib/axios";
+import { ReqCreateProductType } from "@/types/admin/product";
 
 // -------------- getProducts --------------
 
@@ -8,7 +9,7 @@ export const getProductsAdmin = async (
   categories: string[] = [],
   brands: string[] = [],
 ) => {
-  const { data } = await api.get(API_ROUTES.admin.products, {
+  const { data } = await api.get(API_ROUTES.admin.getProducts, {
     params: {
       populate: "*",
 
@@ -20,6 +21,37 @@ export const getProductsAdmin = async (
         "filters[brand][id][$in]": brands,
       }),
     },
+  });
+  return data;
+};
+
+// -------------- UpdatProduct --------------
+
+export const UpdateProductAdmin = async (
+  productDocId: string,
+
+  updateData: Record<string, any> = {},
+) => {
+  const { data } = await api.put(API_ROUTES.admin.updateProduct(productDocId), {
+    data: updateData,
+  });
+  return data;
+};
+
+// -------------- DeleteProduct --------------
+
+export const DeleteProductAdmin = async (productDocId: string) => {
+  const { data } = await api.delete(
+    API_ROUTES.admin.deleteProduct(productDocId),
+  );
+  return data;
+};
+
+// -------------- CreateProduct --------------
+
+export const CreateProductAdmin = async (body: ReqCreateProductType) => {
+  const { data } = await api.post(API_ROUTES.admin.createProduct, {
+    data: body,
   });
   return data;
 };

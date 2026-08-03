@@ -10,12 +10,10 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-const AdminLeftBar = () => {
+const DashboardSideBar = () => {
   const pathname = usePathname();
-  const router = useRouter();
-
-  //   const favoritesCount = favoritesData.length;
 
   const leftBarItems1 = [
     {
@@ -61,7 +59,17 @@ const AdminLeftBar = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center gap-4 hover:bg-muted/40 p-3 rounded-xl outline-none w-full text-start transition-colors hover:cursor-pointer ${pathname == item.href ? "bg-primary/40 hover:bg-primary/40" : null} `}
+                  className={cn(
+                    "flex items-center gap-4 hover:bg-muted/40 p-3 rounded-xl outline-none w-full text-start transition-colors hover:cursor-pointer",
+                    // إذا كان الرابط هو الصفحة الرئيسية المطابقة تكون دقيقة، أما لو مسار آخر فيتم فحص بداية المسار
+                    (
+                      item.href === "/"
+                        ? pathname === "/"
+                        : pathname.startsWith(item.href)
+                    )
+                      ? "bg-primary/40 hover:bg-primary/40"
+                      : null,
+                  )}
                 >
                   <Icon className="size-5" />
                   <span>{item.name}</span>
@@ -81,4 +89,4 @@ const AdminLeftBar = () => {
   );
 };
 
-export default AdminLeftBar;
+export default DashboardSideBar;

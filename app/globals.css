@@ -219,3 +219,9 @@ body {
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+/* إجبار مكتبة Sonner وكل عناصرها على استخدام خط Bruno Ace */
+[data-sonner-toaster],
+[data-sonner-toaster] * {
+  font-family: var(--font-bruno), "Bruno Ace", sans-serif !important;
+}

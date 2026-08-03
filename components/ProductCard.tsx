@@ -32,33 +32,46 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
           <div className="relative">
             {/* love icon */}
-            <button
-              className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
-              onClick={(e) => {
-                setIsLoadingFav(true);
-                e.preventDefault();
-                if (isFavorite) {
-                  handleRemoveFavorite(product.documentId).finally(() =>
-                    setIsLoadingFav(false),
-                  );
-                } else {
-                  handleAddFavorite(product.documentId).finally(() =>
-                    setIsLoadingFav(false),
-                  );
-                }
-                setIsFavorite((prev) => !prev);
-              }}
-            >
-              {isFavorite ? (
-                <IconHeartFilled className="size-6 text-primary" />
-              ) : (
-                <IconHeart className="size-6 text-primary" />
+            <div className="flex flex-col">
+              <button
+                className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
+                onClick={(e) => {
+                  setIsLoadingFav(true);
+                  e.preventDefault();
+                  if (isFavorite) {
+                    handleRemoveFavorite(product.documentId).finally(() =>
+                      setIsLoadingFav(false),
+                    );
+                  } else {
+                    handleAddFavorite(product.documentId).finally(() =>
+                      setIsLoadingFav(false),
+                    );
+                  }
+                  setIsFavorite((prev) => !prev);
+                }}
+              >
+                {isFavorite ? (
+                  <IconHeartFilled className="size-6 text-primary" />
+                ) : (
+                  <IconHeart className="size-6 text-primary" />
+                )}
+              </button>
+
+              {/* love icon */}
+              {product.stock == 0 && (
+                <div className="top-4 left-4 absolute bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer">
+                  <div>Out of Stock</div>
+                </div>
               )}
-            </button>
+            </div>
             {/* image */}
             <img
-              src={`http://localhost:1337${product.images[0].url}`}
-              alt={product.name}
+              src={
+                product.images?.[0]?.url
+                  ? `http://localhost:1337${product.images[0].url}`
+                  : "/images/placeholder.jpeg" // 👈 حط مسار الصورة الافتراضية تبعك هون
+              }
+              alt={product.name || "Product Image"}
               className="w-full h-64 object-center object-cover hover:cursor-pointer"
             />
           </div>
@@ -101,17 +114,17 @@ const ProductCard = ({ product }: { product: ProductType }) => {
               </div>
 
               <p className="text-gray-400 text-xs line-clamp-1">
-                {product.brand.name}
+                {product.brand?.name ? product.brand.name : "No Brand"}{" "}
               </p>
             </div>
 
             <div className="flex justify-between items-center mt-3">
               {/* category */}
               <div className="bg-zinc-800 px-1 border border-zinc-700 rounded-3xl text-[10px] text-zinc-400">
-                {product.category.name}
+                {product.category?.name ? product.category.name : "No Category"}
               </div>
               <div className="font-semibold text-[14px] text-right">
-                ${product.price}
+                ${product.price ? product.price.toFixed(2) : "0.00"}
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import AdminLeftBar from "@/components/adminComponents/adminLeftBar";
+import DashboardSideBar from "@/features/dashboard/components/DashboardSideBar";
 
 export default function AdminLayout({
   children,
@@ -8,7 +8,7 @@ export default function AdminLayout({
   return (
     <div className="mx-10 mb-10">
       <div className="flex items-start gap-10 mt-15">
-        <AdminLeftBar />
+        <DashboardSideBar />
         <div className="flex flex-col flex-1 w-full">{children}</div>
       </div>
     </div>
