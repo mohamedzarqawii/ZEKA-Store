@@ -88,6 +88,7 @@ input[type="number"] {
   after:absolute
   after:left-1/2
   after:-bottom-0.75
+  rounded-full
   after:h-0.5
   after:rounded-full
   after:w-full
@@ -100,13 +101,15 @@ input[type="number"] {
 .menu-item-inactive {
   @apply after:bg-primary
   after:scale-x-0
-  hover:after:scale-x-100;
+  hover:after:scale-x-100
+  rounded-full;
 }
 
 .menu-item-active {
   @apply text-primary
   after:bg-primary
-  after:scale-x-10;
+  after:scale-x-10
+  rounded-full;
 }
 
 .login-button {

@@ -17,4 +17,5 @@ export type User = {
   birthday?: string;
   gender?: "male" | "female";
   orders: OrderType[];
+  role?: { name: string };
 };

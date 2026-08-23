@@ -1,17 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import * as yup from "yup";
-import { toast } from "sonner";
-import { Mars, Pencil, Venus } from "lucide-react";
+import { Mars, Pencil, ShieldCogCorner, Venus } from "lucide-react";
 import { Field, FieldLabel, FieldError } from "@/components/ui/field"; // تأكد من استيراد FieldError من مساره الصحيح
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import SecurityInfomationCards from "@/features/profile/components/securityInfomationCard";
 
 import {
   Popover,
@@ -33,7 +28,6 @@ export default function Profile() {
     handleSubmit,
     handleChange,
     setFieldValue,
-    setValues,
     initialValues,
     dirty,
   } = useFormik({

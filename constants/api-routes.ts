@@ -1,4 +1,5 @@
 const API_ROUTES = {
+  uploadMedia: "/api/upload",
   auth: {
     login: "/api/auth/local",
     signup: "/api/auth/local/register",
@@ -13,7 +14,7 @@ const API_ROUTES = {
 
   shop: {
     getProducts: "/api/products",
-    getProduct: (productId: string) => `/api/products/${productId}?populate=*`, //send -documentId-
+    getProduct: (productId: string) => `/api/products/${productId}?populate=*`,
     getRelatedProductsByCategory: (categoryId: number) =>
       `/api/products?filters[category][id][$eq]=${categoryId}&populate=*`,
     getRelatedProductsByBrand: (brandId: number) =>
@@ -35,6 +36,8 @@ const API_ROUTES = {
     add: "/api/favorites",
 
     remove: "/api/favorites/remove-by-product",
+
+    update: (userId: string) => `/api/users/${userId}`,
   },
 
   admin: {
@@ -44,6 +47,8 @@ const API_ROUTES = {
     updateUser: (userId: string) => `/api/users/${userId}`,
 
     getProducts: "/api/products",
+    getProduct: (productDocId: string) =>
+      `/api/products/${productDocId}?populate=*`,
     updateProduct: (productDocId: string) => `/api/products/${productDocId}`,
     deleteProduct: (productDocId: string) => `/api/products/${productDocId}`,
     createProduct: "/api/products",

@@ -1,25 +1,14 @@
 "use client";
 
-import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
-import { getProducts } from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import { useGetProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
 import { ProductType } from "@/types/product";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [products, setProducts] = useState<ProductType[]>([]);
-
-  useEffect(() => {
-    const load = async () => {
-      const data = await getProducts();
-      setProducts(data);
-    };
-
-    console.log("products", products);
-
-    load();
-  }, []);
+  const { data: products, isLoading: isProductsLoading } = useGetProducts();
 
   return (
     <div className="mx-10">
@@ -29,6 +18,7 @@ export default function Home() {
 
       <div className="flex flex-col">
         {/* first slide */}
+
         <div className="flex justify-center items-center mt-15">
           <div className="flex flex-col gap-15">
             <div className="font-bold text-primary">NEW COLLECTION</div>
@@ -44,12 +34,9 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <Link
-                    href="/shop"
-                    className="bg-primary hover:bg-secondary p-3 rounded-lg text-[#FEFEFE] hover:text-[#FEFEFE] transition-colors duration-300"
-                  >
-                    Explore Shop
-                  </Link>
+                  <Button variant="default" asChild>
+                    <Link href="/shop">Explore Shop</Link>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -66,12 +53,18 @@ export default function Home() {
           <div className="flex justify-between items-end">
             <div className="text-primary text-3xl">MOST PRODUCT POPULAR</div>
           </div>
-          <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4 w-full">
-            {products?.length > 0 &&
-              products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-          </div>
+          {isProductsLoading ? (
+            <div className="flex justify-center items-center p-8">
+              <Loader2 className="w-8 h-8 text-primary animate-spin" />
+            </div>
+          ) : (
+            <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4 w-full">
+              {products?.data?.length > 0 &&
+                products?.data?.map((product: ProductType) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

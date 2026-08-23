@@ -5,6 +5,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ActionCell } from "./ActionCell";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 export interface Product {
   id: number;
@@ -21,17 +22,43 @@ export interface Product {
   favoriteDocId: string | null;
 }
 
-export const columns = (
-  onEdit: (documentId: string, updatedData: Partial<Product>) => void,
-  onDelete: (documentId: string) => void,
-): ColumnDef<Product>[] => [
+export const columns = (): ColumnDef<Product>[] => [
+  // ---------------- id ----------------
   {
-    accessorKey: "image",
-    header: () => (
-      <div className="pl-3 font-extrabold text-sm text-left tracking-wider">
-        Images
+    accessorKey: "id",
+    header: ({ column }) => (
+      <div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:text-secondary text-xs"
+        >
+          Id
+          <ArrowUpDown />
+        </Button>
       </div>
     ),
+
+    cell: ({ row }) => (
+      <div>
+        <Button
+          variant="link"
+          onClick={() => {
+            navigator.clipboard.writeText(row.getValue<string>("documentId"));
+            toast.success("Copied to clipboard", { position: "bottom-right" });
+          }}
+        >
+          {row.getValue("id")}
+        </Button>
+      </div>
+    ),
+  },
+
+  // ---------------- image ----------------
+  {
+    accessorKey: "image",
+    header: () => <div>Images</div>,
+
     cell: ({ row }) => {
       const images = row.original.images;
       const imageUrl = images?.[0]?.url
@@ -39,141 +66,138 @@ export const columns = (
         : "/images/placeholder.jpeg";
 
       return (
-        // 👈 MODIFIED: تغيير justify-center إلى justify-start مع pl-3 لضبط محاذاة الصورة لليسار
-        <div className="flex justify-start pl-3">
-          <div className="relative bg-muted/20 border border-border/50 rounded-lg w-12 h-12 overflow-hidden">
-            <img
-              src={imageUrl}
-              alt={row.original.name}
-              className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-            />
-          </div>
+        <div>
+          <img
+            src={imageUrl}
+            alt={row.original.name}
+            className="rounded-lg w-12 h-12 object-cover hover:scale-105 transition-transform duration-300"
+          />
         </div>
       );
     },
   },
+
+  // ---------------- name ----------------
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <div className="flex justify-start">
+      <div>
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="hover:bg-transparent -ml-3 hover:text-primary text-sm tracking-wider"
+          className="hover:text-secondary text-xs"
         >
           Product Name
-          <ArrowUpDown className="w-3.5 h-3.5" />
+          <ArrowUpDown />
         </Button>
       </div>
     ),
+
     cell: ({ row }) => (
-      <div className="flex justify-start items-center gap-2">
+      <div>
         <Button
-          variant="ghost"
+          variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue<string>("name"));
             toast.success("Copied to clipboard", { position: "bottom-right" });
           }}
-          className="-ml-3 text-primary hover:text-secondary text-sm tracking-wider"
         >
           {row.getValue("name")}
         </Button>
       </div>
     ),
   },
+
+  // ---------------- category ----------------
   {
     accessorKey: "category",
-    header: () => (
-      <div className="font-extrabold text-sm text-left tracking-wider">
-        Category
-      </div>
-    ),
+    header: () => <div className="text-left">Category</div>,
+
     cell: ({ row }) => (
-      <div className="text-left">
-        <span className="font-semibold text-muted-foreground text-sm">
-          {row.original.category?.name || "—"}
-        </span>
-      </div>
+      <div className="text-sm">{row.original.category?.name || "—"}</div>
     ),
   },
+
+  // ---------------- brand ----------------
   {
     accessorKey: "brand",
-    header: () => (
-      <div className="font-extrabold text-sm text-left tracking-wider">
-        Brand
-      </div>
-    ),
+    header: () => <div className="text-left">Brand</div>,
+
     cell: ({ row }) => (
-      <div className="text-left">
-        <span className="font-semibold text-muted-foreground text-sm uppercase">
-          {row.original.brand?.name || "—"}
-        </span>
-      </div>
+      <div className="text-sm">{row.original.brand?.name || "—"}</div>
     ),
   },
+
+  // ---------------- price ----------------
   {
     accessorKey: "price",
     header: ({ column }) => (
-      <div className="flex justify-start">
+      <div>
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="hover:bg-transparent -ml-4 font-extrabold hover:text-primary text-sm tracking-wider"
+          className="hover:text-secondary text-xs"
         >
           Price
-          <ArrowUpDown className="w-3.5 h-3.5" />
+          <ArrowUpDown />
         </Button>
       </div>
     ),
+
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
-      return (
-        <div className="text-left">
-          <span className="font-extrabold text-sm">${price.toFixed(2)}</span>
-        </div>
-      );
+      return <div className="pl-4 text-sm">${price.toFixed(2)}</div>;
     },
   },
+
+  // ---------------- document id ----------------
   {
-    accessorKey: "stock",
-    header: () => (
-      <div className="font-extrabold text-sm text-center tracking-wider">
-        Stock
+    accessorKey: "documentId",
+    header: () => <div className="ml-1 text-left">Doc Id</div>,
+
+    cell: ({ row }) => (
+      <div>
+        <Button
+          variant="link"
+          onClick={() => {
+            navigator.clipboard.writeText(row.getValue<string>("documentId"));
+            toast.success("Copied to clipboard", { position: "bottom-right" });
+          }}
+          className="-ml-3 hover:text-primary"
+        >
+          {row.getValue<string>("documentId")
+            ? `${row.getValue<string>("documentId").slice(0, 5)}`
+            : "—"}
+        </Button>
       </div>
     ),
+  },
+
+  // ---------------- stock ----------------
+  {
+    accessorKey: "stock",
+    header: () => <div>Stock</div>,
+
     cell: ({ row }) => {
       const stock = row.original.stock;
       const isAvailable = stock > 0;
       return (
-        <div className="flex justify-center">
-          <span
-            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-black tracking-wider border ${
-              isAvailable
-                ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                : "bg-destructive/10 text-destructive border-destructive/20"
-            }`}
-          >
-            {isAvailable ? `${stock} In stock` : "Out of stock"}
-          </span>
-        </div>
+        <Badge variant="outline">
+          {isAvailable ? `${stock} In stock` : "Out of stock"}
+        </Badge>
       );
     },
   },
+
+  // ---------------- actions ----------------
   {
     id: "actions",
-    header: () => (
-      <div className="font-extrabold text-xs text-end tracking-wider">
-        Actions
-      </div>
-    ),
+    header: () => <div className="flex justify-end mr-4">Actions</div>,
+
     cell: ({ row }) => {
-      return (
-        <ActionCell
-          product={row.original}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      );
+      const documentId = row.getValue<string>("documentId");
+      const href = `/admin/products/${documentId}`;
+      return <ActionCell product={row.original} viewHref={href} />;
     },
   },
 ];

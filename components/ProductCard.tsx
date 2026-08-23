@@ -11,8 +11,11 @@ import { useFavorites } from "@/context/FavoritesContext";
 import Counter from "./Counter";
 
 import { useEffect, useState } from "react";
+import { Badge } from "./ui/badge";
+import { useAuth } from "@/context/AuthContext";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
+  // const { currentUser } = useAuth();
   const [isFavorite, setIsFavorite] = useState(() => product.isFavorite);
   const [isLoadingFav, setIsLoadingFav] = useState<boolean>();
   const { cart, addToCart, removeFromCart } = useCart();
@@ -20,10 +23,11 @@ const ProductCard = ({ product }: { product: ProductType }) => {
   const isInCart = cart.some((item) => item.id === product.id);
   const cartItem = cart.find((item) => item.id === product.id);
 
-  useEffect(() => {
-    console.log("isloadingFav", isLoadingFav);
-  }, [isLoadingFav]);
+  // useEffect(() => {
+  //   console.log("isloadingFav", isLoadingFav);
+  // }, [isLoadingFav]);
 
+  // console.log(currentUser);
   return (
     <div>
       <Link href={`/shop/${product.documentId}`}>
@@ -59,9 +63,12 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
               {/* love icon */}
               {product.stock == 0 && (
-                <div className="top-4 left-4 absolute bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer">
-                  <div>Out of Stock</div>
-                </div>
+                <Badge
+                  variant={"outline"}
+                  className="top-4 left-4 absolute bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
+                >
+                  Out of stock
+                </Badge>
               )}
             </div>
             {/* image */}
@@ -107,6 +114,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                         addToCart(product, 1);
                       }
                     }}
+                    disabled={product.stock == 0}
                   >
                     <IconShoppingCartPlus className="size-4 text-primary" />
                   </button>

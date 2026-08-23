@@ -10,34 +10,43 @@ export const CreateProductSchema = y.object({
   brand: y.string(),
 });
 
+export const UpdateProductSchema = y.object({
+  name: y.string().notRequired(),
+  description: y.string().notRequired(),
+  price: y.number().notRequired(),
+  stock: y.number().notRequired(),
+  category: y.string().notRequired(),
+  brand: y.string().notRequired(),
+});
+
 export type ReqCreateProductType = y.InferType<typeof CreateProductSchema>;
 
-// export type ReqUpdateProductType = {
-//   data: {
-//     id: number;
-//     documentId: string;
-//     name: string;
-//     description: string;
-//     price: number;
-//     stock: number;
+export type ResUpdateProductType = {
+  data: {
+    id: number;
+    documentId: string;
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
 
-//     images: {
-//       id: number;
-//       url: string;
-//     }[];
+    images: {
+      id: number;
+      url: string;
+    }[];
 
-//     category: {
-//       id: number;
-//       name: string;
-//     };
+    category: {
+      id: number;
+      name: string;
+    };
 
-//     brand: {
-//       id: number;
-//       name: string;
-//     };
+    brand: {
+      id: number;
+      name: string;
+    };
 
-//     featured: boolean;
-//     isFavorite: boolean;
-//     favoriteDocId: string | null;
-//   };
-// };
+    featured: boolean;
+    isFavorite: boolean;
+    favoriteDocId: string | null;
+  };
+};

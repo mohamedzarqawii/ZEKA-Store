@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Product } from "./columns";
 import { Button } from "@/components/ui/button";
-import { Edit, Copy, Files } from "lucide-react";
+import { Edit, Loader2, Eye } from "lucide-react";
 import { toast } from "sonner";
 import {
   Popover,
@@ -14,116 +14,73 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IconTrash } from "@tabler/icons-react";
+import { useDeleteProduct, useUpdateProduct } from "./hooks/useProducts";
+import { useRouter } from "next/navigation";
 
 interface ActionCellProps {
   product: Product;
-  onEdit: (documentId: string, updatedData: Partial<Product>) => void;
-  onDelete: (documentId: string) => void;
+  viewHref: string;
 }
 
-export const ActionCell = ({ product, onEdit, onDelete }: ActionCellProps) => {
-  const [open, setOpen] = useState(false);
-  const [name, setName] = useState(product.name || "");
-  const [price, setPrice] = useState(product.price?.toString() || "0");
-  const [stock, setStock] = useState(product.stock?.toString() || "0");
-  const [description, setDescription] = useState(product.description || "");
+export const ActionCell = ({ product, viewHref }: ActionCellProps) => {
+  const router = useRouter();
+  const { mutate: deleteProduct, isPending: isDeleting } = useDeleteProduct();
 
-  const handleSave = () => {
-    const updatedData = {
-      name,
-      price: parseFloat(price) || 0,
-      stock: parseInt(stock, 10) || 0,
-      description,
-    };
+  const handleDelete = () => {
+    if (!product.documentId) return;
 
-    onEdit(product.documentId, updatedData);
-    setOpen(false);
+    deleteProduct(product.documentId, {
+      onSuccess: () => {
+        toast.success("Product deleted successfully!");
+      },
+      onError: (error) => {
+        toast.error("Failed to delete product!");
+        console.error(error);
+      },
+    });
   };
 
   return (
-    <div className="flex justify-end items-center gap-2">
+    <div className="flex justify-end items-center gap-2 mr-4">
+      {/* View button  */}
+      <Button
+        variant="outline"
+        size="icon-sm"
+        onClick={() => {
+          router.push(viewHref);
+        }}
+        className="p-2 border border-border cursor-pointer"
+        disabled={isDeleting}
+      >
+        <Eye className="w-4 h-4 hover:cursor-pointer" />
+      </Button>
+
       {/* Edit Button */}
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            className="p-2 border border-border cursor-pointer"
-          >
-            <Edit className="w-4 h-4" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-80">
-          <div className="gap-4 grid">
-            <div className="space-y-2">
-              <h4 className="font-medium leading-none">Edit Product</h4>
-            </div>
-            <div className="gap-3 grid">
-              <div className="items-center gap-4 grid grid-cols-3">
-                <Label htmlFor={`name-${product.id}`}>Name</Label>
-                <Input
-                  id={`name-${product.id}`}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="col-span-2 h-8"
-                />
-              </div>
-
-              <div className="items-center gap-4 grid grid-cols-3">
-                <Label htmlFor={`price-${product.id}`}>Price</Label>
-                <Input
-                  id={`price-${product.id}`}
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  className="col-span-2 h-8"
-                />
-              </div>
-
-              <div className="items-center gap-4 grid grid-cols-3">
-                <Label htmlFor={`stock-${product.id}`}>Stock</Label>
-                <Input
-                  id={`stock-${product.id}`}
-                  type="number"
-                  value={stock}
-                  onChange={(e) => setStock(e.target.value)}
-                  className="col-span-2 h-8"
-                />
-              </div>
-
-              <div className="items-start gap-4 grid grid-cols-3">
-                <Label htmlFor={`desc-${product.id}`} className="pt-2">
-                  Description
-                </Label>
-                <Textarea
-                  id={`desc-${product.id}`}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="col-span-2 min-h-20 text-xs resize-none"
-                  rows={3}
-                />
-              </div>
-
-              <Button
-                variant="default"
-                onClick={handleSave}
-                className="mt-2 p-2 cursor-pointer"
-              >
-                Save Changes
-              </Button>
-            </div>
-          </div>
-        </PopoverContent>
-      </Popover>
+      <Button
+        variant="outline"
+        size="icon-sm"
+        className="p-2 border border-border cursor-pointer"
+        onClick={() => {
+          router.push(`/admin/products/${product.documentId}/edit`);
+        }}
+        disabled={isDeleting}
+      >
+        <Edit className="w-4 h-4" />
+      </Button>
 
       {/* Delete Button */}
       <Button
         variant="outline"
         size="icon-sm"
-        onClick={() => onDelete(product.documentId)}
+        onClick={handleDelete}
         className="p-2 border border-border cursor-pointer"
+        disabled={isDeleting}
       >
-        <IconTrash className="text-destructive hover:cursor-pointer" />
+        {isDeleting ? (
+          <Loader2 className="w-4 h-4 text-destructive animate-spin" />
+        ) : (
+          <IconTrash className="w-4 h-4 text-destructive hover:cursor-pointer" />
+        )}
       </Button>
     </div>
   );

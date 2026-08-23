@@ -11,6 +11,7 @@ import {
   SortingState,
   getSortedRowModel,
   VisibilityState,
+  PaginationState,
 } from "@tanstack/react-table";
 
 import {
@@ -31,28 +32,27 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
 
 import * as React from "react";
-import {
-  IconChevronDown,
-  IconColumns3,
-  IconLayoutRows,
-  IconPlusFilled,
-} from "@tabler/icons-react";
-import { Columns3, Rows3 } from "lucide-react";
+import { IconPlusFilled } from "@tabler/icons-react";
+import { Columns3, Loader2, Rows3 } from "lucide-react";
+import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  path: string;
+  createHref: string;
+  storageKey?: string;
+  isLoading?: boolean;
 }
 
-export function DataTable<TData, TValue, String>({
+export function DataTable<TData, TValue>({
   columns,
   data,
-  path,
+  createHref,
+  storageKey = "table_column_visibility",
+  isLoading,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -63,16 +63,54 @@ export function DataTable<TData, TValue, String>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const isMountedVisibility = React.useRef(false);
+  const isMountedPageSize = React.useRef(false);
+
+  const pageSizeStorageKey = `${storageKey}_page_size`;
+
+  useEffect(() => {
+    const savedVisibility = localStorage.getItem(storageKey);
+    if (savedVisibility) {
+      try {
+        setColumnVisibility(JSON.parse(savedVisibility));
+      } catch (e) {
+        console.error("Failed to parse column visibility from localStorage", e);
+      }
+    }
+
+    const savedPageSize = localStorage.getItem(pageSizeStorageKey);
+    if (savedPageSize) {
+      const parsedSize = Number(savedPageSize);
+      if (!isNaN(parsedSize)) {
+        setPagination((prev) => ({ ...prev, pageSize: parsedSize }));
+      }
+    }
+  }, [storageKey, pageSizeStorageKey]);
+
+  useEffect(() => {
+    if (!isMountedVisibility.current) {
+      isMountedVisibility.current = true;
+      return;
+    }
+    localStorage.setItem(storageKey, JSON.stringify(columnVisibility));
+  }, [columnVisibility, storageKey]);
+
+  useEffect(() => {
+    if (!isMountedPageSize.current) {
+      isMountedPageSize.current = true;
+      return;
+    }
+    localStorage.setItem(pageSizeStorageKey, pagination.pageSize.toString());
+  }, [pagination.pageSize, pageSizeStorageKey]);
+
   const table = useReactTable({
     data,
     columns,
-    initialState: {
-      pagination: {
-        pageSize: 10,
-      },
-      columnOrder: columns.map((col) => col.id || (col as any).accessorKey),
-    },
-
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -82,27 +120,33 @@ export function DataTable<TData, TValue, String>({
     getFilteredRowModel: getFilteredRowModel(),
     onGlobalFilterChange: setGlobalFilter,
 
+    onPaginationChange: setPagination,
+
     state: {
       sorting,
       columnVisibility,
       columnFilters,
       globalFilter,
+      pagination,
     },
   });
 
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex flex-col gap-4 w-full overflow-hidden">
       <div className="flex justify-end items-center gap-2 w-full">
+        {/* Create Button  */}
         <div>
           <Button
             size="lg"
             variant="default"
-            onClick={() => router.push(path)}
+            onClick={() => router.push(createHref)}
             className="px-3 rounded-lg"
           >
             <IconPlusFilled />
           </Button>
         </div>
+
+        {/* Search  */}
         <div className="flex items-center">
           <Input
             placeholder="Search..."
@@ -111,6 +155,8 @@ export function DataTable<TData, TValue, String>({
             className="py-2 h-10"
           />
         </div>
+
+        {/* Column Filter */}
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -139,6 +185,8 @@ export function DataTable<TData, TValue, String>({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        {/* Rows Per Page Filter */}
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -161,16 +209,16 @@ export function DataTable<TData, TValue, String>({
         </div>
       </div>
 
-      <div className="bg-[#1a1a1a]/20 border border-primary rounded-3xl overflow-hidden">
-        {/* Base Table */}
-        <div className="overflow-x-auto">
-          <Table>
+      <div className="bg-[#1a1a1a]/20 border border-primary rounded-3xl w-full overflow-x-hidden">
+        {/* Base Table Container with Horizontal Scroll */}
+        <div className="w-full overflow-x-auto">
+          <Table className="w-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id}>
+                      <TableHead key={header.id} className="whitespace-nowrap">
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -183,15 +231,29 @@ export function DataTable<TData, TValue, String>({
                 </TableRow>
               ))}
             </TableHeader>
+
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {isLoading ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={
+                      table.getVisibleFlatColumns().length || columns.length
+                    }
+                    className="h-32 text-center"
+                  >
+                    <div className="flex justify-center items-center w-full h-full">
+                      <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className="whitespace-nowrap">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
@@ -203,7 +265,9 @@ export function DataTable<TData, TValue, String>({
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={columns.length}
+                    colSpan={
+                      table.getVisibleFlatColumns().length || columns.length
+                    }
                     className="h-24 text-center"
                   >
                     No results.
@@ -213,8 +277,8 @@ export function DataTable<TData, TValue, String>({
             </TableBody>
           </Table>
         </div>
-        {/* Pagination  */}
 
+        {/* Pagination Controls */}
         {!table.getCanNextPage() && !table.getCanPreviousPage() ? null : (
           <div className="flex justify-end items-center space-x-2 p-3.5">
             <Button

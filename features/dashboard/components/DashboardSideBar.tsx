@@ -38,7 +38,7 @@ const DashboardSideBar = () => {
   ];
 
   return (
-    <div className="top-24 sticky flex flex-col gap-4 w-full max-w-xs h-fit">
+    <div className="top-24 sticky flex flex-col gap-4 w-full min-w-xs max-w-xs h-fit">
       <div className="flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-6 border border-primary rounded-3xl h-fit">
         {/* 1 L */}
         <div className="flex flex-col gap-2">

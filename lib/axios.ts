@@ -2,23 +2,27 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_STRAPI_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 api.interceptors.request.use(
   (config) => {
-    config.headers["Content-Type"] = "application/json";
+    if (!(config.data instanceof FormData)) {
+      config.headers["Content-Type"] = "application/json";
+    }
 
-    const token = localStorage.getItem("token");
-    if (token) {
+    // عدم إرسال الـ Token إذا كان الطلب موجه لمسارات تسجيل الدخول أو إنشاء حساب
+    const isAuthRequest = config.url?.includes("/api/auth/local");
+
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+    if (token && !isAuthRequest) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
-    // Handle request error
     console.log(error);
     return Promise.reject(error);
   },

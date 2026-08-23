@@ -64,12 +64,12 @@ export const columns = (
     cell: ({ row }) => (
       <div className="flex justify-start items-center gap-2">
         <Button
-          variant="ghost"
+          variant="link"
           onClick={() => {
-            navigator.clipboard.writeText(row.getValue<string>("documentId"));
+            navigator.clipboard.writeText(row.getValue<string>("id"));
             toast.success("Copied to clipboard", { position: "bottom-right" });
           }}
-          className="-ml-3 hover:text-primary text-sm tracking-wider"
+          className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >
           {row.getValue("id")}
         </Button>
@@ -85,12 +85,12 @@ export const columns = (
     cell: ({ row }) => (
       <div className="flex justify-start items-center gap-2">
         <Button
-          variant="ghost"
+          variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue<string>("documentId"));
             toast.success("Copied to clipboard", { position: "bottom-right" });
           }}
-          className="-ml-3 hover:text-primary text-sm tracking-wider"
+          className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >
           {row.getValue<string>("documentId")
             ? `${row.getValue<string>("documentId").slice(0, 11)}`
@@ -117,17 +117,18 @@ export const columns = (
     cell: ({ row }) => (
       <div className="flex justify-start items-center gap-2">
         <Button
-          variant="ghost"
+          variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue("username"));
             toast.success("Copied to clipboard", { position: "bottom-right" });
           }}
-          className="-ml-3 hover:text-primary text-sm tracking-wider"
+          className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >
           {row.getValue("username")}
         </Button>
       </div>
     ),
+    enableHiding: false,
   },
 
   {
@@ -138,12 +139,12 @@ export const columns = (
     cell: ({ row }) => (
       <div className="text-left">
         <Button
-          variant="ghost"
+          variant="link"
           onClick={() => {
-            navigator.clipboard.writeText(row.getValue("username"));
+            navigator.clipboard.writeText(row.getValue("email"));
             toast.success("Copied to clipboard", { position: "bottom-right" });
           }}
-          className="-ml-3 hover:text-primary text-sm tracking-wider"
+          className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >
           {row.original.email || "—"}
         </Button>

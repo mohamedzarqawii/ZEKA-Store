@@ -11,10 +11,11 @@ export const updateProfile = async (userId: number, body: reqUpdateProfile) => {
 };
 
 // -------------- get profile --------------
-
 export const getProfile = async () => {
   const { data } = await api.get(API_ROUTES.profile.get, {
-    params: {},
+    params: {
+      populate: "role",
+    },
   });
 
   return data;

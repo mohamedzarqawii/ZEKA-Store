@@ -14,6 +14,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { MailIcon, MapPinIcon, PhoneIcon } from "@animateicons/react/lucide";
+import { toast } from "sonner";
 
 export default function Home() {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -68,24 +70,64 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-5">
               {/* 1 */}
-              <div className="flex items-center gap-4">
-                <div className="p-1.5 border border-primary rounded-lg">
-                  <Phone className="size-5 text-primary" />
-                </div>
+              <div
+                className="flex items-center gap-4 hover:cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText("+1 234 567 890");
+                  toast.success("Copied phone number to clipboard", {
+                    position: "bottom-right",
+                  });
+                }}
+              >
+                <Button
+                  variant={"outline"}
+                  size="icon"
+                  className="border border-primary rounded-lg"
+                >
+                  <PhoneIcon duration={1} className="size-5 text-primary" />
+                </Button>
                 <div>+1 234 567 890</div>
               </div>
+
               {/* 2 */}
-              <div className="flex items-center gap-4">
-                <div className="p-1.5 border border-primary rounded-lg">
-                  <Mail className="size-5 text-primary" />
-                </div>
+              <div
+                className="flex items-center gap-4 hover:cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText("info@myshop.com");
+                  toast.success("Copied email to clipboard", {
+                    position: "bottom-right",
+                  });
+                }}
+              >
+                <Button
+                  variant={"outline"}
+                  size="icon"
+                  className="p-1.75 border border-primary rounded-lg"
+                >
+                  <MailIcon duration={1} className="size-5 text-primary" />
+                </Button>
                 <div>info@myshop.com</div>
               </div>
+
               {/* 3 */}
-              <div className="flex items-center gap-4">
-                <div className="p-1.5 border border-primary rounded-lg">
-                  <MapPin className="size-5 text-primary" />
-                </div>
+              <div
+                className="flex items-center gap-4 hover:cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    "123 Main Street, City, Country",
+                  );
+                  toast.success("Copied address to clipboard", {
+                    position: "bottom-right",
+                  });
+                }}
+              >
+                <Button
+                  variant={"outline"}
+                  size="icon"
+                  className="p-1.75 border border-primary rounded-lg"
+                >
+                  <MapPinIcon duration={2} className="size-5 text-primary" />
+                </Button>
                 <div>123 Main Street, City, Country</div>
               </div>
             </div>

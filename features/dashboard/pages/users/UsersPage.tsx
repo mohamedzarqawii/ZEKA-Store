@@ -66,8 +66,6 @@ const UsersPage = () => {
     });
   };
 
-  const path = "/register";
-
   return (
     <div>
       <div className="text-primary text-3xl">USERS MANAGEMENT</div>
@@ -76,7 +74,8 @@ const UsersPage = () => {
         <DataTable
           columns={columns(handleToggleBlock, handleDelete)}
           data={users}
-          path={path}
+          createHref="/register"
+          storageKey="usersView"
         />
       </div>
     </div>

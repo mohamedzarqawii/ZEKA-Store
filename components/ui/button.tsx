@@ -19,7 +19,8 @@ const buttonVariants = cva(
           "hover:bg-muted hover:cursor-pointer hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         destructive:
           "bg-destructive/10 hover:cursor-pointer text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "hover:text-primary underline-offset-4 hover:cursor-pointer hover:underline",
+        none: "",
       },
       size: {
         default:
@@ -31,6 +32,19 @@ const buttonVariants = cva(
         "icon-xs": "size-6 rounded-sm [&_svg:not([class*='size-'])]:size-2.5",
         "icon-sm": "size-8 [&_svg:not([class*='size-'])]:size-3.5",
         "icon-lg": "size-11 [&_svg:not([class*='size-'])]:size-5",
+        "rounded-xs":
+          "size-6 rounded-full p-1 [&_svg:not([class*='size-'])]:size-3",
+        "rounded-sm":
+          "size-8 rounded-full p-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        "rounded-lg":
+          "size-10 rounded-full p-2 [&_svg:not([class*='size-'])]:size-5",
+        "rounded-icon-xs":
+          "size-6 rounded-full p-1 [&_svg:not([class*='size-'])]:size-3",
+        "rounded-icon-sm":
+          "size-8 rounded-full p-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        "rounded-icon-lg":
+          "size-10 rounded-full p-2 [&_svg:not([class*='size-'])]:size-5",
+        none: "",
       },
     },
     defaultVariants: {

@@ -5,11 +5,11 @@ import { ProductType } from "@/types/product";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import {
-  addToFavorite,
-  getFavorites,
-  removeFromFavorite,
-} from "@/services/shop.service";
+// import {
+//   addToFavorite,
+//   getFavorites,
+//   removeFromFavorite,
+// } from "@/services/shop.service";
 import { FavoriteItem } from "@/types/shop/favorite";
 
 type FavoritesContextType = {
@@ -36,9 +36,9 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    getFavorites(currentUser.id).then((res) => {
-      setFavoritesData(res);
-    });
+    // getFavorites(currentUser.id).then((res) => {
+    //   setFavoritesData(res);
+    // });
   };
 
   async function handleAddFavorite(productDocId: string) {
@@ -49,13 +49,13 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    return addToFavorite(currentUser.id, productDocId);
+    // return addToFavorite(currentUser.id, productDocId);
   }
 
   async function handleRemoveFavorite(productId: string) {
     if (!currentUser) return;
 
-    return removeFromFavorite(productId);
+    // return removeFromFavorite(productId);
   }
 
   return (

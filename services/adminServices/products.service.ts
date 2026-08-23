@@ -1,6 +1,10 @@
 import API_ROUTES from "@/constants/api-routes";
 import api from "@/lib/axios";
-import { ReqCreateProductType } from "@/types/admin/product";
+import {
+  ReqCreateProductType,
+  ResUpdateProductType,
+} from "@/types/admin/product";
+import { ProductType } from "@/types/product";
 
 // -------------- getProducts --------------
 
@@ -25,11 +29,19 @@ export const getProductsAdmin = async (
   return data;
 };
 
+// -------------- GetProduct --------------
+export const getProductAdmin = async (productDocId: string) => {
+  const { data } = await api.get<ResUpdateProductType>(
+    API_ROUTES.shop.getProduct(productDocId),
+  );
+
+  return data.data;
+};
+
 // -------------- UpdatProduct --------------
 
 export const UpdateProductAdmin = async (
   productDocId: string,
-
   updateData: Record<string, any> = {},
 ) => {
   const { data } = await api.put(API_ROUTES.admin.updateProduct(productDocId), {

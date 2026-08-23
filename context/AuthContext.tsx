@@ -71,6 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           localStorage.setItem("token", res.jwt);
 
           getProfile().then((res) => {
+            console.log(res);
             toast.success("Login Successfully", { position: "bottom-right" });
             setCurrentUser(res);
             router.push("/profile");
