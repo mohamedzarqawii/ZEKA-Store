@@ -28,9 +28,6 @@ export const getCurrentUser = (): User | null => {
   }
 };
 
-const currentUser = getCurrentUser();
-
-console.log(currentUser);
 // -------------- login --------------
 export const login = async (body: ReqLoginType) => {
   const { data } = await api.post<ResLoginType>(API_ROUTES.auth.login, body);
