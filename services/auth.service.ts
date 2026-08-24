@@ -3,7 +3,34 @@ import api from "@/lib/axios";
 import { ReqLoginType, ResLoginType } from "@/types/auth/login";
 import { ReqResetPassType, ResResetPassType } from "@/types/auth/resetPassword";
 import { ReqSignUpType, ResSignUpType } from "@/types/auth/signup";
+import { User } from "@/types/user";
+import { useState } from "react";
 
+// -------------- get current user --------------
+
+export const getCurrentUser = (): User | null => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const storedUser = localStorage.getItem("currentUser");
+
+  if (!storedUser) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(storedUser);
+  } catch (error) {
+    console.error("Error parsing user from localStorage:", error);
+    localStorage.removeItem("currentUser");
+    return null;
+  }
+};
+
+const currentUser = getCurrentUser();
+
+console.log(currentUser);
 // -------------- login --------------
 export const login = async (body: ReqLoginType) => {
   const { data } = await api.post<ResLoginType>(API_ROUTES.auth.login, body);

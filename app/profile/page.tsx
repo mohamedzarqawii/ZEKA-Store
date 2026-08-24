@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useFormik } from "formik";
 import { Mars, Pencil, ShieldCogCorner, Venus } from "lucide-react";
-import { Field, FieldLabel, FieldError } from "@/components/ui/field"; // تأكد من استيراد FieldError من مساره الصحيح
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -16,6 +16,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { updateProfileSchema } from "@/types/auth/profile";
 import { getChangedValues } from "@/utils/getChangedValues";
+import ProfileLeftBar from "@/components/ProfileLeftBar";
 
 export default function Profile() {
   const { currentUser, handleUpdateProfile } = useAuth();

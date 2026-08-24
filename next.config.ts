@@ -12,5 +12,6 @@ const nextConfig: NextConfig = {
     ],
     dangerouslyAllowLocalIP: true,
   },
+  transpilePackages: ["@animateicons/react"],
 };
 export default nextConfig;

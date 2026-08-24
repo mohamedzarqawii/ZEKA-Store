@@ -26,9 +26,9 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const { currentUser } = useAuth();
   const [favoritesData, setFavoritesData] = useState<FavoriteItem[]>([]);
 
-  useEffect(() => {
-    refreshFavorites();
-  }, [currentUser]);
+  // useEffect(() => {
+  //   refreshFavorites();
+  // }, [currentUser]);
 
   const refreshFavorites = () => {
     if (!currentUser) {
