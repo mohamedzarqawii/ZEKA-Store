@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./animate-ui/primitives/buttons/button";
-import { useAuth } from "@/context/AuthContext";
+
 // import { useFavorites } from "@/context/FavoritesContext";
 
 import {
@@ -23,7 +23,10 @@ import { MapPin } from "./animate-ui/icons/map-pin";
 import { LogOut } from "./animate-ui/icons/log-out";
 import { handleHover } from "@/lib/handle-hover";
 import type { IconHandle } from "@animateicons/react";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import {
+  useGetCurrentUser,
+  useLogout,
+} from "@/features/auth/pages/hooks/useAuth";
 
 const icons = {
   Orders: ShoppingBasketIcon,
@@ -101,11 +104,12 @@ const SidebarNavItem = ({
 const ProfileLeftBar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { logout } = useAuth();
+
+  const logout = useLogout();
 
   const {
     data: currentUser,
-    isLoading: iscurrentUser,
+    isLoading: isCurrentUser,
     refetch: refetchcurrentUser,
   } = useGetCurrentUser();
   // const { favoritesData } = useFavorites();

@@ -6,59 +6,27 @@ import {
   IconHeart,
   IconShoppingCartPlus,
 } from "@tabler/icons-react";
-import { useCart } from "@/context/CartContext";
-import { useFavorites } from "@/context/FavoritesContext";
-import Counter from "./Counter";
 
-import { useEffect, useState } from "react";
-import { Badge } from "./ui/badge";
-import { useAuth } from "@/context/AuthContext";
+import { Badge } from "@/components/ui/badge";
+import Counter from "@/components/Counter";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
-  // const { currentUser } = useAuth();
-  const [isFavorite, setIsFavorite] = useState(() => product.isFavorite);
-  const [isLoadingFav, setIsLoadingFav] = useState<boolean>();
-  const { cart, addToCart, removeFromCart } = useCart();
-  const { handleAddFavorite, handleRemoveFavorite } = useFavorites();
-  const isInCart = cart.some((item) => item.id === product.id);
-  const cartItem = cart.find((item) => item.id === product.id);
-
-  // useEffect(() => {
-  //   console.log("isloadingFav", isLoadingFav);
-  // }, [isLoadingFav]);
-
-  // console.log(currentUser);
   return (
     <div>
       <Link href={`/shop/${product.documentId}`}>
-        <div className="group border border-zinc-700 rounded-3xl w-full h-96 overflow-hidden">
+        <div className="group flex flex-col justify-between bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-2xl w-full h-96 overflow-hidden transition-all duration-300">
           {/* image & cart icon */}
 
           <div className="relative">
             {/* love icon */}
             <div className="flex flex-col">
-              <button
-                className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
-                onClick={(e) => {
-                  setIsLoadingFav(true);
-                  e.preventDefault();
-                  if (isFavorite) {
-                    handleRemoveFavorite(product.documentId).finally(() =>
-                      setIsLoadingFav(false),
-                    );
-                  } else {
-                    handleAddFavorite(product.documentId).finally(() =>
-                      setIsLoadingFav(false),
-                    );
-                  }
-                  setIsFavorite((prev) => !prev);
-                }}
-              >
-                {isFavorite ? (
+              <button className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer">
+                {/* {isFavorite ? (
                   <IconHeartFilled className="size-6 text-primary" />
                 ) : (
                   <IconHeart className="size-6 text-primary" />
-                )}
+                )} */}
+                <IconHeart className="size-6 text-primary" />
               </button>
 
               {/* love icon */}
@@ -92,7 +60,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
                 {/* add to cart */}
 
-                {isInCart && cartItem ? (
+                {/* {isInCart && cartItem ? (
                   <>
                     <Counter
                       product={cartItem}
@@ -118,7 +86,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                   >
                     <IconShoppingCartPlus className="size-4 text-primary" />
                   </button>
-                )}
+                )} */}
               </div>
 
               <p className="text-gray-400 text-xs line-clamp-1">

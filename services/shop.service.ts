@@ -1,42 +1,39 @@
 import API_ROUTES from "@/constants/api-routes";
 import api from "@/lib/axios";
-import { reqFavorite, ResFavorite } from "@/types/shop/favorite";
-import { use } from "react";
+import { ProductType } from "@/types/product";
 
 // -------------- getProducts --------------
 
-export const getProducts = async (
+export const getShopProducts = async (
   page: number = 1,
   categories: string[] = [],
   brands: string[] = [],
   minPrice: number = 0,
   maxPrice: number = 1000,
 ) => {
-  const { data } = await api.get(API_ROUTES.shop.getProducts, {
-    params: {
-      "pagination[page]": page,
-      "pagination[pageSize]": 12,
+  const params: Record<string, any> = {
+    "pagination[page]": page,
+    "pagination[pageSize]": 12,
+    "filters[price][$gte]": minPrice,
+    "filters[price][$lte]": maxPrice,
+    populate: "*",
+  };
 
-      "filters[price][$gte]": minPrice,
-      "filters[price][$lte]": maxPrice,
-
-      populate: "*",
-
-      ...(categories.length > 0 && {
-        "filters[category][id][$in]": categories,
-      }),
-
-      ...(brands.length > 0 && {
-        "filters[brand][id][$in]": brands,
-      }),
-    },
+  categories.forEach((catId, index) => {
+    params[`filters[category][documentId][$in][${index}]`] = catId;
   });
+
+  brands.forEach((brandId, index) => {
+    params[`filters[brand][documentId][$in][${index}]`] = brandId;
+  });
+
+  const { data } = await api.get(API_ROUTES.shop.getProducts, { params });
   return data;
 };
 
 // -------------- get one product --------------
 
-export const getProduct = async (productId: string) => {
+export const getShopProduct = async (productId: string) => {
   const { data } = await api.get(API_ROUTES.shop.getProduct(productId));
 
   return data.data;
@@ -44,7 +41,7 @@ export const getProduct = async (productId: string) => {
 
 // -------------- get related products by category --------------
 
-export const getRelatedProductsByCategory = async (categoryId: number) => {
+export const getShopRelatedProductsByCategory = async (categoryId: number) => {
   const { data } = await api.get(
     API_ROUTES.shop.getRelatedProductsByCategory(categoryId),
   );
@@ -53,7 +50,7 @@ export const getRelatedProductsByCategory = async (categoryId: number) => {
 
 // -------------- get related products by brand --------------
 
-export const getRelatedProductsByBrand = async (brandId: number) => {
+export const getShopRelatedProductsByBrand = async (brandId: number) => {
   const { data } = await api.get(
     API_ROUTES.shop.getRelatedProductsByBrand(brandId),
   );
@@ -62,14 +59,14 @@ export const getRelatedProductsByBrand = async (brandId: number) => {
 
 // -------------- get brands --------------
 
-export const getBrands = async () => {
+export const getShopBrands = async () => {
   const { data } = await api.get(API_ROUTES.shop.getBrands);
   return data.data;
 };
 
 // -------------- get categories --------------
 
-export const getCategories = async () => {
+export const getShopCategories = async () => {
   const { data } = await api.get(API_ROUTES.shop.getCategories);
   return data.data;
 };

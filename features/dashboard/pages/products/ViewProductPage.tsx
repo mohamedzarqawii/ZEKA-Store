@@ -134,16 +134,15 @@ export const ViewProductPage = ({ productDocId }: ViewProps) => {
               </FieldLabel>
               <div className="flex gap-4">
                 {product?.images && product?.images?.length > 1 ? (
-                  product?.images.slice(1).map((image) => (
-                    <img
-                      key={image.id}
-                      src={getImageUrl(image.url)}
-                      onClick={() => {
-                        // handleChangeImage(image.url);
-                      }}
-                      className="border border-primary rounded-2xl w-45 h-45 object-center object-cover hover:cursor-pointer"
-                    />
-                  ))
+                  product?.images
+                    .slice(1)
+                    .map((image) => (
+                      <img
+                        key={image.id}
+                        src={getImageUrl(image.url)}
+                        className="border border-primary rounded-2xl w-45 h-45 object-center object-cover hover:cursor-pointer"
+                      />
+                    ))
                 ) : (
                   <div className="text-destructive text-sm">
                     No other images

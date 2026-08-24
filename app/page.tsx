@@ -1,8 +1,8 @@
 "use client";
 
-import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useGetProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
+import ProductCard from "@/features/shop/components/ProductCard";
 import { ProductType } from "@/types/product";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";

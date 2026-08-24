@@ -189,16 +189,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .catch(() => {
         toast.error("Current password is not correct! Try agian.");
       });
-    // deleteAccount(currentUser.id)
-    //   .then((res) => {
-    //     logout();
-    // toast.success("Your account has been deleted permanently.", {
-    //   position: "bottom-right",
-    // });
-    //   })
-    //   .catch(() => {
-    //     toast.error("Could not delete account, please try again later.");
-    //   });
   }
 
   // ---------------- Add To User Favorites (Toggle) ----------------

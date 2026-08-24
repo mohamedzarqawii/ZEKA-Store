@@ -1,6 +1,6 @@
 "use client";
 
-import { getProducts } from "@/services/shop.service";
+import { getShopProducts } from "@/services/shop.service";
 import { ProductType } from "@/types/product";
 import { IconArrowLeft, IconLockOpen2 } from "@tabler/icons-react";
 import Link from "next/link";

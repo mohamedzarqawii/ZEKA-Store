@@ -6,7 +6,7 @@ import {
 } from "@/services/adminServices/products.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Product } from "../columns";
-import { getBrands, getCategories } from "@/services/shop.service";
+import { getShopBrands, getShopCategories } from "@/services/shop.service";
 
 export const useGetProducts = (page: number = 1) => {
   return useQuery({
@@ -53,13 +53,13 @@ export const useUpdateProduct = () => {
 export const useGetCategories = () => {
   return useQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories(),
+    queryFn: () => getShopCategories(),
   });
 };
 
 export const useGetBrands = () => {
   return useQuery({
     queryKey: ["brands"],
-    queryFn: () => getBrands(),
+    queryFn: () => getShopBrands(),
   });
 };

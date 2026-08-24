@@ -8,6 +8,7 @@ import { ShoppingCartIcon } from "@animateicons/react/lucide";
 import { AnimateIcon } from "./animate-ui/icons/icon";
 import { ShieldCogCorner } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 
 const Header = () => {
   const pathname = usePathname();
@@ -20,7 +21,7 @@ const Header = () => {
     { name: "CONTACT", href: "/contact" },
   ];
 
-  const { currentUser } = useAuth();
+  const { data: currentUser } = useGetCurrentUser();
 
   return (
     <header className="top-0 left-0 z-50 sticky backdrop-blur-md w-full">

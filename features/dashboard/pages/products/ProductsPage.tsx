@@ -9,7 +9,6 @@ const ProductsPage = () => {
   // ------------------- States -------------------
   const storageKey = "productsView";
   const [productDocId, setProductDocId] = useState<string>("");
-  console.log();
 
   // ------------------- Query Fetches -------------------
   // --- get products

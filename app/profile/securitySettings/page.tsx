@@ -19,13 +19,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import SecurityInfomationCard from "@/features/profile/components/securityInfomationCard";
+import {
+  useDeleteAccount,
+  useGetCurrentUser,
+} from "@/features/auth/pages/hooks/useAuth";
 
 export default function test() {
   const router = useRouter();
-  const { haneleDeleteAccount: deleteAccount } = useAuth();
-  const handleDeleteAccount = async () => {
-    await deleteAccount();
-    router.push("/login");
+  const { data: currentUser, isLoading } = useGetCurrentUser();
+  const { mutate: deleteAccount, isPending } = useDeleteAccount();
+
+  const handleDelete = () => {
+    if (currentUser?.id) {
+      deleteAccount(currentUser.id);
+    }
   };
 
   return (
@@ -71,10 +78,7 @@ export default function test() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  variant="destructive"
-                  onClick={handleDeleteAccount}
-                >
+                <AlertDialogAction variant="destructive" onClick={handleDelete}>
                   Delete
                 </AlertDialogAction>
               </AlertDialogFooter>

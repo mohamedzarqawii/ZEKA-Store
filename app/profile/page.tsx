@@ -16,11 +16,21 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { updateProfileSchema } from "@/types/auth/profile";
 import { getChangedValues } from "@/utils/getChangedValues";
-import ProfileLeftBar from "@/components/ProfileLeftBar";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function Profile() {
-  const { currentUser, handleUpdateProfile } = useAuth();
+  const { data: currentUser, isLoading } = useGetCurrentUser();
+  const router = useRouter();
+
+  const { handleUpdateProfile } = useAuth();
   const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isLoading && !currentUser) {
+      router.replace("/login");
+    }
+  }, [currentUser, isLoading, router]);
 
   const {
     values,
@@ -46,12 +56,14 @@ export default function Profile() {
     },
   });
 
+  const dateValue = values.birthday ? new Date(values.birthday) : undefined;
+
+  if (isLoading) {
+    return <div className="p-10 text-primary">Loading profile...</div>;
+  }
   if (!currentUser) {
     return null;
   }
-
-  const dateValue = values.birthday ? new Date(values.birthday) : undefined;
-
   function capitalizeFirstLetter(val: string | undefined) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
   }
@@ -204,7 +216,7 @@ export default function Profile() {
                       ${values.gender === "male" ? "ring-secondary! ring-2! bg-secondary/10!" : ""}`}
                   >
                     <Mars className="size-5" />
-                    ضكر
+                    Male{" "}
                   </Button>
 
                   <Button
@@ -216,7 +228,7 @@ export default function Profile() {
                       ${values.gender === "female" ? "ring-secondary! ring-2! bg-secondary/10!" : ""}`}
                   >
                     <Venus className="size-5" />
-                    نتاية
+                    Female
                   </Button>
                 </div>
               </div>

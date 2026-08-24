@@ -8,24 +8,21 @@ import { useState } from "react";
 
 // -------------- get current user --------------
 
-export const getCurrentUser = (): User | null => {
-  if (typeof window === "undefined") {
-    return null;
+export const getCurrentUser = async (): Promise<User> => {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+  if (!token) {
+    throw new Error("No token found");
   }
 
-  const storedUser = localStorage.getItem("currentUser");
+  const { data } = await api.get(API_ROUTES.profile.get, {
+    params: {
+      populate: "role",
+    },
+  });
 
-  if (!storedUser) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(storedUser);
-  } catch (error) {
-    console.error("Error parsing user from localStorage:", error);
-    localStorage.removeItem("currentUser");
-    return null;
-  }
+  return data;
 };
 
 // -------------- login --------------

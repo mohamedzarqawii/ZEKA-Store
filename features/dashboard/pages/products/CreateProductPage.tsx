@@ -21,7 +21,7 @@ import {
   ReqCreateProductType,
 } from "@/types/admin/product";
 import { CreateProductAdmin } from "@/services/adminServices/products.service";
-import { getBrands, getCategories } from "@/services/shop.service";
+import { getShopBrands, getShopCategories } from "@/services/shop.service";
 import {
   useGetBrands,
   useGetCategories,
@@ -43,7 +43,6 @@ const CreateProductPage = () => {
   }
 
   const [selectedImages, setSelectedImages] = useState<PreviewImage[]>([]);
-  console.log(selectedImages);
 
   // ------------------ handle remove selected image -------------------
 
