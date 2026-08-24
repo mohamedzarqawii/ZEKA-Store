@@ -8,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import { useState, useEffect } from "react";
 import { ProductType } from "@/types/product";
 import { getBrands, getCategories, getProducts } from "@/services/shop.service";
-import { useGetProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
+
 type Option = {
   label: string;
   value: string;
