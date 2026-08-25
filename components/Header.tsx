@@ -1,5 +1,4 @@
 "use client";
-import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./animate-ui/primitives/buttons/button";

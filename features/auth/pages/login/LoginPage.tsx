@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { loginSchema } from "@/types/auth/login";
 import { useGetCurrentUser, useLogin } from "../hooks/useAuth";
+import { Spinner } from "@/components/ui/spinner";
 
 const LoginPage = () => {
-  const { mutate: handleLogin, isPending } = useLogin();
+  const { mutate: handleLogin, isPending: isLogin } = useLogin();
   const { data: currentUser, isLoading } = useGetCurrentUser();
 
   const router = useRouter();
@@ -27,7 +28,8 @@ const LoginPage = () => {
     },
   });
 
-  const { values, errors, touched, handleSubmit, handleChange } = loginFormik;
+  const { values, errors, dirty, touched, handleSubmit, handleChange } =
+    loginFormik;
 
   useEffect(() => {
     if (currentUser) {
@@ -114,10 +116,18 @@ const LoginPage = () => {
           {/* 3 */}
           <div className="flex flex-col justify-center items-center gap-4 w-full">
             <button
+              disabled={!dirty || isLogin}
               type="submit"
               className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
             >
-              LOG IN
+              {isLogin ? (
+                <span className="flex items-center gap-2">
+                  <Spinner data-icon="inline-start" />
+                  Changing
+                </span>
+              ) : (
+                "LOG IN"
+              )}
             </button>
 
             <div>
@@ -126,7 +136,7 @@ const LoginPage = () => {
                 href="/register"
                 className="text-primary hover:text-secondary transition-colors duration-300"
               >
-                Sign up
+                Sign Up
               </Link>
             </div>
           </div>

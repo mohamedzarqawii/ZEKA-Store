@@ -2,7 +2,6 @@ import { useState } from "react";
 import { CartItemType } from "@/context/CartContext";
 import { useCart } from "@/context/CartContext";
 import { IconTrash } from "@tabler/icons-react";
-import { useAuth } from "@/context/AuthContext";
 
 const Counter = ({
   product,

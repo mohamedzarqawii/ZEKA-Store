@@ -1,17 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/context/AuthContext";
-import { resetPassword } from "@/services/auth.service";
+import { Spinner } from "@/components/ui/spinner";
+import { useResestPassword } from "@/features/auth/pages/hooks/useAuth";
 import { resetPassSchema } from "@/types/auth/resetPassword";
 import { getChangedValues } from "@/utils/getChangedValues";
 
 import { useFormik } from "formik";
-import { Pencil } from "lucide-react";
-import React from "react";
 
 const SecurityInfomationCard = () => {
-  const { handleResetPassword } = useAuth();
+  const { mutate: handleResetPassword, isPending: isResetPassword } =
+    useResestPassword();
 
   const {
     values,
@@ -54,7 +53,7 @@ const SecurityInfomationCard = () => {
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-6 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
         <div className="text-md">Change Password</div>
-        <div className="flex flex-wrap gap-4 mt-5">
+        <div className="flex flex-col gap-4 mt-5">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <Field>
@@ -132,10 +131,17 @@ const SecurityInfomationCard = () => {
           <Button
             type="submit"
             variant="default"
-            disabled={!dirty}
-            className="justify-start p-6 rounded-lg outline-none text-md"
+            disabled={!dirty || isResetPassword}
+            className="justify-start p-6 rounded-lg outline-none w-fit text-md"
           >
-            Change Password
+            {isResetPassword ? (
+              <span className="flex items-center gap-2">
+                <Spinner data-icon="inline-start" />
+                Changing
+              </span>
+            ) : (
+              "Change Password"
+            )}
           </Button>
         </div>
       </div>

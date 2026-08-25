@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { CartProvider } from "@/context/CartContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
-import { AuthProvider } from "@/context/AuthContext";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   // استخدام useState لضمان إنشاء QueryClient واحدة فقط لكل sesión
@@ -22,11 +21,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <FavoritesProvider>
-          <CartProvider>{children}</CartProvider>
-        </FavoritesProvider>
-      </AuthProvider>
+      <FavoritesProvider>
+        <CartProvider>{children}</CartProvider>
+      </FavoritesProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

@@ -2,18 +2,18 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { useGetCurrentUser, useSignUp } from "../hooks/useAuth";
+import { Spinner } from "@/components/ui/spinner";
 
 const SignUpPage = () => {
   const router = useRouter();
   const { data: currentUser, isLoading } = useGetCurrentUser();
-  const { mutate: handleSignUp, isPending } = useSignUp();
+  const { mutate: handleSignUp, isPending: isSignUp } = useSignUp();
 
   const signupFormik = useFormik({
     initialValues: {
@@ -33,7 +33,8 @@ const SignUpPage = () => {
     },
   });
 
-  const { values, errors, touched, handleSubmit, handleChange } = signupFormik;
+  const { values, errors, dirty, touched, handleSubmit, handleChange } =
+    signupFormik;
 
   // -----------------------
 
@@ -161,8 +162,16 @@ const SignUpPage = () => {
             <button
               className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
               type="submit"
+              disabled={!dirty || isSignUp}
             >
-              CREATE ACCOUNT
+              {isSignUp ? (
+                <span className="flex items-center gap-2">
+                  <Spinner data-icon="inline-start" />
+                  Changing
+                </span>
+              ) : (
+                "CREATE ACCOUNT"
+              )}
             </button>
             <div>
               Already a member?{" "}

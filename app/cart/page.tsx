@@ -1,7 +1,6 @@
 "use client";
 
 import ItemCart from "@/components/CartItemCard";
-import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 
@@ -10,7 +9,7 @@ export default function CartPage() {
     "idle" | "processing" | "success"
   >("idle");
   const { cart } = useCart();
-  const { checkout } = useAuth();
+  // const { checkout } = useAuth();
   const subtotal = cart.reduce((sum, item) => {
     return sum + item.price * item.quantity;
   }, 0);
@@ -26,7 +25,7 @@ export default function CartPage() {
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    checkout();
+    // checkout();
   }
 
   return (

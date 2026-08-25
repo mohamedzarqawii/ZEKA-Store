@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Button } from "./animate-ui/primitives/buttons/button";
+import { Button } from "../../../components/animate-ui/primitives/buttons/button";
 
 // import { useFavorites } from "@/context/FavoritesContext";
 
@@ -17,10 +17,10 @@ import {
 
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import { User } from "@/components/animate-ui/icons/user";
-import { Heart } from "./animate-ui/icons/heart";
-import { Bell } from "./animate-ui/icons/bell";
-import { MapPin } from "./animate-ui/icons/map-pin";
-import { LogOut } from "./animate-ui/icons/log-out";
+import { Heart } from "../../../components/animate-ui/icons/heart";
+import { Bell } from "../../../components/animate-ui/icons/bell";
+import { MapPin } from "../../../components/animate-ui/icons/map-pin";
+import { LogOut } from "../../../components/animate-ui/icons/log-out";
 import { handleHover } from "@/lib/handle-hover";
 import type { IconHandle } from "@animateicons/react";
 import {

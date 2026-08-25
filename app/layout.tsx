@@ -3,9 +3,6 @@ import { Bruno_Ace, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { cn } from "@/lib/utils";
-import { CartProvider } from "@/context/CartContext";
-import { FavoritesProvider } from "@/context/FavoritesContext";
-import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
 
@@ -33,15 +30,9 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans dark", inter.variable)}>
       <body className={bruno.className}>
         <Providers>
-          <AuthProvider>
-            <FavoritesProvider>
-              <CartProvider>
-                <Header />
-                {children}
-                <Toaster className="font-bruno!" />
-              </CartProvider>
-            </FavoritesProvider>
-          </AuthProvider>
+          <Header />
+          {children}
+          <Toaster className="font-bruno!" />
         </Providers>
       </body>
     </html>

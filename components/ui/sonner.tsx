@@ -44,7 +44,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           <HugeiconsIcon
             icon={MultiplicationSignCircleIcon}
             strokeWidth={2}
-            className="size-4"
+            className="size-4 text-destructive"
           />
         ),
         loading: (
@@ -65,17 +65,17 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          toast: "cn-toast ",
 
-          title: "font-extrabold text-xs",
+          title: "font-extrabold text-xs ",
 
-          description: "font-bold text-xs text-muted-foreground uppercase",
+          description: "font-bold text-xs text-muted-foreground uppercase ",
 
           actionButton:
-            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground font-extrabold uppercase text-xs rounded-lg",
+            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground  font-extrabold uppercase text-xs rounded-lg",
 
           cancelButton:
-            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground font-extrabold uppercase text-xs rounded-lg",
+            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground  font-extrabold uppercase text-xs rounded-lg",
         },
       }}
       {...props}

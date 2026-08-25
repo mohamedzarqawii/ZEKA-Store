@@ -1,6 +1,4 @@
-import { AnimateIcon } from "@/components/animate-ui/icons/icon";
-
-import ProfileLeftBar from "@/components/ProfileLeftBar";
+import ProfileLeftBar from "@/features/profile/components/ProfileLeftBar";
 
 export default function ProfileLayout({
   children,

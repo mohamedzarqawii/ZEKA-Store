@@ -2,10 +2,10 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { ProductType } from "@/types/product";
-import { useAuth } from "@/context/AuthContext";
 import { products } from "@/data/products";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 
 export type CartItemType = ProductType & { quantity: number };
 
@@ -20,7 +20,7 @@ const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { currentUser } = useAuth();
+  const { data: currentUser } = useGetCurrentUser();
 
   useEffect(() => {
     if (!currentUser?.cart) {

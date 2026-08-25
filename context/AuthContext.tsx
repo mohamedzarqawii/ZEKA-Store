@@ -1,458 +1,459 @@
-"use client";
+// "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { User } from "@/types/user";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { API_URL } from "@/lib/api";
-import {
-  deleteAccount,
-  login,
-  resetPassword,
-  signUp,
-} from "@/services/auth.service";
-import { getProfile, updateProfile } from "@/services/profile.service";
-import { kebabCase, random } from "lodash";
-import { reqUpdateProfile } from "@/types/auth/profile";
-import { ReqResetPassType } from "@/types/auth/resetPassword";
-import { ReqLoginType } from "@/types/auth/login";
+// import { createContext, useContext, useEffect, useState } from "react";
+// import { User } from "@/types/user";
+// import { toast } from "sonner";
+// import { useRouter } from "next/navigation";
+// import { API_URL } from "@/lib/api";
+// import {
+//   deleteAccount,
+//   login,
+//   resetPassword,
+//   signUp,
+// } from "@/services/auth.service";
+// import { getProfile, updateProfile } from "@/services/profile.service";
+// import { kebabCase, random } from "lodash";
+// import { reqUpdateProfile } from "@/types/auth/profile";
+// import { ReqResetPassType } from "@/types/auth/resetPassword";
+// import { ReqLoginType } from "@/types/auth/login";
 
-type AuthContextType = {
-  currentUser: User | null;
+// type AuthContextType = {
+//   currentUser: User | null;
 
-  handleLogin: (data: ReqLoginType) => void;
-  logout: () => void;
-  handleSignUp: (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-  ) => void;
-  handleUpdateProfile: (data: reqUpdateProfile) => void;
-  haneleDeleteAccount: () => void;
-  addToUserFavorites: (productId: number) => void;
-  removeFromUserFavorites: (productId: number) => void;
-  // checkout: () => void;
-  handleResetPassword: (data: ReqResetPassType) => void;
-  // addToUserCart: (productId: number, quantity: number) => void;
-  // removeFromUserCart: (productId: number) => void;
-};
+//   handleLogin: (data: ReqLoginType) => void;
+//   logout: () => void;
+//   handleSignUp: (
+//     firstName: string,
+//     lastName: string,
+//     email: string,
+//     password: string,
+//   ) => void;
+//   handleUpdateProfile: (data: reqUpdateProfile) => void;
+//   haneleDeleteAccount: () => void;
+//   addToUserFavorites: (productId: number) => void;
+//   removeFromUserFavorites: (productId: number) => void;
+//   // checkout: () => void;
+//   handleResetPassword: (data: ReqResetPassType) => void;
+//   // addToUserCart: (productId: number, quantity: number) => void;
+//   // removeFromUserCart: (productId: number) => void;
+// };
 
-const AuthContext = createContext<AuthContextType | null>(null);
+// const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const router = useRouter();
+// export function AuthProvider({ children }: { children: React.ReactNode }) {
+//   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("currentUser");
-    const storedToken = localStorage.getItem("token");
-    if (storedToken && storedUser) {
-      try {
-        setCurrentUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error("Error parsing user from localStorage:", error);
-        localStorage.removeItem("currentUser");
-      }
-    }
-  }, []);
+//   const router = useRouter();
 
-  useEffect(() => {
-    if (currentUser)
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    else localStorage.removeItem("currentUser");
-  }, [currentUser]);
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem("currentUser");
+//     const storedToken = localStorage.getItem("token");
+//     if (storedToken && storedUser) {
+//       try {
+//         setCurrentUser(JSON.parse(storedUser));
+//       } catch (error) {
+//         console.error("Error parsing user from localStorage:", error);
+//         localStorage.removeItem("currentUser");
+//       }
+//     }
+//   }, []);
 
-  // ---------------- Login ----------------
-  function handleLogin(data: ReqLoginType) {
-    login(data)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("token", res.jwt);
+//   useEffect(() => {
+//     if (currentUser)
+//       localStorage.setItem("currentUser", JSON.stringify(currentUser));
+//     else localStorage.removeItem("currentUser");
+//   }, [currentUser]);
 
-          getProfile().then((res) => {
-            console.log(res);
-            toast.success("Login Successfully", { position: "bottom-right" });
-            setCurrentUser(res);
-            router.push("/profile");
-          });
-        }
-      })
-      .catch((error) => {
-        toast.error("Invalid email or password please register first!", {
-          position: "bottom-right",
-          action: {
-            label: "Register",
-            onClick: () => router.push("/register"),
-          },
-        });
-      });
-  }
+//   // ---------------- Login ----------------
+//   function handleLogin(data: ReqLoginType) {
+//     login(data)
+//       .then((res) => {
+//         if (res) {
+//           localStorage.setItem("token", res.jwt);
 
-  // ---------------- Signup ----------------
-  function handleSignUp(
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-  ) {
-    const username = kebabCase(
-      `${firstName} ${lastName} ${random(1000, 9000)}`,
-    );
+//           getProfile().then((res) => {
+//             console.log(res);
+//             toast.success("Login Successfully", { position: "bottom-right" });
+//             setCurrentUser(res);
+//             router.push("/profile");
+//           });
+//         }
+//       })
+//       .catch((error) => {
+//         toast.error("Invalid email or password please register first!", {
+//           position: "bottom-right",
+//           action: {
+//             label: "Register",
+//             onClick: () => router.push("/register"),
+//           },
+//         });
+//       });
+//   }
 
-    signUp({ username, email, password })
-      .then((res) => {
-        localStorage.setItem("token", res.jwt);
-        const userId = res.user.id;
+//   // ---------------- Signup ----------------
+//   function handleSignUp(
+//     firstName: string,
+//     lastName: string,
+//     email: string,
+//     password: string,
+//   ) {
+//     const username = kebabCase(
+//       `${firstName} ${lastName} ${random(1000, 9000)}`,
+//     );
 
-        console.log({
-          username,
+//     signUp({ username, email, password })
+//       .then((res) => {
+//         localStorage.setItem("token", res.jwt);
+//         const userId = res.user.id;
 
-          email,
+//         console.log({
+//           username,
 
-          password,
-        });
-        updateProfile(userId, { firstName, lastName }).then((res) => {
-          toast.success("Account Created Successfully", {
-            position: "bottom-right",
-          });
-          setCurrentUser(res);
+//           email,
 
-          router.push("/profile");
-        });
-      })
-      .catch((res) => {
-        toast.error(res.error.message || "This Account Already Exists!", {
-          position: "bottom-right",
-        });
-        return;
-      });
-  }
+//           password,
+//         });
+//         updateProfile(userId, { firstName, lastName }).then((res) => {
+//           toast.success("Account Created Successfully", {
+//             position: "bottom-right",
+//           });
+//           setCurrentUser(res);
 
-  // ---------------- Logout ----------------
-  function logout() {
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("token");
-    setCurrentUser(null);
-    router.push("/login");
-  }
+//           router.push("/profile");
+//         });
+//       })
+//       .catch((res) => {
+//         toast.error(res.error.message || "This Account Already Exists!", {
+//           position: "bottom-right",
+//         });
+//         return;
+//       });
+//   }
 
-  // ---------------- Update Profile ----------------
+//   // ---------------- Logout ----------------
+//   function logout() {
+//     localStorage.removeItem("currentUser");
+//     localStorage.removeItem("token");
+//     setCurrentUser(null);
+//     router.push("/login");
+//   }
 
-  function handleUpdateProfile(data: reqUpdateProfile) {
-    if (!currentUser) return;
+//   // ---------------- Update Profile ----------------
 
-    updateProfile(currentUser.id, data)
-      .then((res) => {
-        setCurrentUser({
-          ...res,
-          cart: currentUser.cart,
-          favorite: currentUser.favorite,
-        });
+//   function handleUpdateProfile(data: reqUpdateProfile) {
+//     if (!currentUser) return;
 
-        toast.success("Profile Updated Successfully !", {
-          position: "bottom-right",
-        });
-      })
-      .catch((res) => {
-        toast.error("Could not update profile, please try again later.");
-      });
-  }
+//     updateProfile(currentUser.id, data)
+//       .then((res) => {
+//         setCurrentUser({
+//           ...res,
+//           cart: currentUser.cart,
+//           favorite: currentUser.favorite,
+//         });
 
-  // ---------------- Delete Account ----------------
-  function haneleDeleteAccount() {
-    if (!currentUser) return;
+//         toast.success("Profile Updated Successfully !", {
+//           position: "bottom-right",
+//         });
+//       })
+//       .catch((res) => {
+//         toast.error("Could not update profile, please try again later.");
+//       });
+//   }
 
-    deleteAccount(currentUser.id)
-      .then((res) => {
-        logout();
-        toast.success("Your account has been deleted permanently.", {
-          position: "bottom-right",
-        });
-      })
-      .catch(() => {
-        toast.error("Could not delete account, please try again later.");
-      });
-  }
+//   // ---------------- Delete Account ----------------
+//   function haneleDeleteAccount() {
+//     if (!currentUser) return;
 
-  // ---------------- Reset Password ----------------
+//     deleteAccount(currentUser.id)
+//       .then((res) => {
+//         logout();
+//         toast.success("Your account has been deleted permanently.", {
+//           position: "bottom-right",
+//         });
+//       })
+//       .catch(() => {
+//         toast.error("Could not delete account, please try again later.");
+//       });
+//   }
 
-  function handleResetPassword(data: ReqResetPassType) {
-    if (!currentUser) return;
+//   // ---------------- Reset Password ----------------
 
-    resetPassword(data)
-      .then((res) => {
-        toast.success("Your Password has been changed successfully.", {
-          position: "bottom-right",
-        });
-      })
-      .catch(() => {
-        toast.error("Current password is not correct! Try agian.");
-      });
-  }
+//   function handleResetPassword(data: ReqResetPassType) {
+//     if (!currentUser) return;
 
-  // ---------------- Add To User Favorites (Toggle) ----------------
-  async function addToUserFavorites(productId: number) {
-    if (!currentUser) {
-      toast.warning("Please login to add items to your favorites", {
-        position: "bottom-right",
-      });
-      return;
-    }
+//     resetPassword(data)
+//       .then((res) => {
+//         toast.success("Your Password has been changed successfully.", {
+//           position: "bottom-right",
+//         });
+//       })
+//       .catch(() => {
+//         toast.error("Current password is not correct! Try agian.");
+//       });
+//   }
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Session expired, please login again");
-      return;
-    }
+//   // ---------------- Add To User Favorites (Toggle) ----------------
+//   async function addToUserFavorites(productId: number) {
+//     if (!currentUser) {
+//       toast.warning("Please login to add items to your favorites", {
+//         position: "bottom-right",
+//       });
+//       return;
+//     }
 
-    try {
-      const currentFavorites = currentUser.favorite || [];
-      const isExisting = currentFavorites.some(
-        (item) => item.productId === productId,
-      );
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//       toast.error("Session expired, please login again");
+//       return;
+//     }
 
-      let updatedFavorites;
-      let isAdded = false;
+//     try {
+//       const currentFavorites = currentUser.favorite || [];
+//       const isExisting = currentFavorites.some(
+//         (item) => item.productId === productId,
+//       );
 
-      if (isExisting) {
-        updatedFavorites = currentFavorites.filter(
-          (item) => item.productId !== productId,
-        );
-        isAdded = false;
-      } else {
-        updatedFavorites = [...currentFavorites, { productId }];
-        isAdded = true;
-      }
+//       let updatedFavorites;
+//       let isAdded = false;
 
-      const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ favorites: updatedFavorites }),
-      });
+//       if (isExisting) {
+//         updatedFavorites = currentFavorites.filter(
+//           (item) => item.productId !== productId,
+//         );
+//         isAdded = false;
+//       } else {
+//         updatedFavorites = [...currentFavorites, { productId }];
+//         isAdded = true;
+//       }
 
-      if (!response.ok) throw new Error("Failed to update favorites");
+//       const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({ favorites: updatedFavorites }),
+//       });
 
-      setCurrentUser({ ...currentUser, favorite: updatedFavorites });
-      toast.success(
-        isAdded ? "Added to favorites!" : "Removed from favorites",
-        { position: "bottom-right" },
-      );
-    } catch (error) {
-      console.error("Favorites error:", error);
-      toast.error("Could not update favorites.");
-    }
-  }
+//       if (!response.ok) throw new Error("Failed to update favorites");
 
-  // ---------------- Remove From User Favorites ----------------
-  async function removeFromUserFavorites(productId: number) {
-    if (!currentUser) return;
-    // استدعاء نفس منطق الفلترة المباشر لحذفه دون الحاجة لأكواد LocalStorage القديمة
-    await addToUserFavorites(productId);
-  }
+//       setCurrentUser({ ...currentUser, favorite: updatedFavorites });
+//       toast.success(
+//         isAdded ? "Added to favorites!" : "Removed from favorites",
+//         { position: "bottom-right" },
+//       );
+//     } catch (error) {
+//       console.error("Favorites error:", error);
+//       toast.error("Could not update favorites.");
+//     }
+//   }
 
-  // // ---------------- Add To User Cart ----------------
-  // async function addToUserCart(productId: number, quantity: number) {
-  //   if (!currentUser) {
-  //     toast.warning("Please login to add items to your cart", {
-  //       position: "bottom-right",
-  //     });
-  //     return;
-  //   }
+//   // ---------------- Remove From User Favorites ----------------
+//   async function removeFromUserFavorites(productId: number) {
+//     if (!currentUser) return;
+//     // استدعاء نفس منطق الفلترة المباشر لحذفه دون الحاجة لأكواد LocalStorage القديمة
+//     await addToUserFavorites(productId);
+//   }
 
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     toast.error("Session expired, please login again");
-  //     return;
-  //   }
+//   // // ---------------- Add To User Cart ----------------
+//   // async function addToUserCart(productId: number, quantity: number) {
+//   //   if (!currentUser) {
+//   //     toast.warning("Please login to add items to your cart", {
+//   //       position: "bottom-right",
+//   //     });
+//   //     return;
+//   //   }
 
-  //   try {
-  //     const currentCart = currentUser.cart || [];
-  //     const existingItemIndex = currentCart.findIndex(
-  //       (item) => item.id === productId,
-  //     );
+//   //   const token = localStorage.getItem("token");
+//   //   if (!token) {
+//   //     toast.error("Session expired, please login again");
+//   //     return;
+//   //   }
 
-  //     let updatedCart;
-  //     if (existingItemIndex > -1) {
-  //       updatedCart = currentCart.map((item, index) =>
-  //         index === existingItemIndex
-  //           ? { ...item, quantity: item.quantity + 1 }
-  //           : item,
-  //       );
-  //     } else {
-  //       updatedCart = [...currentCart, { productId, quantity }];
-  //     }
+//   //   try {
+//   //     const currentCart = currentUser.cart || [];
+//   //     const existingItemIndex = currentCart.findIndex(
+//   //       (item) => item.id === productId,
+//   //     );
 
-  //     const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({ cart: updatedCart }),
-  //     });
+//   //     let updatedCart;
+//   //     if (existingItemIndex > -1) {
+//   //       updatedCart = currentCart.map((item, index) =>
+//   //         index === existingItemIndex
+//   //           ? { ...item, quantity: item.quantity + 1 }
+//   //           : item,
+//   //       );
+//   //     } else {
+//   //       updatedCart = [...currentCart, { productId, quantity }];
+//   //     }
 
-  //     if (!response.ok) throw new Error("Failed to update cart");
+//   //     const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
+//   //       method: "PUT",
+//   //       headers: {
+//   //         "Content-Type": "application/json",
+//   //         Authorization: `Bearer ${token}`,
+//   //       },
+//   //       body: JSON.stringify({ cart: updatedCart }),
+//   //     });
 
-  //     handleUserUpdate({ ...currentUser, cart: updatedCart });
-  //     toast.success("Item added to cart successfully!", {
-  //       position: "bottom-right",
-  //     });
-  //   } catch (error) {
-  //     console.error("Add to cart error:", error);
-  //     toast.error("Could not add item to cart.");
-  //   }
-  // }
+//   //     if (!response.ok) throw new Error("Failed to update cart");
 
-  // // ---------------- Remove From User Cart ----------------
-  // async function removeFromUserCart(productId: number) {
-  //   if (!currentUser) {
-  //     toast.warning("Please login to remove items from your cart", {
-  //       position: "bottom-right",
-  //     });
-  //     return;
-  //   }
+//   //     handleUserUpdate({ ...currentUser, cart: updatedCart });
+//   //     toast.success("Item added to cart successfully!", {
+//   //       position: "bottom-right",
+//   //     });
+//   //   } catch (error) {
+//   //     console.error("Add to cart error:", error);
+//   //     toast.error("Could not add item to cart.");
+//   //   }
+//   // }
 
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     toast.error("Session expired, please login again");
-  //     return;
-  //   }
+//   // // ---------------- Remove From User Cart ----------------
+//   // async function removeFromUserCart(productId: number) {
+//   //   if (!currentUser) {
+//   //     toast.warning("Please login to remove items from your cart", {
+//   //       position: "bottom-right",
+//   //     });
+//   //     return;
+//   //   }
 
-  //   try {
-  //     const currentCart = currentUser.cart || [];
-  //     const updatedCart = currentCart.filter(
-  //       (item) => !(item.id === productId),
-  //     );
+//   //   const token = localStorage.getItem("token");
+//   //   if (!token) {
+//   //     toast.error("Session expired, please login again");
+//   //     return;
+//   //   }
 
-  //     const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({ cart: updatedCart }),
-  //     });
+//   //   try {
+//   //     const currentCart = currentUser.cart || [];
+//   //     const updatedCart = currentCart.filter(
+//   //       (item) => !(item.id === productId),
+//   //     );
 
-  //     if (!response.ok) throw new Error("Failed to remove item from cart");
+//   //     const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
+//   //       method: "PUT",
+//   //       headers: {
+//   //         "Content-Type": "application/json",
+//   //         Authorization: `Bearer ${token}`,
+//   //       },
+//   //       body: JSON.stringify({ cart: updatedCart }),
+//   //     });
 
-  //     handleUserUpdate({ ...currentUser, cart: updatedCart });
-  //     toast.success("Item removed from cart", { position: "bottom-right" });
-  //   } catch (error) {
-  //     console.error("Remove from cart error:", error);
-  //     toast.error("Could not remove item.");
-  //   }
-  // }
+//   //     if (!response.ok) throw new Error("Failed to remove item from cart");
 
-  // ---------------- Checkout ----------------
-  // function checkout() {
-  //   if (!currentUser) return;
+//   //     handleUserUpdate({ ...currentUser, cart: updatedCart });
+//   //     toast.success("Item removed from cart", { position: "bottom-right" });
+//   //   } catch (error) {
+//   //     console.error("Remove from cart error:", error);
+//   //     toast.error("Could not remove item.");
+//   //   }
+//   // }
 
-  //   const cart = currentUser.cart || [];
-  //   const currentOrders = currentUser.orders || [];
+//   // ---------------- Checkout ----------------
+//   // function checkout() {
+//   //   if (!currentUser) return;
 
-  //   const orders = [
-  //     ...currentOrders,
-  //     {
-  //       id: Date.now().toString(),
-  //       createdAt: new Date(),
-  //       products: cart,
-  //     },
-  //   ].sort((a, b) => b.id.localeCompare(a.id));
+//   //   const cart = currentUser.cart || [];
+//   //   const currentOrders = currentUser.orders || [];
 
-  //   const newUser: User = {
-  //     ...currentUser,
-  //     orders: orders,
-  //     cart: [],
-  //   };
+//   //   const orders = [
+//   //     ...currentOrders,
+//   //     {
+//   //       id: Date.now().toString(),
+//   //       createdAt: new Date(),
+//   //       products: cart,
+//   //     },
+//   //   ].sort((a, b) => b.id.localeCompare(a.id));
 
-  //   handleUserUpdate(newUser);
-  // }
+//   //   const newUser: User = {
+//   //     ...currentUser,
+//   //     orders: orders,
+//   //     cart: [],
+//   //   };
 
-  // ---------------- Update Quantity  ----------------
+//   //   handleUserUpdate(newUser);
+//   // }
 
-  // async function updateQuantity(productId: number, quantity: number) {
-  //   // setCart((prev) =>
-  //   //   prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
-  //   // );
+//   // ---------------- Update Quantity  ----------------
 
-  //   if (!currentUser) {
-  //     toast.warning("Please login to add items to your cart", {
-  //       position: "bottom-right",
-  //     });
-  //     return;
-  //   }
+//   // async function updateQuantity(productId: number, quantity: number) {
+//   //   // setCart((prev) =>
+//   //   //   prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
+//   //   // );
 
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     toast.error("Session expired, please login again");
-  //     return;
-  //   }
+//   //   if (!currentUser) {
+//   //     toast.warning("Please login to add items to your cart", {
+//   //       position: "bottom-right",
+//   //     });
+//   //     return;
+//   //   }
 
-  //   try {
-  //     const currentCart = currentUser.cart || [];
-  //     const existingItemIndex = currentCart.findIndex(
-  //       (item) => item.productId === productId,
-  //     );
+//   //   const token = localStorage.getItem("token");
+//   //   if (!token) {
+//   //     toast.error("Session expired, please login again");
+//   //     return;
+//   //   }
 
-  //     let updatedCart;
-  //     if (existingItemIndex > -1) {
-  //       updatedCart = currentCart.map((item, index) =>
-  //         index === existingItemIndex
-  //           ? { ...item, quantity: item.quantity + quantity }
-  //           : item,
-  //       );
-  //     } else {
-  //       updatedCart = [...currentCart, { productId, quantity }];
-  //     }
+//   //   try {
+//   //     const currentCart = currentUser.cart || [];
+//   //     const existingItemIndex = currentCart.findIndex(
+//   //       (item) => item.productId === productId,
+//   //     );
 
-  //     const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({ cart: updatedCart }),
-  //     });
+//   //     let updatedCart;
+//   //     if (existingItemIndex > -1) {
+//   //       updatedCart = currentCart.map((item, index) =>
+//   //         index === existingItemIndex
+//   //           ? { ...item, quantity: item.quantity + quantity }
+//   //           : item,
+//   //       );
+//   //     } else {
+//   //       updatedCart = [...currentCart, { productId, quantity }];
+//   //     }
 
-  //     if (!response.ok) throw new Error("Failed to update cart");
+//   //     const response = await fetch(`${API_URL}/api/users/${currentUser.id}`, {
+//   //       method: "PUT",
+//   //       headers: {
+//   //         "Content-Type": "application/json",
+//   //         Authorization: `Bearer ${token}`,
+//   //       },
+//   //       body: JSON.stringify({ cart: updatedCart }),
+//   //     });
 
-  //     handleUserUpdate({ ...currentUser, cart: updatedCart });
-  //     toast.success("Item added to cart successfully!", {
-  //       position: "bottom-right",
-  //     });
-  //   } catch (error) {
-  //     console.error("Add to cart error:", error);
-  //     toast.error("Could not add item to cart.");
-  //   }
-  // }
+//   //     if (!response.ok) throw new Error("Failed to update cart");
 
-  return (
-    <AuthContext.Provider
-      value={{
-        currentUser,
-        handleLogin,
-        logout,
-        handleSignUp,
-        handleUpdateProfile,
-        haneleDeleteAccount: haneleDeleteAccount,
-        addToUserFavorites,
-        removeFromUserFavorites,
-        handleResetPassword,
-        // addToUserCart,
-        // removeFromUserCart,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-}
+//   //     handleUserUpdate({ ...currentUser, cart: updatedCart });
+//   //     toast.success("Item added to cart successfully!", {
+//   //       position: "bottom-right",
+//   //     });
+//   //   } catch (error) {
+//   //     console.error("Add to cart error:", error);
+//   //     toast.error("Could not add item to cart.");
+//   //   }
+//   // }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be inside AuthProvider");
-  return context;
-}
+//   return (
+//     <AuthContext.Provider
+//       value={{
+//         currentUser,
+//         handleLogin,
+//         logout,
+//         handleSignUp,
+//         handleUpdateProfile,
+//         haneleDeleteAccount: haneleDeleteAccount,
+//         addToUserFavorites,
+//         removeFromUserFavorites,
+//         handleResetPassword,
+//         // addToUserCart,
+//         // removeFromUserCart,
+//       }}
+//     >
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// }
+
+// export function useAuth() {
+//   const context = useContext(AuthContext);
+//   if (!context) throw new Error("useAuth must be inside AuthProvider");
+//   return context;
+// }

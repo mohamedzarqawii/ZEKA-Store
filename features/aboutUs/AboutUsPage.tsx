@@ -1,9 +1,4 @@
-import Header from "@/components/Header";
-import ProductCard from "@/components/ProductCard";
-import Image from "next/image";
-import Link from "next/link";
-
-export default function Home() {
+const AboutUsPage = () => {
   return (
     <div className="mx-10">
       {/* body */}
@@ -56,4 +51,5 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+export default AboutUsPage;

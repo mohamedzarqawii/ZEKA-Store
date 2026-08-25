@@ -1,8 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { ProductType } from "@/types/product";
-import { useAuth } from "@/context/AuthContext";
+import { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 // import {
@@ -11,6 +9,7 @@ import { useRouter } from "next/navigation";
 //   removeFromFavorite,
 // } from "@/services/shop.service";
 import { FavoriteItem } from "@/types/shop/favorite";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 
 type FavoritesContextType = {
   favoritesData: FavoriteItem[];
@@ -23,7 +22,7 @@ const FavoritesContext = createContext<FavoritesContextType | null>(null);
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { currentUser } = useAuth();
+  const { data: currentUser } = useGetCurrentUser();
   const [favoritesData, setFavoritesData] = useState<FavoriteItem[]>([]);
 
   // useEffect(() => {
