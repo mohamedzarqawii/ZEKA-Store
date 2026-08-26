@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { ReqLoginType } from "@/types/auth/login";
 import { ReqResetPassType, ResResetPassType } from "@/types/auth/resetPassword";
 import { ReqSignUpType } from "@/types/auth/signup";
+import { toast } from "sonner";
 
 // -------------- get current user --------------
 export const getCurrentUser = async () => {
@@ -43,12 +44,9 @@ export const login = async ({ email, password }: ReqLoginType) => {
     email,
     password,
   });
-  if (data) {
-    console.log(data);
-  }
 
   if (error) {
-    console.log(error);
+    throw error;
   }
 
   return data;
@@ -73,12 +71,8 @@ export const signUp = async ({
     },
   });
 
-  if (data) {
-    console.log(data);
-  }
-
   if (error) {
-    console.log(error);
+    throw error;
   }
 
   return data;

@@ -34,7 +34,7 @@ export const getShopProducts = async (
   const { data, error, count } = await query;
 
   if (error) {
-    throw new Error(error.message);
+    throw error;
   }
   if (data) {
     console.log(data);
@@ -62,21 +62,30 @@ export const getShopProduct = async (productId: number) => {
     .eq("id", productId)
     .single();
 
+  if (error) {
+    throw error;
+  }
   return data;
 };
 // -------------- get categories --------------
 
 export const getShopCategories = async () => {
   const { data, error } = await supabase.from("categories").select("name , id");
-  console.log(data);
+
+  if (error) {
+    throw error;
+  }
   return data;
 };
 
 // -------------- get brands --------------
 
 export const getShopBrands = async () => {
-  const { data } = await supabase.from("brands").select("name , id");
+  const { data, error } = await supabase.from("brands").select("name , id");
 
+  if (error) {
+    throw error;
+  }
   return data;
 };
 
@@ -88,6 +97,9 @@ export const getShopRelatedProductsByCategory = async (categoryId: number) => {
     .select("* , category:categories(*) , brand:brands(*)")
     .eq("category_id", categoryId);
 
+  if (error) {
+    throw error;
+  }
   return data;
 };
 
@@ -99,6 +111,9 @@ export const getShopRelatedProductsByBrand = async (brandId: number) => {
     .select("* , category:categories(*) , brand:brands(*)")
     .eq("brand_id", brandId);
 
+  if (error) {
+    throw error;
+  }
   return data;
 };
 // ----------------- FAVORITES -----------------
@@ -112,6 +127,7 @@ export const updateUserFavorites = async (
   const { data } = await api.put(API_ROUTES.favorite.update(userId), {
     favorites: newFavorites,
   });
+
   return data;
 };
 

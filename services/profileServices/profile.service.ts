@@ -12,6 +12,9 @@ export const updateProfile = async (userId: number, body: reqUpdateProfile) => {
     .select()
     .single();
 
+  if (error) {
+    throw error;
+  }
   return data;
 };
 

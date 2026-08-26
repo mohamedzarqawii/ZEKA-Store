@@ -121,9 +121,9 @@ const LoginPage = () => {
               className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
             >
               {isLogin ? (
-                <span className="flex items-center gap-2">
+                <span className="flex justify-center items-center gap-2">
                   <Spinner data-icon="inline-start" />
-                  Changing
+                  wait..
                 </span>
               ) : (
                 "LOG IN"

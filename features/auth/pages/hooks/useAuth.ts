@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -11,8 +10,6 @@ import {
 import { ReqLoginType } from "@/types/auth/login";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { updateProfile } from "@/services/profileServices/profile.service";
-import { kebabCase, random } from "lodash";
 import { ReqResetPassType } from "@/types/auth/resetPassword";
 import { supabase } from "@/lib/supabase";
 
@@ -70,24 +67,13 @@ export const useLogin = () => {
       router.push("/profile");
     },
     onError: (error: unknown) => {
-      const status =
-        (error as ApiError).response?.data?.error?.status ||
-        (error as ApiError).response?.data?.error?.status;
-
-      switch (Number(status)) {
-        case 400:
-          toast.error("Invalid email or password, register first", {
-            position: "bottom-right",
-            action: {
-              label: "Register",
-              onClick: () => router.push("/register"),
-            },
-          });
-          break;
-        case 401:
-          toast.error("Unauthorized access", { position: "bottom-right" });
-          break;
-      }
+      toast.error("Invalid email or password, register first", {
+        position: "bottom-right",
+        action: {
+          label: "Register",
+          onClick: () => router.push("/register"),
+        },
+      });
     },
   });
 };
@@ -113,7 +99,7 @@ export const useSignUp = () => {
       // const username = kebabCase(
       //   `${firstName} ${lastName} ${random(1000, 9000)}`,
       // );
-      signUp({ firstName, lastName, email, password });
+      return signUp({ firstName, lastName, email, password });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
@@ -122,8 +108,14 @@ export const useSignUp = () => {
       });
       router.push("/profile");
     },
-    onError: (error: string) => {
-      console.log(error);
+    onError: () => {
+      toast.error("This account already exists, please login", {
+        position: "bottom-right",
+        action: {
+          label: "Login",
+          onClick: () => router.push("/login"),
+        },
+      });
     },
   });
 };
