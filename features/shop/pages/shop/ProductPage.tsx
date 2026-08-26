@@ -13,8 +13,6 @@ import ProductCard from "../../components/ProductCard";
 import {
   useGetShopProduct,
   useGetShopRelatedProductsByCategory,
-  useGetSupaShopProduct,
-  useGetSupaShopRelatedProductsByCategory,
 } from "./hooks/useShop";
 import { Loader2 } from "lucide-react";
 
@@ -26,11 +24,11 @@ const ProductPage = ({ productId }: ViewProps) => {
   const [rating, setRating] = useState(3);
 
   const { data: product, isLoading: isProductLoading } =
-    useGetSupaShopProduct(productId);
+    useGetShopProduct(productId);
 
   // ------------- get related product by category -------------
   const { data: relatedProducts = [], isLoading: isRelatedCategoryLoading } =
-    useGetSupaShopRelatedProductsByCategory(product?.category?.id);
+    useGetShopRelatedProductsByCategory(product?.category?.id);
 
   // ------------- handle change images -------------
 

@@ -12,77 +12,6 @@ export const getShopProducts = async (
   minPrice: number = 0,
   maxPrice: number = 1000,
 ) => {
-  const params: Record<string, any> = {
-    "pagination[page]": page,
-    "pagination[pageSize]": 12,
-    "filters[price][$gte]": minPrice,
-    "filters[price][$lte]": maxPrice,
-    populate: "*",
-  };
-
-  categories.forEach((catId, index) => {
-    params[`filters[category][documentId][$in][${index}]`] = catId;
-  });
-
-  brands.forEach((brandId, index) => {
-    params[`filters[brand][documentId][$in][${index}]`] = brandId;
-  });
-
-  const { data } = await api.get(API_ROUTES.shop.getProducts, { params });
-  return data;
-};
-
-// -------------- get one product --------------
-
-export const getShopProduct = async (productId: string) => {
-  const { data } = await api.get(API_ROUTES.shop.getProduct(productId));
-
-  return data.data;
-};
-
-// -------------- get related products by category --------------
-
-export const getShopRelatedProductsByCategory = async (categoryId: number) => {
-  const { data } = await api.get(
-    API_ROUTES.shop.getRelatedProductsByCategory(categoryId),
-  );
-  return data.data;
-};
-
-// -------------- get related products by brand --------------
-
-export const getShopRelatedProductsByBrand = async (brandId: number) => {
-  const { data } = await api.get(
-    API_ROUTES.shop.getRelatedProductsByBrand(brandId),
-  );
-  return data.data;
-};
-
-// -------------- get brands --------------
-
-export const getShopBrands = async () => {
-  const { data } = await api.get(API_ROUTES.shop.getBrands);
-  return data.data;
-};
-
-// -------------- get categories --------------
-
-export const getShopCategories = async () => {
-  const { data } = await api.get(API_ROUTES.shop.getCategories);
-  return data.data;
-};
-
-// ----------------- SupaBase -----------------
-
-// ----------------- getSupaProducts -----------------
-
-export const getSupaShopProducts = async (
-  page: number = 1,
-  categories: string[] = [],
-  brands: string[] = [],
-  minPrice: number = 0,
-  maxPrice: number = 1000,
-) => {
   const from = (page - 1) * 12;
   const to = from + 12 - 1;
 
@@ -124,9 +53,9 @@ export const getSupaShopProducts = async (
   };
 };
 
-// --------------------- getSupaShopProduct------------------------
+// -------------- get one product --------------
 
-export const getSupaShopProduct = async (productId: string) => {
+export const getShopProduct = async (productId: string) => {
   const { data, error } = await supabase
     .from("products")
     .select("* , category:categories(*) , brand:brands(*)")
@@ -135,28 +64,25 @@ export const getSupaShopProduct = async (productId: string) => {
 
   return data;
 };
+// -------------- get categories --------------
 
-// --------------------- getSupaShopBrands------------------------
-
-export const getSupaShopBrands = async () => {
-  const { data } = await supabase.from("brands").select("name , id");
-
-  return data;
-};
-
-// -------------- getSupaShopCategories --------------
-
-export const getSupaShopCategories = async () => {
+export const getShopCategories = async () => {
   const { data, error } = await supabase.from("categories").select("name , id");
   console.log(data);
   return data;
 };
 
-// -------------- getSupaShopRelatedProductsByCategory --------------
+// -------------- get brands --------------
 
-export const getSupaShopRelatedProductsByCategory = async (
-  categoryId: number,
-) => {
+export const getShopBrands = async () => {
+  const { data } = await supabase.from("brands").select("name , id");
+
+  return data;
+};
+
+// -------------- get related products by category --------------
+
+export const getShopRelatedProductsByCategory = async (categoryId: number) => {
   const { data, error } = await supabase
     .from("products")
     .select("* , category:categories(*) , brand:brands(*)")
@@ -165,9 +91,9 @@ export const getSupaShopRelatedProductsByCategory = async (
   return data;
 };
 
-// -------------- getSupaShopRelatedProductsByBrand --------------
+// -------------- get related products by brand --------------
 
-export const getSupaShopRelatedProductsByBrand = async (brandId: number) => {
+export const getShopRelatedProductsByBrand = async (brandId: number) => {
   const { data, error } = await supabase
     .from("products")
     .select("* , category:categories(*) , brand:brands(*)")
@@ -228,29 +154,3 @@ export const updateUserFavorites = async (
 // };
 
 // --------------------------------------
-
-// <div className="flex flex-col flex-1 gap-10 w-full min-h-screen">
-//   {/* 1 R - Header */}
-//   <div className="flex sm:flex-row flex-col justify-between items-start sm:items-end gap-2">
-//     <h1 className="font-bold text-primary text-2xl sm:text-3xl tracking-tight">
-//       ALL PRODUCTS
-//     </h1>
-//     <div className="text-zinc-400 text-xs sm:text-sm">
-//       Showing{" "}
-//       <span className="font-medium text-primary">
-//         {fromItem} - {toItem}
-//       </span>{" "}
-//       of{" "}
-//       <span className="font-medium text-primary">{productsNumber}</span>{" "}
-//       products
-//     </div>
-//   </div>
-
-//   {/* 2 R - Flexible Grid */}
-//   <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
-//     {supaProducts?.length > 0 &&
-//       supaProducts?.map((product: ProductType) => (
-//         <ProductCard key={product.id} product={product} />
-//       ))}
-//   </div>
-// </div>

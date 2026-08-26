@@ -8,12 +8,9 @@ import { useState, useEffect } from "react";
 import { ProductType } from "@/types/product";
 import ProductCard from "../../components/ProductCard";
 import {
+  useGetShopProducts,
   useGetShopBrands,
   useGetShopCategories,
-  useGetShopProducts,
-  useGetSupabseProducts,
-  useGetSupaShopBrands,
-  useGetSupaShopCategories,
 } from "./hooks/useShop";
 import { supabase } from "@/lib/supabase";
 
@@ -31,20 +28,19 @@ const ShopPage = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
   const [value, setValue] = useState<number[]>([0, 1000]);
 
-  const { data: products, isLoading: isProductsLoading } =
-    useGetSupabseProducts(
-      currentPage,
-      selectedCategories,
-      selectedBrands,
-      priceRange[0],
-      priceRange[1],
-    );
+  const { data: products, isLoading: isProductsLoading } = useGetShopProducts(
+    currentPage,
+    selectedCategories,
+    selectedBrands,
+    priceRange[0],
+    priceRange[1],
+  );
 
   // ----------- get categories and brands names ------------
 
   const { data: categories, isLoading: isCategoriesLoading } =
-    useGetSupaShopCategories();
-  const { data: brands, isLoading: isBrandsLoading } = useGetSupaShopBrands();
+    useGetShopCategories();
+  const { data: brands, isLoading: isBrandsLoading } = useGetShopBrands();
 
   const categoriesOptions: Option[] = Array.isArray(categories)
     ? categories.map((category: any) => ({

@@ -3,14 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { useGetProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
 import ProductCard from "@/features/shop/components/ProductCard";
-import { supabase } from "@/lib/supabase";
 import { ProductType } from "@/types/product";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useGetShopProducts } from "../shop/pages/shop/hooks/useShop";
 
 const HomePage = () => {
-  const { data: products, isLoading: isProductsLoading } = useGetProducts();
-  console.log(supabase);
+  const { data: products, isLoading: isProductsLoading } = useGetShopProducts();
+
+  console.log(products);
 
   return (
     <div className="mx-10">
@@ -60,8 +61,9 @@ const HomePage = () => {
               <Loader2 className="w-8 h-8 text-primary animate-spin" />
             </div>
           ) : (
-            <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 xl:grid-cols-4 w-full">
-              {products?.data?.length > 0 &&
+            <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
+              {products?.data &&
+                products?.data?.length > 0 &&
                 products?.data?.map((product: ProductType) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

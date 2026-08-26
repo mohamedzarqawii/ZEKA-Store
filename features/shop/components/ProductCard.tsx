@@ -11,11 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import Counter from "@/components/Counter";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
-  console.log({
-    id: product.id,
-    images: product.images,
-    image: product.images?.[0],
-  });
   return (
     <div>
       <Link href={`/shop/${product.id}`}>
