@@ -50,11 +50,11 @@ const ProfilePage = () => {
 
   const [open, setOpen] = useState(false);
 
-  // useEffect(() => {
-  //   if (!isLoading && !currentUser) {
-  //     router.replace("/login");
-  //   }
-  // }, [currentUser, isLoading, router]);
+  useEffect(() => {
+    if (!isLoading && !currentUser) {
+      router.replace("/login");
+    }
+  }, [currentUser, isLoading, router]);
 
   type ProfileFormValues = {
     first_name: string;
