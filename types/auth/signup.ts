@@ -1,7 +1,8 @@
 import * as y from "yup";
 
 export const singUpSchema = y.object({
-  username: y.string().required(),
+  firstName: y.string().required(),
+  lastName: y.string(),
   email: y.string().email().required(),
   password: y.string().min(6).required(),
 });

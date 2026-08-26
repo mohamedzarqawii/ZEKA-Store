@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { updateProfile } from "@/services/profileServices/profile.service";
 import { kebabCase, random } from "lodash";
 import { ReqResetPassType } from "@/types/auth/resetPassword";
+import { supabase } from "@/lib/supabase";
 
 const AUTH_TOKEN_CHANGED_EVENT = "auth-token-changed";
 
@@ -48,40 +49,12 @@ const getErrorMessage = (error: unknown, fallback: string) => {
     fallback
   );
 };
-
 export const useGetCurrentUser = () => {
-  const [token, setToken] = useState<string | null>(null);
-  const [isTokenReady, setIsTokenReady] = useState(false);
-
-  useEffect(() => {
-    const syncToken = () => {
-      setToken(localStorage.getItem("token"));
-      setIsTokenReady(true);
-    };
-
-    syncToken();
-    window.addEventListener("storage", syncToken);
-    window.addEventListener(AUTH_TOKEN_CHANGED_EVENT, syncToken);
-
-    return () => {
-      window.removeEventListener("storage", syncToken);
-      window.removeEventListener(AUTH_TOKEN_CHANGED_EVENT, syncToken);
-    };
-  }, []);
-
-  const query = useQuery({
+  return useQuery({
     queryKey: ["currentUser"],
-    queryFn: () => getCurrentUser(),
-    enabled: isTokenReady && !!token,
+    queryFn: getCurrentUser,
     retry: false,
   });
-
-  return {
-    ...query,
-    hasToken: !!token,
-    isLoading: !isTokenReady || (!!token && query.isLoading),
-    isTokenReady,
-  };
 };
 
 export const useLogin = () => {
@@ -91,7 +64,6 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (body: ReqLoginType) => login(body),
     onSuccess: (res) => {
-      localStorage.setItem("token", res.jwt);
       notifyAuthTokenChanged();
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       toast.success("Login Successfully", { position: "bottom-right" });
@@ -138,23 +110,10 @@ export const useSignUp = () => {
       email,
       password,
     }: SignUpParams) => {
-      const username = kebabCase(
-        `${firstName} ${lastName} ${random(1000, 9000)}`,
-      );
-      const res = await signUp({ username, email, password });
-
-      localStorage.setItem("token", res.jwt);
-      notifyAuthTokenChanged();
-
-      if (res.user?.id) {
-        await updateProfile(res.user.id, { firstName, lastName }).catch(() => {
-          (toast.error("Failed to load profile!"),
-            {
-              position: "bottom-right",
-            });
-        });
-      }
-      return res;
+      // const username = kebabCase(
+      //   `${firstName} ${lastName} ${random(1000, 9000)}`,
+      // );
+      signUp({ firstName, lastName, email, password });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
@@ -164,24 +123,7 @@ export const useSignUp = () => {
       router.push("/profile");
     },
     onError: (error: string) => {
-      const status =
-        (error as ApiError).response?.data?.error?.status ||
-        (error as ApiError).response?.data?.error?.status;
-
-      switch (Number(status)) {
-        case 400:
-          toast.error("This account already exist, please login", {
-            position: "bottom-right",
-            action: {
-              label: "Login",
-              onClick: () => router.push("/login"),
-            },
-          });
-          break;
-        case 401:
-          toast.error(error, { position: "bottom-right" });
-          break;
-      }
+      console.log(error);
     },
   });
 };
@@ -190,8 +132,8 @@ export const useLogout = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  return () => {
-    localStorage.removeItem("token");
+  return async () => {
+    const { error } = await supabase.auth.signOut();
     notifyAuthTokenChanged();
     queryClient.clear();
     router.push("/login");

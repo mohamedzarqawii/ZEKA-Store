@@ -15,6 +15,7 @@ import {
   useGetSupaShopBrands,
   useGetSupaShopCategories,
 } from "./hooks/useShop";
+import { supabase } from "@/lib/supabase";
 
 type Option = {
   label: string;

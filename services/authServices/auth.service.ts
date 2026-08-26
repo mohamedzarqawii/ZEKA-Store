@@ -1,39 +1,86 @@
 import API_ROUTES from "@/constants/api-routes";
 import api from "@/lib/axios";
-import { ReqLoginType, ResLoginType } from "@/types/auth/login";
+import { supabase } from "@/lib/supabase";
+import { ReqLoginType } from "@/types/auth/login";
 import { ReqResetPassType, ResResetPassType } from "@/types/auth/resetPassword";
-import { ReqSignUpType, ResSignUpType } from "@/types/auth/signup";
-import { User } from "@/types/user";
-import { useState } from "react";
+import { ReqSignUpType } from "@/types/auth/signup";
 
 // -------------- get current user --------------
+export const getCurrentUser = async () => {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
-export const getCurrentUser = async (): Promise<User> => {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
-  if (!token) {
-    throw new Error("No token found");
+  if (authError) {
+    throw authError;
   }
 
-  const { data } = await api.get(API_ROUTES.profile.get, {
-    params: {
-      populate: "role",
-    },
-  });
+  if (!user) {
+    return null;
+  }
 
-  return data;
+  const { data: profile, error: profileError } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    throw profileError;
+  }
+
+  return {
+    ...user,
+    ...profile,
+  };
 };
 
 // -------------- login --------------
-export const login = async (body: ReqLoginType) => {
-  const { data } = await api.post<ResLoginType>(API_ROUTES.auth.login, body);
+
+export const login = async ({ email, password }: ReqLoginType) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (data) {
+    console.log(data);
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
   return data;
 };
 
 // -------------- sign up --------------
-export const signUp = async (body: ReqSignUpType) => {
-  const { data } = await api.post<ResSignUpType>(API_ROUTES.auth.signup, body);
+
+export const signUp = async ({
+  email,
+  password,
+  firstName,
+  lastName,
+}: ReqSignUpType) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+      },
+    },
+  });
+
+  if (data) {
+    console.log(data);
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
   return data;
 };
 

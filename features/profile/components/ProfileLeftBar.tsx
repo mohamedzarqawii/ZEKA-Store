@@ -5,8 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../../../components/animate-ui/primitives/buttons/button";
 
-// import { useFavorites } from "@/context/FavoritesContext";
-
 import {
   ShoppingBasketIcon,
   CreditCardIcon,

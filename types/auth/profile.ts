@@ -1,9 +1,8 @@
-import { error } from "console";
 import * as y from "yup";
 
 export const updateProfileSchema = y.object({
-  firstName: y.string().notRequired(),
-  lastName: y.string().notRequired(),
+  first_name: y.string().notRequired(),
+  last_name: y.string().notRequired(),
   gender: y.string().oneOf(["male", "female"]).notRequired(),
   birthday: y.string().notRequired(),
 });

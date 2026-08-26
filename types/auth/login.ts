@@ -1,7 +1,7 @@
 import * as y from "yup";
 
 export const loginSchema = y.object({
-  identifier: y.string().email().required("Email is required"),
+  email: y.string().email().required("Email is required"),
   password: y
     .string()
     .min(6, "Password must be at least 6 characters")

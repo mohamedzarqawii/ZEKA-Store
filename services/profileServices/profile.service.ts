@@ -1,22 +1,30 @@
 import API_ROUTES from "@/constants/api-routes";
 import api from "@/lib/axios";
+import { supabase } from "@/lib/supabase";
 import { reqUpdateProfile } from "@/types/auth/profile";
 // -------------- update profile --------------
 
 export const updateProfile = async (userId: number, body: reqUpdateProfile) => {
-  const { data } = await api.put(API_ROUTES.profile.update(userId), body, {
-    params: {},
-  });
+  const { data, error } = await supabase
+    .from("users")
+    .update(body)
+    .eq("id", userId)
+    .select()
+    .single();
+
   return data;
 };
 
 // -------------- get profile --------------
-export const getProfile = async () => {
-  const { data } = await api.get(API_ROUTES.profile.get, {
-    params: {
-      populate: "role",
-    },
-  });
+
+export const getProfile = async (userId: number) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  if (error) throw error;
 
   return data;
 };

@@ -53,7 +53,7 @@ const Header = () => {
 
         <div className="flex justify-center items-center gap-3">
           <div>
-            {currentUser?.role?.name === "Admin" ? (
+            {currentUser?.role === "admin" ? (
               <Button className="hover:cursor-pointer">
                 <Link href="/admin">
                   <ShieldCogCorner

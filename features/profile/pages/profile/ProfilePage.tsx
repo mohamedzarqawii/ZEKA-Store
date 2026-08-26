@@ -42,18 +42,26 @@ function formatBirthday(value: string | null | undefined) {
 
 const ProfilePage = () => {
   const { data: currentUser, isLoading } = useGetCurrentUser();
-  const { mutateAsync: handleUpdateProfile, isPending } = useUpdateProfile();
+  const { mutateAsync: handleUpdateProfile, isPending: isProfileUpdating } =
+    useUpdateProfile();
 
+  console.log(currentUser);
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (!isLoading && !currentUser) {
-      router.replace("/login");
-    }
-  }, [currentUser, isLoading, router]);
+  // useEffect(() => {
+  //   if (!isLoading && !currentUser) {
+  //     router.replace("/login");
+  //   }
+  // }, [currentUser, isLoading, router]);
 
+  type ProfileFormValues = {
+    first_name: string;
+    last_name: string;
+    gender: "male" | "female" | null;
+    birthday: string | null;
+  };
   const {
     values,
     errors,
@@ -63,11 +71,11 @@ const ProfilePage = () => {
     setFieldValue,
     initialValues,
     dirty,
-  } = useFormik({
+  } = useFormik<ProfileFormValues>({
     enableReinitialize: true,
     initialValues: {
-      firstName: currentUser?.firstName || "",
-      lastName: currentUser?.lastName || "",
+      first_name: currentUser?.first_name || "",
+      last_name: currentUser?.last_name || "",
       gender: currentUser?.gender || null,
       birthday: currentUser?.birthday || null,
     },
@@ -95,10 +103,10 @@ const ProfilePage = () => {
   }
 
   function handleErrors(type: string) {
-    if (type == "firstName") {
-      return capitalizeFirstLetter(errors.firstName);
-    } else if (type == "lastName") {
-      return capitalizeFirstLetter(errors.lastName);
+    if (type == "first_name") {
+      return capitalizeFirstLetter(errors.first_name);
+    } else if (type == "last_name") {
+      return capitalizeFirstLetter(errors.last_name);
     }
   }
 
@@ -141,15 +149,15 @@ const ProfilePage = () => {
                     First Name
                   </FieldLabel>
                   <Input
-                    id="firstName"
-                    name="firstName"
-                    value={values.firstName}
+                    id="first_name"
+                    name="first_name"
+                    value={values.first_name}
                     onChange={handleChange}
                     className="w-100!"
-                    aria-invalid={!!errors.firstName && !!touched.firstName}
+                    aria-invalid={!!errors.first_name && !!touched.first_name}
                   />
-                  {errors.firstName && touched.firstName && (
-                    <FieldError>{handleErrors("firstName")}</FieldError>
+                  {errors.first_name && touched.first_name && (
+                    <FieldError>{handleErrors("first_name")}</FieldError>
                   )}
                 </Field>
               </div>
@@ -160,15 +168,15 @@ const ProfilePage = () => {
                     Last Name
                   </FieldLabel>
                   <Input
-                    id="lastName"
-                    name="lastName"
-                    value={values.lastName}
+                    id="last_name"
+                    name="last_name"
+                    value={values.last_name}
                     onChange={handleChange}
                     className="w-100!"
-                    aria-invalid={!!errors.lastName && !!touched.lastName}
+                    aria-invalid={!!errors.last_name && !!touched.last_name}
                   />
-                  {errors.lastName && touched.lastName && (
-                    <FieldError>{handleErrors("lastName")}</FieldError>
+                  {errors.last_name && touched.last_name && (
+                    <FieldError>{handleErrors("last_name")}</FieldError>
                   )}
                 </Field>
               </div>

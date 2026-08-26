@@ -19,7 +19,7 @@ const LoginPage = () => {
 
   const loginFormik = useFormik({
     initialValues: {
-      identifier: "",
+      email: "",
       password: "",
     },
     validationSchema: loginSchema,
@@ -75,14 +75,14 @@ const LoginPage = () => {
                 Email<span className="text-destructive">*</span>
               </FieldLabel>
               <Input
-                name="identifier"
+                name="email"
                 type="email"
-                value={values.identifier}
+                value={values.email}
                 onChange={handleChange}
-                aria-invalid={!!errors.identifier && !!touched.identifier}
+                aria-invalid={!!errors.email && !!touched.email}
               />
-              {errors.identifier && touched.identifier && (
-                <FieldError>{errors.identifier}</FieldError>
+              {errors.email && touched.email && (
+                <FieldError>{errors.email}</FieldError>
               )}
             </Field>
 
