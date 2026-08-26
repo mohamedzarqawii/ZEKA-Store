@@ -1,5 +1,4 @@
 import SignUpPage from "@/features/auth/pages/signUp/SignupPage";
-import React from "react";
 
 const sigup = () => {
   return (

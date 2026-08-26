@@ -1,4 +1,4 @@
-import { updateProfile } from "@/services/profile.service";
+import { updateProfile } from "@/services/profileServices/profile.service";
 import { reqUpdateProfile } from "@/types/auth/profile";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

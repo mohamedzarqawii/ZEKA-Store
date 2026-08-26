@@ -1,5 +1,4 @@
 import AboutUsPage from "@/features/aboutUs/AboutUsPage";
-import React from "react";
 
 const aboutUs = () => {
   return (

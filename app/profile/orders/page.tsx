@@ -1,5 +1,4 @@
-import OrdersPage from "@/features/profile/pages/orders/OrdersPage";
-import React from "react";
+import OrdersPage from "@/features/profile/pages/orders/pages/OrdersPage";
 
 const orders = () => {
   return (

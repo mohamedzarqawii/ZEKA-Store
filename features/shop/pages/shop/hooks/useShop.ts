@@ -5,7 +5,7 @@ import {
   getShopProducts,
   getShopRelatedProductsByBrand,
   getShopRelatedProductsByCategory,
-} from "@/services/shop.service";
+} from "@/services/shopServices/shop.service";
 import { ProductType } from "@/types/product";
 import { useQuery } from "@tanstack/react-query";
 

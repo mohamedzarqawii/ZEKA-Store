@@ -7,11 +7,11 @@ import {
   login,
   resetPassword,
   signUp,
-} from "@/services/auth.service";
+} from "@/services/authServices/auth.service";
 import { ReqLoginType } from "@/types/auth/login";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { updateProfile } from "@/services/profile.service";
+import { updateProfile } from "@/services/profileServices/profile.service";
 import { kebabCase, random } from "lodash";
 import { ReqResetPassType } from "@/types/auth/resetPassword";
 

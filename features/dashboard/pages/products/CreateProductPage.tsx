@@ -21,7 +21,10 @@ import {
   ReqCreateProductType,
 } from "@/types/admin/product";
 import { CreateProductAdmin } from "@/services/adminServices/products.service";
-import { getShopBrands, getShopCategories } from "@/services/shop.service";
+import {
+  getShopBrands,
+  getShopCategories,
+} from "@/services/shopServices/shop.service";
 import {
   useGetBrands,
   useGetCategories,

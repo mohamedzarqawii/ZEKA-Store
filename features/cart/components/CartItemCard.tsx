@@ -1,0 +1,55 @@
+"use client";
+
+import { CartItemType } from "@/context/CartContext";
+import { useCart } from "@/context/CartContext";
+import Counter from "@/components/Counter";
+import Link from "next/link";
+
+const ItemCart = ({ product }: { product: CartItemType }) => {
+  const { cart } = useCart();
+  const cartItem = cart.find((item) => item.id === product.id);
+
+  return (
+    <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl">
+      {/* 1 */}
+
+      <Link href={`/shop/${product.documentId}`} className="block">
+        <div className="flex items-center gap-5">
+          {/* image */}
+
+          <img
+            // src={product?.image}
+            src={"product?.image"}
+            alt={product.name}
+            className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+          />
+
+          {/* content */}
+
+          <div className="flex flex-col gap-1">
+            <div>{product.name}</div>
+          </div>
+        </div>
+      </Link>
+      {/* 2 */}
+      <div className="flex justify-between items-center gap-6">
+        {/* price */}
+        <div className="min-w-3 font-bold text-xl">
+          ${product.price.toFixed(2)}
+        </div>
+
+        {/* Counter */}
+        <Counter
+          product={product}
+          classname="flex justify-between items-center bg-zinc-700 h-8 rounded-md w-21 "
+          plusClass="flex justify-center items-center px-2 py-1 hover:cursor-pointer"
+          minusClass="flex justify-center items-center px-2 py-1"
+          spanClass="mx-auto select-none"
+          trashSize="size-4 text-primary"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default ItemCart;

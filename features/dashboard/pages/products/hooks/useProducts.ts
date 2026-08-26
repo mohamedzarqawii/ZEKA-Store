@@ -6,7 +6,10 @@ import {
 } from "@/services/adminServices/products.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Product } from "../columns";
-import { getShopBrands, getShopCategories } from "@/services/shop.service";
+import {
+  getShopBrands,
+  getShopCategories,
+} from "@/services/shopServices/shop.service";
 
 export const useGetProducts = (page: number = 1) => {
   return useQuery({

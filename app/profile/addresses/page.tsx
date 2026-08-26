@@ -1,5 +1,4 @@
 import AddressesPage from "@/features/profile/pages/addresses/AddressesPage";
-import React from "react";
 
 const addresses = () => {
   return (

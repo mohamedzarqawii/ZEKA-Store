@@ -2,10 +2,10 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { ProductType } from "@/types/product";
-import { products } from "@/data/products";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useGetShopProducts } from "@/features/shop/pages/shop/hooks/useShop";
 
 export type CartItemType = ProductType & { quantity: number };
 
@@ -19,6 +19,8 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const { data: products, isLoading: isProductsLoading } = useGetShopProducts();
+
   const router = useRouter();
   const { data: currentUser } = useGetCurrentUser();
 
@@ -30,7 +32,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const loadedCart: CartItemType[] = currentUser.cart
       .map((cartItem) => {
-        const product = products.find((p) => p.id === cartItem.id);
+        const product = products?.find(
+          (p: ProductType) => p.id === cartItem.id,
+        );
 
         if (!product) return null;
 
