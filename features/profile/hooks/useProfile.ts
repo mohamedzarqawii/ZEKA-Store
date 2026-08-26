@@ -19,13 +19,13 @@ export const useUpdateProfile = () => {
     mutationFn: async ({ userId, body }: UpdateProfileParams) => {
       return updateProfile(userId, body);
     },
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       toast.success("Profile Updated Successfully !", {
         position: "bottom-right",
       });
     },
-    onError: (error: unknown) => {
+    onError: () => {
       toast.error("Could not update profile, please try again later.");
     },
   });
