@@ -3,12 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { useGetProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
 import ProductCard from "@/features/shop/components/ProductCard";
+import { supabase } from "@/lib/supabase";
 import { ProductType } from "@/types/product";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
 const HomePage = () => {
   const { data: products, isLoading: isProductsLoading } = useGetProducts();
+  console.log(supabase);
 
   return (
     <div className="mx-10">

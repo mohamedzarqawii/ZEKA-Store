@@ -13,35 +13,30 @@ import ProductCard from "../../components/ProductCard";
 import {
   useGetShopProduct,
   useGetShopRelatedProductsByCategory,
+  useGetSupaShopProduct,
+  useGetSupaShopRelatedProductsByCategory,
 } from "./hooks/useShop";
 import { Loader2 } from "lucide-react";
 
 interface ViewProps {
-  productDocId: string;
+  productId: string;
 }
 
-const ProductPage = ({ productDocId }: ViewProps) => {
+const ProductPage = ({ productId }: ViewProps) => {
   const [rating, setRating] = useState(3);
 
   const { data: product, isLoading: isProductLoading } =
-    useGetShopProduct(productDocId);
+    useGetSupaShopProduct(productId);
 
   // ------------- get related product by category -------------
-  const {
-    data: relatedProducts = [],
-
-    isLoading: isRelatedCategoryLoading,
-  } = useGetShopRelatedProductsByCategory(product?.category?.id);
+  const { data: relatedProducts = [], isLoading: isRelatedCategoryLoading } =
+    useGetSupaShopRelatedProductsByCategory(product?.category?.id);
 
   // ------------- handle change images -------------
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-  const imageUrl = selectedImage
-    ? getImageUrl(selectedImage)
-    : product?.images?.[0]?.url
-      ? getImageUrl(product.images[0].url)
-      : "/images/placeholder.jpeg";
+  const imageUrl =
+    selectedImage || product?.images?.[0] || "/images/placeholder.jpeg";
 
   const handleChangeImage = (url: string) => {
     setSelectedImage(url);
@@ -64,21 +59,21 @@ const ProductPage = ({ productDocId }: ViewProps) => {
         {/* left */}
         <div className="relative flex gap-8 w-full max-w-2xl">
           <div className="flex flex-col gap-4 rounded-2xl h-130 overflow-y-auto no-scrollbar">
-            {product?.images ? (
-              product?.images.map((image) => (
+            {product?.images?.length ? (
+              product.images.map((image, i) => (
                 <img
-                  key={image.id}
-                  src={getImageUrl(image.url)}
-                  onClick={() => {
-                    handleChangeImage(image.url);
-                  }}
+                  key={i}
+                  src={image}
+                  onClick={() => handleChangeImage(image)}
                   className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+                  alt={product.name}
                 />
               ))
             ) : (
               <img
-                src={"/images/placeholder.jpeg"}
-                className="border border-primary rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+                src="/images/placeholder.jpeg"
+                className="border border-primary rounded-2xl w-25 h-25 object-center object-cover"
+                alt={product?.name}
               />
             )}
           </div>
@@ -183,7 +178,7 @@ const ProductPage = ({ productDocId }: ViewProps) => {
             </div>
           ) : (
             <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
-              {relatedProducts.map((product: ProductType) => (
+              {relatedProducts?.map((product: ProductType) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

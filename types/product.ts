@@ -6,10 +6,7 @@ export type ProductType = {
   price: number;
   stock: number;
 
-  images: {
-    id: number;
-    url: string;
-  }[];
+  images: string[];
 
   category: {
     id: number;

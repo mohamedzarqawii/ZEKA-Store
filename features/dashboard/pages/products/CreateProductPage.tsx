@@ -58,13 +58,13 @@ const CreateProductPage = () => {
   };
 
   const { refetch: refetchProducts } = useGetProducts();
-  const { data: categories } = useGetCategories();
-  const { data: brands } = useGetBrands();
   type Option = {
     label: string;
     value: string;
   };
+  const { data: categories } = useGetCategories();
 
+  const { data: brands } = useGetBrands();
   const categoriesOptions: Option[] = Array.isArray(categories)
     ? categories.map((category: any) => ({
         label: category.name,

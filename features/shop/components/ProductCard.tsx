@@ -11,9 +11,14 @@ import { Badge } from "@/components/ui/badge";
 import Counter from "@/components/Counter";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
+  console.log({
+    id: product.id,
+    images: product.images,
+    image: product.images?.[0],
+  });
   return (
     <div>
-      <Link href={`/shop/${product.documentId}`}>
+      <Link href={`/shop/${product.id}`}>
         <div className="group flex flex-col justify-between bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-2xl w-full h-96 overflow-hidden transition-all duration-300">
           {/* image & cart icon */}
 
@@ -41,11 +46,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
             </div>
             {/* image */}
             <img
-              src={
-                product.images?.[0]?.url
-                  ? `http://localhost:1337${product.images[0].url}`
-                  : "/images/placeholder.jpeg" // 👈 حط مسار الصورة الافتراضية تبعك هون
-              }
+              src={product.images?.[0] || "/images/placeholder.jpeg"}
               alt={product.name || "Product Image"}
               className="w-full h-64 object-center object-cover hover:cursor-pointer"
             />

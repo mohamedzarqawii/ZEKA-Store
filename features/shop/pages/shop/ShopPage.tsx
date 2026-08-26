@@ -11,6 +11,9 @@ import {
   useGetShopBrands,
   useGetShopCategories,
   useGetShopProducts,
+  useGetSupabseProducts,
+  useGetSupaShopBrands,
+  useGetSupaShopCategories,
 } from "./hooks/useShop";
 
 type Option = {
@@ -26,33 +29,33 @@ const ShopPage = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
   const [value, setValue] = useState<number[]>([0, 1000]);
-  const { data: products, isLoading: isProductsLoading } = useGetShopProducts(
-    currentPage,
-    selectedCategories,
-    selectedBrands,
-    priceRange[0],
-    priceRange[1],
-  );
+
+  const { data: products, isLoading: isProductsLoading } =
+    useGetSupabseProducts(
+      currentPage,
+      selectedCategories,
+      selectedBrands,
+      priceRange[0],
+      priceRange[1],
+    );
 
   // ----------- get categories and brands names ------------
 
   const { data: categories, isLoading: isCategoriesLoading } =
-    useGetShopCategories();
-  const { data: brands, isLoading: isBrandsLoading } = useGetShopBrands();
+    useGetSupaShopCategories();
+  const { data: brands, isLoading: isBrandsLoading } = useGetSupaShopBrands();
 
   const categoriesOptions: Option[] = Array.isArray(categories)
     ? categories.map((category: any) => ({
         label: category.name,
-        value: category.documentId
-          ? String(category.documentId)
-          : String(category.id),
+        value: category.id,
       }))
     : [];
 
   const brandsOptions: Option[] = Array.isArray(brands)
     ? brands.map((brand: any) => ({
         label: brand.name,
-        value: brand.documentId ? String(brand.documentId) : String(brand.id),
+        value: brand.id,
       }))
     : [];
 
@@ -90,6 +93,16 @@ const ShopPage = () => {
     setCurrentPage(1);
   };
 
+  if (isProductsLoading && !products) {
+    return (
+      <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
+        {/* 1 */}
+        <div className="flex flex-col items-center gap-4">
+          <div className="text-primary text-3xl">Loading Product...</div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="mx-10">
       {/* body */}
@@ -181,29 +194,6 @@ const ShopPage = () => {
           </div>
         </div>
 
-        {/* <div className="flex flex-col flex-1 gap-10 w-full">
-
-          <div className="flex justify-between items-end">
-            <div className="text-primary text-3xl">ALL PRODUCTS</div>
-            <div className="text-[13px]">
-              Showing <span className="text-primary">{fromItem} - </span>{" "}
-              <span className="text-primary">{toItem}</span> of{" "}
-              <span className="text-primary">{productsNumber}</span> products
-            </div>
-          </div>
-
-
-          <div className="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products?.data?.length > 0 &&
-              products?.data?.map((product: ProductType) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-          </div>
-
-
-        </div>
- */}
-
         <div className="flex flex-col flex-1 gap-10 w-full min-h-screen">
           {/* 1 R - Header */}
           <div className="flex sm:flex-row flex-col justify-between items-start sm:items-end gap-2">
@@ -223,7 +213,8 @@ const ShopPage = () => {
 
           {/* 2 R - Flexible Grid */}
           <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
-            {products?.data?.length > 0 &&
+            {products?.data &&
+              products?.data?.length > 0 &&
               products?.data?.map((product: ProductType) => (
                 <ProductCard key={product.id} product={product} />
               ))}
