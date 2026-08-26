@@ -31,8 +31,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     const loadedCart: CartItemType[] = currentUser.cart
-      .map((cartItem) => {
-        const product = products?.find(
+      .map((cartItem: CartItemType) => {
+        const product = products?.data?.find(
           (p: ProductType) => p.id === cartItem.id,
         );
 

@@ -1,14 +1,16 @@
-import products from "@/data/products";
 import { OrderType } from "@/types/order";
 import Link from "next/link";
 import { Button } from "../../../../../components/ui/button";
+import { useState } from "react";
+import { useGetShopProduct } from "@/features/shop/pages/shop/hooks/useShop";
 
 type OrderCardProps = {
   order: OrderType;
 };
 
 const OrderProduct = ({ productId }: { productId: number }) => {
-  const product = products.find((p) => p.id == productId);
+  const { data: product, isLoading: isProductLoading } =
+    useGetShopProduct(productId);
 
   return (
     <div className="flex justify-between items-center gap-5">

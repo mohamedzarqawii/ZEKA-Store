@@ -55,7 +55,7 @@ export const getShopProducts = async (
 
 // -------------- get one product --------------
 
-export const getShopProduct = async (productId: string) => {
+export const getShopProduct = async (productId: number) => {
   const { data, error } = await supabase
     .from("products")
     .select("* , category:categories(*) , brand:brands(*)")

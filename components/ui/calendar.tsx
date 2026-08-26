@@ -1,16 +1,18 @@
 "use client";
-
 import * as React from "react";
+
 import {
   DayPicker,
   getDefaultClassNames,
   type DayButton,
   type Locale,
 } from "react-day-picker";
-
 import { cn } from "@/lib/utils";
+
 import { Button, buttonVariants } from "@/components/ui/button";
+
 import { HugeiconsIcon } from "@hugeicons/react";
+
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -31,7 +33,6 @@ function Calendar({
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
 }) {
   const defaultClassNames = getDefaultClassNames();
-
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -45,7 +46,9 @@ function Calendar({
       locale={locale}
       formatters={{
         formatMonthDropdown: (date) =>
-          date.toLocaleString(locale?.code, { month: "short" }),
+          date.toLocaleString((locale as { code?: string })?.code, {
+            month: "short",
+          }),
         ...formatters,
       }}
       classNames={{
@@ -92,7 +95,6 @@ function Calendar({
             : "flex items-center gap-1 rounded-(--cell-radius) text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground",
           defaultClassNames.caption_label,
         ),
-
         weekdays: cn("flex", defaultClassNames.weekdays),
         weekday: cn(
           "flex-1 rounded-(--cell-radius) text-[0.8rem] font-normal text-muted-foreground select-none",
@@ -160,7 +162,6 @@ function Calendar({
               />
             );
           }
-
           if (orientation === "right") {
             return (
               <HugeiconsIcon
@@ -171,7 +172,6 @@ function Calendar({
               />
             );
           }
-
           return (
             <HugeiconsIcon
               icon={ArrowDownIcon}
@@ -208,18 +208,18 @@ function CalendarDayButton({
   ...props
 }: React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }) {
   const defaultClassNames = getDefaultClassNames();
-
   const ref = React.useRef<HTMLButtonElement>(null);
   React.useEffect(() => {
     if (modifiers.focused) ref.current?.focus();
   }, [modifiers.focused]);
-
   return (
     <Button
       ref={ref}
       variant="ghost"
       size="icon"
-      data-day={day.date.toLocaleDateString(locale?.code)}
+      data-day={day.date.toLocaleDateString(
+        (locale as { code?: string })?.code,
+      )}
       data-selected-single={
         modifiers.selected &&
         !modifiers.range_start &&

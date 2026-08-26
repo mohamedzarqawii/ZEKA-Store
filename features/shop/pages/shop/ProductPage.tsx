@@ -23,8 +23,9 @@ interface ViewProps {
 const ProductPage = ({ productId }: ViewProps) => {
   const [rating, setRating] = useState(3);
 
-  const { data: product, isLoading: isProductLoading } =
-    useGetShopProduct(productId);
+  const { data: product, isLoading: isProductLoading } = useGetShopProduct(
+    Number(productId),
+  );
 
   // ------------- get related product by category -------------
   const { data: relatedProducts = [], isLoading: isRelatedCategoryLoading } =

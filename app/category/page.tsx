@@ -1,8 +1,4 @@
 import CategoryCard from "@/app/category/CategoryCard";
-import Header from "@/components/Header";
-import ProductCard from "@/components/ProductCard";
-import Image from "next/image";
-import Link from "next/link";
 
 export default function Home() {
   return (

@@ -13,7 +13,7 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
     <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl">
       {/* 1 */}
 
-      <Link href={`/shop/${product.documentId}`} className="block">
+      <Link href={`/shop/${product.id}`} className="block">
         <div className="flex items-center gap-5">
           {/* image */}
 

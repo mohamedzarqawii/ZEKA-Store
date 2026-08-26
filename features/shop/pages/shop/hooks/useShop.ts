@@ -34,10 +34,10 @@ export const useGetShopProducts = (
 
 // -------------- get one product --------------
 
-export const useGetShopProduct = (productDocId: string) => {
+export const useGetShopProduct = (productId: number) => {
   return useQuery<ProductType>({
-    queryKey: ["product", productDocId],
-    queryFn: () => getShopProduct(productDocId),
+    queryKey: ["product", productId],
+    queryFn: () => getShopProduct(productId),
   });
 };
 // -------------- get categories --------------
