@@ -1,26 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useGetProduct } from "./hooks/useProducts";
 import { Loader2 } from "lucide-react";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { getImageUrl } from "@/utils/getImageUrl";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useGetAdminProduct } from "./hooks/useProducts";
 
 interface ViewProps {
-  productDocId: string;
+  productId: string;
 }
 
-export const ViewProductPage = ({ productDocId }: ViewProps) => {
+export const ViewProductPage = ({ productId }: ViewProps) => {
   const { data: product, isLoading: isProductLoading } =
-    useGetProduct(productDocId);
+    useGetAdminProduct(productId);
 
   const images = product?.images;
-  const imageUrl = images?.[0]?.url
-    ? `http://localhost:1337${images[0].url}`
-    : "/images/placeholder.jpeg";
+  const imageUrl = images?.[0] ? `${images[0]}` : "/images/placeholder.jpeg";
 
   const router = useRouter();
 
@@ -40,7 +35,7 @@ export const ViewProductPage = ({ productDocId }: ViewProps) => {
           <Button
             variant={"outline"}
             onClick={() => {
-              router.push(`/admin/products/${product.documentId}/edit`);
+              router.push(`/admin/products/${product.id}/edit`);
             }}
           >
             Edit Mode
@@ -53,13 +48,6 @@ export const ViewProductPage = ({ productDocId }: ViewProps) => {
             <Field>
               <FieldLabel className="text-primary text-sm">ID</FieldLabel>
               <div className="text-muted-foreground">{product?.id}</div>
-            </Field>
-
-            <Field>
-              <FieldLabel className="text-primary text-sm">
-                Document ID
-              </FieldLabel>
-              <div className="text-muted-foreground">{product?.documentId}</div>
             </Field>
 
             <Field>
@@ -83,16 +71,16 @@ export const ViewProductPage = ({ productDocId }: ViewProps) => {
           <div className="text-lg">Product Details</div>
           <div className="flex flex-wrap gap-6 mt-5">
             <Field>
-              <FieldLabel className="text-primary text-sm">Brand</FieldLabel>
+              <FieldLabel className="text-primary text-sm">Category</FieldLabel>
               <div className="text-muted-foreground">
-                {product?.brand?.name}
+                {product?.category?.name}
               </div>
             </Field>
 
             <Field>
-              <FieldLabel className="text-primary text-sm">Category</FieldLabel>
+              <FieldLabel className="text-primary text-sm">Brand</FieldLabel>
               <div className="text-muted-foreground">
-                {product?.category?.name}
+                {product?.brand?.name}
               </div>
             </Field>
 
@@ -136,10 +124,10 @@ export const ViewProductPage = ({ productDocId }: ViewProps) => {
                 {product?.images && product?.images?.length > 1 ? (
                   product?.images
                     .slice(1)
-                    .map((image) => (
+                    .map((image, i) => (
                       <img
-                        key={image.id}
-                        src={getImageUrl(image.url)}
+                        key={i}
+                        src={image}
                         className="border border-primary rounded-2xl w-45 h-45 object-center object-cover hover:cursor-pointer"
                       />
                     ))

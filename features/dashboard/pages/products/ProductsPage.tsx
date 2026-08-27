@@ -2,17 +2,17 @@
 
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./columns";
-import { useGetProducts } from "./hooks/useProducts";
+import { useGetAdminProducts } from "./hooks/useProducts";
 import { useState } from "react";
 
 const ProductsPage = () => {
   // ------------------- States -------------------
   const storageKey = "productsView";
-  const [productDocId, setProductDocId] = useState<string>("");
 
   // ------------------- Query Fetches -------------------
   // --- get products
-  const { data: productsData, isLoading: isProductsLoading } = useGetProducts();
+  const { data: productsData, isLoading: isProductsLoading } =
+    useGetAdminProducts();
 
   // ------------------- Code -------------------
   return (

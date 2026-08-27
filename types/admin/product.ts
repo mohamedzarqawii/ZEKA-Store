@@ -15,8 +15,8 @@ export const UpdateProductSchema = y.object({
   description: y.string().notRequired(),
   price: y.number().notRequired(),
   stock: y.number().notRequired(),
-  category: y.string().notRequired(),
-  brand: y.string().notRequired(),
+  category_id: y.number().notRequired(),
+  brand_id: y.number().notRequired(),
 });
 
 export type ReqCreateProductType = y.InferType<typeof CreateProductSchema>;
@@ -30,10 +30,7 @@ export type ResUpdateProductType = {
     price: number;
     stock: number;
 
-    images: {
-      id: number;
-      url: string;
-    }[];
+    images: String[];
 
     category: {
       id: number;

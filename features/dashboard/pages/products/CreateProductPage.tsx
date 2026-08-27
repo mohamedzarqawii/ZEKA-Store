@@ -1,8 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -20,22 +19,21 @@ import {
   CreateProductSchema,
   ReqCreateProductType,
 } from "@/types/admin/product";
-import { CreateProductAdmin } from "@/services/adminServices/products.service";
+import { CreateAdminProduct } from "@/services/adminServices/products.service";
+
 import {
-  getShopBrands,
-  getShopCategories,
-} from "@/services/shopServices/shop.service";
-import {
-  useGetBrands,
-  useGetCategories,
-  useGetProducts,
+  useCreateAdminProduct,
+  useGetAdminBrands,
+  useGetAdminCategories,
+  useGetAdminProducts,
 } from "./hooks/useProducts";
 import { Button } from "@/components/ui/button";
-import { Image, Pin, Plus } from "lucide-react";
+import { Image, Loader2, Pin, Plus } from "lucide-react";
 import { IconTrash } from "@tabler/icons-react";
-import { uploadMedia } from "@/services/adminServices/media.service";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { Badge } from "@/components/ui/badge";
+import { useMedia } from "@/hooks/useMedia";
+import { Spinner } from "@/components/ui/spinner";
 
 const CreateProductPage = () => {
   const router = useRouter();
@@ -47,6 +45,9 @@ const CreateProductPage = () => {
 
   const [selectedImages, setSelectedImages] = useState<PreviewImage[]>([]);
 
+  const { mutateAsync: CreateProduct, isPending: isCreating } =
+    useCreateAdminProduct();
+  const { mutateAsync: uploadMedia, isPending: isMediaUploading } = useMedia();
   // ------------------ handle remove selected image -------------------
 
   const handleRemoveSelectedImage = (index: number) => {
@@ -57,32 +58,33 @@ const CreateProductPage = () => {
     });
   };
 
-  const { refetch: refetchProducts } = useGetProducts();
+  const { refetch: refetchProducts } = useGetAdminProducts();
+
+  // ------------------- Categories and brands names -------------------
+
+  const { data: categories } = useGetAdminCategories();
+  const { data: brands } = useGetAdminBrands();
   type Option = {
     label: string;
     value: string;
   };
-  const { data: categories } = useGetCategories();
 
-  const { data: brands } = useGetBrands();
   const categoriesOptions: Option[] = Array.isArray(categories)
     ? categories.map((category: any) => ({
         label: category.name,
-        value: category.documentId
-          ? String(category.documentId)
-          : String(category.id),
+        value: category.id,
       }))
     : [];
 
   const brandsOptions: Option[] = Array.isArray(brands)
     ? brands.map((brand: any) => ({
         label: brand.name,
-        value: brand.documentId ? String(brand.documentId) : String(brand.id),
+        value: brand.id,
       }))
     : [];
 
   const handleCreate = (data: ReqCreateProductType) => {
-    CreateProductAdmin(data).then(() => {
+    CreateProduct(data).then(() => {
       toast.success("Product created successfully!");
       router.push("/admin/products");
       refetchProducts();
@@ -93,7 +95,6 @@ const CreateProductPage = () => {
   const handleSetMainImage = (index: number) => {
     setSelectedImages((prev) => {
       const selectedImage = prev[index];
-
       return [selectedImage, ...prev.filter((_, i) => i !== index)];
     });
   };
@@ -114,31 +115,28 @@ const CreateProductPage = () => {
       description: "",
       price: 0,
       stock: 0,
-      category: "",
-      brand: "",
+      category_id: "",
+      brand_id: "",
       images: [],
     },
     validationSchema: CreateProductSchema,
     onSubmit: async (values) => {
-      let uploadedImagesIds: number[] = [];
+      let uploadedImages: string[] = [];
 
       if (selectedImages.length > 0) {
-        const resIds = await Promise.all(
+        const uploaded = await Promise.all(
           selectedImages.map((image) =>
-            uploadMedia(image.file).then((res) => {
-              return res[0]?.id;
+            uploadMedia({
+              file: image.file,
             }),
           ),
         );
 
-        uploadedImagesIds = resIds.filter(
-          (id): id is number => id !== undefined,
-        );
+        uploadedImages = uploaded.map((image) => image.url);
       }
-
       const updatedValues = {
         ...values,
-        images: [...values.images, ...uploadedImagesIds],
+        images: [...values.images, ...uploadedImages],
       };
 
       const changedValues = getChangedValues(updatedValues, initialValues);
@@ -244,8 +242,10 @@ const CreateProductPage = () => {
                   </FieldLabel>
 
                   <Select
-                    value={values.category}
-                    onValueChange={(value) => setFieldValue("category", value)}
+                    value={values.category_id as any}
+                    onValueChange={(value) =>
+                      setFieldValue("category_id", Number(value))
+                    }
                     onOpenChange={(open) => {
                       if (!open) setFieldTouched("category", true);
                     }}
@@ -264,8 +264,8 @@ const CreateProductPage = () => {
                     </SelectContent>
                   </Select>
 
-                  {errors.category && touched.category && (
-                    <FieldError>{errors.category}</FieldError>
+                  {errors.category_id && touched.category_id && (
+                    <FieldError>{errors.category_id}</FieldError>
                   )}
                 </Field>
 
@@ -276,10 +276,12 @@ const CreateProductPage = () => {
                     Brand<span className="text-destructive">*</span>
                   </FieldLabel>
                   <Select
-                    value={values.brand}
-                    onValueChange={(value) => setFieldValue("brand", value)}
+                    value={values.brand_id as any}
+                    onValueChange={(value) =>
+                      setFieldValue("brand_id", Number(value))
+                    }
                     onOpenChange={(open) => {
-                      if (!open) setFieldTouched("brand", true);
+                      if (!open) setFieldTouched("brand_id", true);
                     }}
                   >
                     <SelectTrigger className="w-full">
@@ -295,8 +297,8 @@ const CreateProductPage = () => {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  {errors.brand && touched.brand && (
-                    <FieldError>{errors.brand}</FieldError>
+                  {errors.brand_id && touched.brand_id && (
+                    <FieldError>{errors.brand_id}</FieldError>
                   )}
                 </Field>
               </div>
@@ -456,12 +458,20 @@ const CreateProductPage = () => {
 
             {/* 3 */}
             <div className="flex flex-col justify-center items-center gap-4 w-full">
-              <button
+              <Button
                 type="submit"
-                className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
+                disabled={!dirty || isCreating || isMediaUploading}
+                className="px-4 py-4 rounded-lg w-full h-12 font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
               >
-                CREATE PRODUCT
-              </button>
+                {isCreating || isMediaUploading ? (
+                  <span className="flex justify-center items-center gap-2">
+                    <Spinner data-icon="inline-start" />
+                    Creating...
+                  </span>
+                ) : (
+                  " CREATE PRODUCT"
+                )}
+              </Button>
             </div>
           </form>
         </div>

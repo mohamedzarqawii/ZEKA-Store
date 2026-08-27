@@ -8,7 +8,6 @@ import {
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { ProductType } from "@/types/product";
-import { getImageUrl } from "@/utils/getImageUrl";
 import ProductCard from "../../components/ProductCard";
 import {
   useGetShopProduct,
@@ -91,10 +90,10 @@ const ProductPage = ({ productId }: ViewProps) => {
         {/* right */}
         <div className="flex flex-col justify-between gap-4 w-full h-130">
           <div>
-            <span className="text-primary">
+            <span className="text-primary uppercase">
               {product?.category?.name || "Uncategorized"} |{" "}
             </span>
-            <span className="text-primary">
+            <span className="text-primary uppercase">
               {product?.brand?.name || "No Brand"}
             </span>
 
@@ -167,7 +166,7 @@ const ProductPage = ({ productId }: ViewProps) => {
       {/* suggested products */}
       <div>
         <div className="flex flex-col gap-8 mt-15">
-          <div className="text-primary text-3xl">
+          <div className="text-primary text-3xl uppercase">
             MORE FROM {product?.category.name}
           </div>
 

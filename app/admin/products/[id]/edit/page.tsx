@@ -6,11 +6,11 @@ import React from "react";
 
 const page = () => {
   const params = useParams();
-  const productDocId = params.id as string;
+  const productId = params.id;
 
   return (
     <div>
-      <EditProductPage productDocId={productDocId} />
+      <EditProductPage productId={String(productId)} />
     </div>
   );
 };

@@ -8,7 +8,7 @@ const ViewProduct = () => {
 
   return (
     <div>
-      <ViewProductPage productDocId={id as string} />
+      <ViewProductPage productId={id as string} />
     </div>
   );
 };

@@ -2,17 +2,16 @@
 
 import { toast } from "sonner";
 import {
-  useGetBrands,
-  useGetCategories,
-  useGetProduct,
-  useUpdateProduct,
+  useGetAdminBrands,
+  useGetAdminCategories,
+  useGetAdminProduct,
+  useUpdateAdminProduct,
 } from "./hooks/useProducts";
 import { Product } from "./columns";
 import { Button } from "@/components/ui/button";
-import { Loader2, Pin, PinOff, Plus } from "lucide-react";
+import { Loader2, Pin, Plus } from "lucide-react";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { getImageUrl } from "@/utils/getImageUrl";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 
@@ -27,28 +26,30 @@ import {
 } from "@/components/ui/select";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { Textarea } from "@/components/ui/textarea";
-import { uploadMedia } from "@/services/adminServices/media.service";
 import { useEffect, useState } from "react";
 import { IconTrash } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
+import { useMedia } from "@/hooks/useMedia";
+import { Spinner } from "@/components/ui/spinner";
 
 interface EditProductPageProps {
-  productDocId: string;
+  productId: string;
 }
-const EditProductPage = ({ productDocId }: EditProductPageProps) => {
+const EditProductPage = ({ productId }: EditProductPageProps) => {
   const router = useRouter();
 
   const { mutateAsync: updateProduct, isPending: isUpdating } =
-    useUpdateProduct();
+    useUpdateAdminProduct();
+
+  const { mutateAsync: uploadMedia, isPending: isMediaUploading } = useMedia();
   const {
     data: product,
     isLoading: isProductLoading,
     refetch: refetchProduct,
-  } = useGetProduct(productDocId);
-  const { data: categories } = useGetCategories();
-  const { data: brands } = useGetBrands();
+  } = useGetAdminProduct(productId);
+  const { data: categories } = useGetAdminCategories();
+  const { data: brands } = useGetAdminBrands();
 
-  // ------------------- Options (تنسيق الخيارات بـ ID) -------------------
   type Option = {
     label: string;
     value: string;
@@ -57,28 +58,26 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
   const categoriesOptions: Option[] = Array.isArray(categories)
     ? categories.map((category: any) => ({
         label: category.name,
-        value: category.documentId
-          ? String(category.documentId)
-          : String(category.id),
+        value: category.id,
       }))
     : [];
 
   const brandsOptions: Option[] = Array.isArray(brands)
     ? brands.map((brand: any) => ({
         label: brand.name,
-        value: brand.documentId ? String(brand.documentId) : String(brand.id),
+        value: brand.id,
       }))
     : [];
 
   // ------------------ handle edit product -------------------
 
   const handleEditProduct = async (updatedData: Partial<Product>) => {
-    if (!productDocId) return;
+    if (!productId) return;
 
     if (updatedData.stock !== undefined)
       updatedData.stock = Number(updatedData.stock);
     await updateProduct(
-      { productDocId, updatedData },
+      { productId, updatedData },
       {
         onSuccess: () => {
           toast.success("Product updated successfully!");
@@ -109,10 +108,10 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
 
   // ------------------ handle main image -------------------
 
-  const handleSetMainImage = (imageId: number) => {
+  const handleSetMainImage = (image: string) => {
     const newImagesOrder = [
-      imageId,
-      ...values.images.filter((id) => id !== imageId),
+      image,
+      ...values.images.filter((img) => img !== image),
     ];
 
     setFieldValue("images", newImagesOrder);
@@ -120,8 +119,8 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
 
   // ------------------ handle remove image -------------------
 
-  const handleRemoveImage = (imageId: number) => {
-    const newImages = [...values.images.filter((id) => id !== imageId)];
+  const handleRemoveImage = (image: string) => {
+    const newImages = [...values.images.filter((img) => img !== image)];
     setFieldValue("images", newImages);
   };
 
@@ -144,39 +143,47 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
       description: product?.description || "",
       price: product?.price || 0,
       stock: product?.stock || 0,
-      category: product?.category
-        ? (product.category as any).documentId || String(product.category.id)
-        : "",
-      brand: product?.brand
-        ? (product.brand as any).documentId || String(product.brand.id)
-        : "",
-      images: product?.images?.map((image) => image.id) || [],
+      category_id: product?.category_id as any,
+      brand_id: product?.brand_id as any,
+      images: product?.images?.map((image) => image) || [],
     },
     validationSchema: UpdateProductSchema,
     onSubmit: async (values) => {
-      let uploadedImagesIds: number[] = [];
+      let uploadedImages: string[] = [];
 
       if (selectedImages.length > 0) {
-        const resIds = await Promise.all(
+        const uploaded = await Promise.all(
           selectedImages.map((image) =>
-            uploadMedia(image.file).then((res) => {
-              return res[0]?.id;
+            uploadMedia({
+              file: image.file,
             }),
           ),
         );
 
-        uploadedImagesIds = resIds.filter(
-          (id): id is number => id !== undefined,
-        );
+        uploadedImages = uploaded.map((image) => image.url);
       }
-
       const updatedValues = {
         ...values,
-        images: [...values.images, ...uploadedImagesIds],
+        images: [...values.images, ...uploadedImages],
       };
 
       const changedValues = getChangedValues(updatedValues, initialValues);
-      await handleEditProduct(changedValues);
+
+      const supabaseValues = {
+        ...changedValues,
+      };
+
+      if (changedValues.category !== undefined) {
+        supabaseValues.category_id = Number(changedValues.category);
+        delete supabaseValues.category;
+      }
+
+      if (changedValues.brand !== undefined) {
+        supabaseValues.brand_id = Number(changedValues.brand);
+        delete supabaseValues.brand;
+      }
+
+      await handleEditProduct(supabaseValues);
 
       selectedImages.forEach((image) => {
         URL.revokeObjectURL(image.previewUrl);
@@ -186,9 +193,7 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
     },
   });
 
-  const mainImage = product?.images?.find(
-    (image) => image.id === values.images[0],
-  );
+  const mainImage = values.images[0];
 
   if (isProductLoading) {
     return (
@@ -209,7 +214,7 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
               type="button"
               variant="outline"
               onClick={() => {
-                router.push(`/admin/products/${product.documentId}`);
+                router.push(`/admin/products/${product.id}`);
               }}
             >
               View Mode
@@ -223,15 +228,6 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
               <Field>
                 <FieldLabel className="text-primary text-sm">ID</FieldLabel>
                 <div className="text-muted-foreground">{product.id}</div>
-              </Field>
-
-              <Field>
-                <FieldLabel className="text-primary text-sm">
-                  Document ID
-                </FieldLabel>
-                <div className="text-muted-foreground">
-                  {product.documentId}
-                </div>
               </Field>
 
               <Field>
@@ -274,46 +270,17 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
             <div className="font-semibold text-lg">Product Details</div>
             <div className="flex flex-wrap gap-6 mt-5">
               <div className="flex flex-col gap-4 w-full sm:w-96">
-                {/* Brand */}
-                <Field>
-                  <FieldLabel className="text-primary text-sm">
-                    Brand<span className="text-destructive">*</span>
-                  </FieldLabel>
-                  <Select
-                    key={`brand-${values.brand}`}
-                    value={values.brand}
-                    onValueChange={(value) => setFieldValue("brand", value)}
-                    onOpenChange={(open) => {
-                      if (!open) setFieldTouched("brand", true);
-                    }}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select Brand" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {brandsOptions.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  {errors.brand && touched.brand && (
-                    <FieldError>{String(errors.brand)}</FieldError>
-                  )}
-                </Field>
-
                 {/* Category */}
                 <Field>
                   <FieldLabel className="text-primary text-sm">
                     Category<span className="text-destructive">*</span>
                   </FieldLabel>
                   <Select
-                    key={`category-${values.category}`}
-                    value={values.category}
-                    onValueChange={(value) => setFieldValue("category", value)}
+                    key={`category-${values.category_id}`}
+                    value={values.category_id}
+                    onValueChange={(value) =>
+                      setFieldValue("category_id", value)
+                    }
                     onOpenChange={(open) => {
                       if (!open) setFieldTouched("category", true);
                     }}
@@ -331,8 +298,41 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  {errors.category && touched.category && (
-                    <FieldError>{String(errors.category)}</FieldError>
+                  {errors.category_id && touched.category_id && (
+                    <FieldError>{String(errors.category_id)}</FieldError>
+                  )}
+                </Field>
+
+                {/* Brand */}
+                <Field>
+                  <FieldLabel className="text-primary text-sm">
+                    Brand<span className="text-destructive">*</span>
+                  </FieldLabel>
+                  <Select
+                    key={`brand-${values.brand_id}`}
+                    value={values.brand_id}
+                    onValueChange={(value) =>
+                      setFieldValue("brand_id", Number(value))
+                    }
+                    onOpenChange={(open) => {
+                      if (!open) setFieldTouched("brand_id", true);
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select Brand" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {brandsOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {errors.brand_id && touched.brand_id && (
+                    <FieldError>{String(errors.brand_id)}</FieldError>
                   )}
                 </Field>
 
@@ -416,7 +416,7 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
                 <div className="relative flex gap-8 w-full max-w-2xl">
                   {values?.images?.length > 0 ? (
                     <img
-                      src={mainImage?.url && getImageUrl(mainImage.url)}
+                      src={mainImage}
                       className="border border-primary rounded-2xl w-58 h-58 object-center object-cover"
                     />
                   ) : (
@@ -437,11 +437,11 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
                 <div className="flex flex-wrap gap-4">
                   {values?.images?.length > 0 ? (
                     product.images
-                      ?.filter((image) => values.images.includes(image.id))
-                      .map((image) => (
-                        <div className="relative" key={image.id}>
+                      ?.filter((image) => values.images.includes(image))
+                      .map((image, i) => (
+                        <div className="relative" key={i}>
                           <img
-                            src={getImageUrl(image.url)}
+                            src={image}
                             alt={product.name}
                             className="border border-primary rounded-2xl w-32 h-32 object-center object-cover"
                           />
@@ -450,12 +450,12 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
                             type="button"
                             variant="outline"
                             size="rounded-icon-sm"
-                            onClick={() => handleRemoveImage(image.id)}
+                            onClick={() => handleRemoveImage(image)}
                             className="top-2 right-2 absolute border border-border rounded-full text-white cursor-pointer hover:cursor-pointer"
                           >
                             <IconTrash className="w-4 h-4 text-destructive hover:cursor-pointer" />
                           </Button>
-                          {mainImage?.id == image.id ? (
+                          {mainImage == image ? (
                             <Badge
                               variant="outline"
                               className="top-3 left-2 absolute border border-border rounded-full text-white cursor-pointer hover:cursor-pointer"
@@ -467,7 +467,7 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
                               type="button"
                               variant="outline"
                               size={"rounded-icon-sm"}
-                              onClick={() => handleSetMainImage(image.id)}
+                              onClick={() => handleSetMainImage(image)}
                               className="top-2 left-2 absolute border border-border rounded-full text-white cursor-pointer hover:cursor-pointer"
                             >
                               <Pin className="w-4 h-4 hover:cursor-pointer" />
@@ -518,14 +518,18 @@ const EditProductPage = ({ productDocId }: EditProductPageProps) => {
             <Button
               type="submit"
               variant="default"
-              disabled={(!dirty && selectedImages.length === 0) || isUpdating}
+              disabled={
+                (!dirty && selectedImages.length === 0) ||
+                isUpdating ||
+                isMediaUploading
+              }
               className="p-6 rounded-lg text-md hover:cursor-pointer"
             >
-              {isUpdating ? (
-                <>
-                  <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+              {isUpdating || isMediaUploading ? (
+                <span className="flex justify-center items-center gap-2">
+                  <Spinner data-icon="inline-start" />
                   Updating...
-                </>
+                </span>
               ) : (
                 "Update Product"
               )}

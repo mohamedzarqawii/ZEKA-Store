@@ -1,68 +1,120 @@
 import {
-  DeleteProductAdmin,
-  getProductAdmin,
-  getProductsAdmin,
-  UpdateProductAdmin,
+  CreateAdminProduct,
+  DeleteAdminProduct,
+  getAdminBrands,
+  getAdminCategories,
+  getAdminProduct,
+  getAdminProducts,
+  UpdateAdminProduct,
 } from "@/services/adminServices/products.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Product } from "../columns";
-import {
-  getShopBrands,
-  getShopCategories,
-} from "@/services/shopServices/shop.service";
+import { ProductType } from "@/types/product";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { ReqCreateProductType } from "@/types/admin/product";
 
-export const useGetProducts = (page: number = 1) => {
+export const useGetAdminProducts = (
+  page: number = 1,
+  categories: string[] = [],
+  brands: string[] = [],
+  minPrice: number = 0,
+  maxPrice: number = 1000,
+) => {
   return useQuery({
-    queryKey: ["products", page],
-    queryFn: () => getProductsAdmin(page),
+    queryKey: [
+      "products",
+      page,
+      categories.join(","),
+      brands.join(","),
+      minPrice,
+      maxPrice,
+    ],
+    queryFn: () =>
+      getAdminProducts(page, categories, brands, minPrice, maxPrice),
   });
 };
 
-export const useGetProduct = (productDocId: string) => {
-  return useQuery({
-    queryKey: ["product", productDocId],
-    queryFn: () => getProductAdmin(productDocId),
+export const useGetAdminProduct = (productId: string) => {
+  return useQuery<ProductType>({
+    queryKey: ["product", productId],
+    queryFn: () => getAdminProduct(productId),
   });
 };
 
-export const useDeleteProduct = () => {
+export const useDeleteAdminProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (productDocId: string) => DeleteProductAdmin(productDocId),
+    mutationFn: (productId: string) => DeleteAdminProduct(productId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
 };
 
-export const useUpdateProduct = () => {
+export const useUpdateAdminProduct = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({
-      productDocId,
+      productId,
       updatedData,
     }: {
-      productDocId: string;
+      productId: string;
       updatedData: Partial<Product>;
-    }) => UpdateProductAdmin(productDocId, updatedData),
+    }) => {
+      return UpdateAdminProduct(productId, updatedData);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: () => {
+      toast.error("Invalid email or password, register first", {
+        position: "bottom-right",
+        action: {
+          label: "Register",
+          onClick: () => router.push("/register"),
+        },
+      });
     },
   });
 };
 
-export const useGetCategories = () => {
-  return useQuery({
-    queryKey: ["categories"],
-    queryFn: () => getShopCategories(),
+export const useCreateAdminProduct = () => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (body: ReqCreateProductType) => {
+      return CreateAdminProduct(body);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: () => {
+      toast.error("Invalid email or password, register first", {
+        position: "bottom-right",
+        action: {
+          label: "Register",
+          onClick: () => router.push("/register"),
+        },
+      });
+    },
   });
 };
 
-export const useGetBrands = () => {
+export const useGetAdminCategories = () => {
+  return useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getAdminCategories(),
+  });
+};
+
+export const useGetAdminBrands = () => {
   return useQuery({
     queryKey: ["brands"],
-    queryFn: () => getShopBrands(),
+    queryFn: () => getAdminBrands(),
   });
 };

@@ -108,9 +108,9 @@ const ShopPage = () => {
 
         <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-full max-w-xs h-fit">
           {/* 1 L */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 text-primary">
             <div>FILTERS</div>
-            <div className="bg-[#FEFEFE] w-full h-px"></div>
+            <div className="bg-primary w-full h-px"></div>
           </div>
 
           {/* 2 L */}

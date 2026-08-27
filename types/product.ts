@@ -17,6 +17,10 @@ export type ProductType = {
     name: string;
   };
 
+  category_id: number;
+
+  brand_id: number;
+
   featured: boolean;
   isFavorite: boolean;
   favoriteDocId: string | null;

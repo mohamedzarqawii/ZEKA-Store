@@ -8,8 +8,7 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 
 export interface Product {
-  id: number;
-  documentId: string;
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -61,8 +60,8 @@ export const columns = (): ColumnDef<Product>[] => [
 
     cell: ({ row }) => {
       const images = row.original.images;
-      const imageUrl = images?.[0]?.url
-        ? `http://localhost:1337${images[0].url}`
+      const imageUrl = images?.[0]
+        ? `${images[0]}`
         : "/images/placeholder.jpeg";
 
       return (
@@ -150,29 +149,6 @@ export const columns = (): ColumnDef<Product>[] => [
     },
   },
 
-  // ---------------- document id ----------------
-  {
-    accessorKey: "documentId",
-    header: () => <div className="ml-1 text-left">Doc Id</div>,
-
-    cell: ({ row }) => (
-      <div>
-        <Button
-          variant="link"
-          onClick={() => {
-            navigator.clipboard.writeText(row.getValue<string>("documentId"));
-            toast.success("Copied to clipboard", { position: "bottom-right" });
-          }}
-          className="-ml-3 hover:text-primary"
-        >
-          {row.getValue<string>("documentId")
-            ? `${row.getValue<string>("documentId").slice(0, 5)}`
-            : "—"}
-        </Button>
-      </div>
-    ),
-  },
-
   // ---------------- stock ----------------
   {
     accessorKey: "stock",
@@ -195,8 +171,8 @@ export const columns = (): ColumnDef<Product>[] => [
     header: () => <div className="flex justify-end mr-4">Actions</div>,
 
     cell: ({ row }) => {
-      const documentId = row.getValue<string>("documentId");
-      const href = `/admin/products/${documentId}`;
+      const id = row.getValue<string>("id");
+      const href = `/admin/products/${id}`;
       return <ActionCell product={row.original} viewHref={href} />;
     },
   },

@@ -14,7 +14,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IconTrash } from "@tabler/icons-react";
-import { useDeleteProduct, useUpdateProduct } from "./hooks/useProducts";
+import {
+  useDeleteAdminProduct,
+  useUpdateAdminProduct,
+} from "./hooks/useProducts";
 import { useRouter } from "next/navigation";
 
 interface ActionCellProps {
@@ -24,12 +27,13 @@ interface ActionCellProps {
 
 export const ActionCell = ({ product, viewHref }: ActionCellProps) => {
   const router = useRouter();
-  const { mutate: deleteProduct, isPending: isDeleting } = useDeleteProduct();
+  const { mutate: deleteProduct, isPending: isDeleting } =
+    useDeleteAdminProduct();
 
   const handleDelete = () => {
-    if (!product.documentId) return;
+    if (!product.id) return;
 
-    deleteProduct(product.documentId, {
+    deleteProduct(product.id, {
       onSuccess: () => {
         toast.success("Product deleted successfully!");
       },
@@ -61,7 +65,7 @@ export const ActionCell = ({ product, viewHref }: ActionCellProps) => {
         size="icon-sm"
         className="p-2 border border-border cursor-pointer"
         onClick={() => {
-          router.push(`/admin/products/${product.documentId}/edit`);
+          router.push(`/admin/products/${product.id}/edit`);
         }}
         disabled={isDeleting}
       >

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useGetProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
+import { useGetAdminProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
 import ProductCard from "@/features/shop/components/ProductCard";
 import { ProductType } from "@/types/product";
 import { Loader2 } from "lucide-react";

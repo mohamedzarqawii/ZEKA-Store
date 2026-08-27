@@ -1,5 +1,6 @@
 import API_ROUTES from "@/constants/api-routes";
 import api from "@/lib/axios";
+import { supabase } from "@/lib/supabase";
 import {
   ReqCreateProductType,
   ResUpdateProductType,
@@ -8,62 +9,129 @@ import { ProductType } from "@/types/product";
 
 // -------------- getProducts --------------
 
-export const getProductsAdmin = async (
+export const getAdminProducts = async (
   page: number = 1,
   categories: string[] = [],
   brands: string[] = [],
+  minPrice: number = 0,
+  maxPrice: number = 1000,
 ) => {
-  const { data } = await api.get(API_ROUTES.admin.getProducts, {
-    params: {
-      populate: "*",
+  const from = (page - 1) * 12;
+  const to = from + 12 - 1;
 
-      ...(categories.length > 0 && {
-        "filters[category][id][$in]": categories,
-      }),
+  let query = supabase
+    .from("products")
+    .select("* , category:categories(*) , brand:brands(*) ", {
+      count: "exact",
+    });
 
-      ...(brands.length > 0 && {
-        "filters[brand][id][$in]": brands,
-      }),
+  if (categories.length > 0) {
+    query = query.in("category_id", categories);
+  }
+
+  if (brands.length > 0) {
+    query = query.in("brand_id", brands);
+  }
+
+  query = query.gte("price", minPrice).lte("price", maxPrice).range(from, to);
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    throw error;
+  }
+  if (data) {
+    console.log(data);
+  }
+
+  return {
+    data: data ?? [],
+    meta: {
+      pagination: {
+        page,
+        pageSize: 12,
+        pageCount: Math.ceil((count ?? 0) / 12),
+        total: count ?? 0,
+      },
     },
-  });
-  return data;
+  };
 };
 
 // -------------- GetProduct --------------
-export const getProductAdmin = async (productDocId: string) => {
-  const { data } = await api.get<ResUpdateProductType>(
-    API_ROUTES.shop.getProduct(productDocId),
-  );
 
-  return data.data;
+export const getAdminProduct = async (productId: string) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("* , category:categories(*) , brand:brands(*)")
+    .eq("id", productId)
+    .single();
+
+  if (error) {
+    throw error;
+  }
+  return data;
 };
 
 // -------------- UpdatProduct --------------
 
-export const UpdateProductAdmin = async (
-  productDocId: string,
-  updateData: Record<string, any> = {},
+export const UpdateAdminProduct = async (
+  productId: string,
+  updatedData: Record<string, any> = {},
 ) => {
-  const { data } = await api.put(API_ROUTES.admin.updateProduct(productDocId), {
-    data: updateData,
-  });
+  const { data, error } = await supabase
+    .from("products")
+    .update(updatedData)
+    .eq("id", productId)
+    .select();
+
+  if (error) {
+    throw error;
+  }
   return data;
 };
 
 // -------------- DeleteProduct --------------
 
-export const DeleteProductAdmin = async (productDocId: string) => {
-  const { data } = await api.delete(
-    API_ROUTES.admin.deleteProduct(productDocId),
-  );
-  return data;
+export const DeleteAdminProduct = async (productId: string) => {
+  const { error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", productId);
+
+  if (error) {
+    throw error;
+  }
 };
 
 // -------------- CreateProduct --------------
 
-export const CreateProductAdmin = async (body: ReqCreateProductType) => {
-  const { data } = await api.post(API_ROUTES.admin.createProduct, {
-    data: body,
-  });
+export const CreateAdminProduct = async (body: ReqCreateProductType) => {
+  const { data, error } = await supabase.from("products").insert(body).select();
+
+  if (error) {
+    throw error;
+  }
+  return data;
+};
+
+// -------------- get categories --------------
+
+export const getAdminCategories = async () => {
+  const { data, error } = await supabase.from("categories").select("id, name");
+
+  if (error) {
+    throw error;
+  }
+  return data;
+};
+
+// -------------- get brands --------------
+
+export const getAdminBrands = async () => {
+  const { data, error } = await supabase.from("brands").select("id , name");
+
+  if (error) {
+    throw error;
+  }
   return data;
 };
