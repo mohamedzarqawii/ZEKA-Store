@@ -2,11 +2,12 @@ import {
   getFavorites,
   toggleFavorite,
 } from "@/services/favoriteServices/favorite.service";
+import { FavoriteItem } from "@/types/favoriteItem";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const useGetFavorites = (userId?: string) => {
-  return useQuery({
+  return useQuery<FavoriteItem[]>({
     queryKey: ["favorites", userId],
     enabled: !!userId,
     queryFn: () => getFavorites(userId!),

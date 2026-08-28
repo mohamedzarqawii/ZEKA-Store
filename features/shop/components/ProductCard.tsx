@@ -18,11 +18,13 @@ import {
   useGetFavorites,
   useToggleFavorites,
 } from "@/features/profile/pages/favorites/hooks/useFavorites";
+import { FavoriteItem } from "@/types/favoriteItem";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const { data: currentUser } = useGetCurrentUser();
   const { data: cart = [] } = useGetCart(currentUser?.id);
   const { mutate: toggleCart, isPending: isToggleCart } = useToggleCart();
+
   const { data: favorites = [] } = useGetFavorites(currentUser?.id);
   const { mutate: toggleFavorites, isPending: isToggleFavorite } =
     useToggleFavorites();
@@ -46,7 +48,9 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     });
   };
 
-  const favoriteItem = favorites.find((item) => item.productId === product.id);
+  const favoriteItem = favorites.find(
+    (item: FavoriteItem) => item.productId === product.id,
+  );
   console.log(favoriteItem);
   const isInFavorite = !!favoriteItem;
 
