@@ -25,6 +25,8 @@ import {
   useGetCurrentUser,
   useLogout,
 } from "@/features/auth/pages/hooks/useAuth";
+import { useGetFavorites } from "../pages/favorites/hooks/useFavorites";
+import { Badge } from "@/components/ui/badge";
 
 const icons = {
   Orders: ShoppingBasketIcon,
@@ -45,6 +47,8 @@ const SidebarNavItem = ({
   item: any;
   pathname: string;
 }) => {
+  const pathnames = usePathname();
+  const isFavoritesPage = pathnames === "/profile/favorites";
   const iconRef = useRef<IconHandle>(null);
   const Icon = item.icon;
 
@@ -67,9 +71,12 @@ const SidebarNavItem = ({
           <span>{item.name}</span>
 
           {!!item.count && item.count > 0 && (
-            <span className="bg-primary/20 ml-auto px-2 py-1 rounded-lg text-primary text-xs">
+            <Badge
+              variant={"outline"}
+              // className="bg-primary/20 ml-auto px-2 py-1 rounded-lg text-primary text-xs"
+            >
               {item.count} items
-            </span>
+            </Badge>
           )}
         </Link>
       </Button>
@@ -88,10 +95,17 @@ const SidebarNavItem = ({
           <Icon className="size-5" />
           <span>{item.name}</span>
 
-          {!!item?.count && item?.count > 0 && (
-            <span className="bg-primary/20 ml-auto px-2 py-1 rounded-lg text-primary text-xs">
-              {item?.count} items
-            </span>
+          {!!item.count && item.count > 0 && (
+            <Badge
+              variant="default"
+              className={
+                isFavoritesPage
+                  ? "border-border bg-input/20 text-foreground dark:bg-input/30 [a]:hover:bg-muted [a]:hover:text-muted-foreground ml-auto text-xs"
+                  : "bg-primary/20 ml-auto text-primary text-xs"
+              }
+            >
+              {item.count} items
+            </Badge>
           )}
         </Link>
       </AnimateIcon>
@@ -101,6 +115,7 @@ const SidebarNavItem = ({
 
 const ProfileLeftBar = () => {
   const pathname = usePathname();
+
   const router = useRouter();
 
   const logout = useLogout();
@@ -110,9 +125,8 @@ const ProfileLeftBar = () => {
     isLoading: isCurrentUser,
     refetch: refetchcurrentUser,
   } = useGetCurrentUser();
-  // const { favoritesData } = useFavorites();
-
-  // const favoritesCount = favoritesData?.length || 0;
+  const { data: favoritesData = [] } = useGetFavorites(currentUser?.id);
+  const favoritesCount = favoritesData?.length || 0;
 
   const handleLogout = () => {
     logout();
@@ -135,7 +149,7 @@ const ProfileLeftBar = () => {
         },
         {
           name: "Favorites",
-          // count: favoritesCount,
+          count: favoritesCount,
           href: "/profile/favorites",
           icon: icons.Favorites,
           type: "animate-ui",
