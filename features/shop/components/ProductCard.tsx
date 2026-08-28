@@ -1,14 +1,8 @@
 "use client";
 import Link from "next/link";
 import { ProductType } from "@/types/product";
-import {
-  IconHeartFilled,
-  IconHeart,
-  IconShoppingCartPlus,
-  IconShoppingCart,
-} from "@tabler/icons-react";
+import { IconShoppingCartPlus } from "@tabler/icons-react";
 import { Heart } from "../../../components/animate-ui/icons/heart";
-
 import { Badge } from "@/components/ui/badge";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
@@ -22,12 +16,9 @@ import {
 import { FavoriteItem } from "@/types/favoriteItem";
 import { Spinner } from "@/components/ui/spinner";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
-import { ProductCardSkeleton } from "./ProductCardSkilton";
-import { useGetShopProduct } from "../pages/shop/hooks/useShop";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
-  const { data: currentUser, isLoading: isCurrentUserLoading } =
-    useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
   const { data: cart = [], isLoading: isCartLoading } = useGetCart(
     currentUser?.id,
   );
@@ -40,7 +31,6 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
   // ------------------------------------
   const cartItem = cart.find((item) => item.productId === product.id);
-  console.log(cartItem);
   const isInCart = !!cartItem;
 
   const handleCartClick = (e: React.MouseEvent, action: "add" | "decrease") => {
@@ -116,15 +106,35 @@ const ProductCard = ({ product }: { product: ProductType }) => {
               </Button>
 
               {/* Out of stock */}
-              {product.stock == 0 && (
-                <Badge
-                  variant={"outline"}
-                  className="top-4 left-4 absolute bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
-                >
-                  Out of stock
-                </Badge>
-              )}
 
+              <div className="top-4 left-4 absolute flex flex-col gap-2">
+                {product.stock < 5 && product.stock > 0 ? (
+                  <Badge
+                    variant={"default"}
+                    className="bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
+                  >
+                    {product?.stock} Left in stock
+                  </Badge>
+                ) : null}
+
+                {product.stock == 0 ? (
+                  <Badge
+                    variant={"default"}
+                    className="bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
+                  >
+                    Out of stock
+                  </Badge>
+                ) : null}
+
+                {product.stock == cartItem?.quantity ? (
+                  <Badge
+                    variant={"destructive"}
+                    className="bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
+                  >
+                    Maximum items added in cart
+                  </Badge>
+                ) : null}
+              </div>
               {/* add to cart */}
 
               <div className="right-3 bottom-3 absolute">
@@ -149,7 +159,13 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                     }}
                     disabled={product.stock == 0}
                   >
-                    <IconShoppingCartPlus className="size-4" />
+                    {isToggleCart ? (
+                      <span className="flex justify-center items-center gap-2">
+                        <Spinner data-icon="inline-start" />
+                      </span>
+                    ) : (
+                      <IconShoppingCartPlus className="size-4" />
+                    )}
                   </Button>
                 )}
               </div>
@@ -169,10 +185,6 @@ const ProductCard = ({ product }: { product: ProductType }) => {
               </div>
               <div className="text-sm line-clamp-2">{product.name}</div>
             </div>
-
-            {/* <p className="text-gray-400 text-xs line-clamp-1">
-                {product.brand?.name ? product.brand.name : "No Brand"}
-              </p> */}
 
             <div className="flex justify-between items-center mt-3 w-full">
               <div className="flex flex-col gap-2 w-full">

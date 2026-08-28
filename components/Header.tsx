@@ -104,9 +104,11 @@ const Header = () => {
               <ShoppingCartIcon
                 className={`hover:cursor-pointer ${pathname === "/cart" ? "text-primary" : "hover:text-primary"}`}
               />
-              <span className="-top-2 -right-2 absolute flex justify-center items-center bg-primary/70 rounded-full w-4 h-4 text-[8px]">
-                {cart.length}
-              </span>
+              {cart.length > 0 ? (
+                <span className="-top-2 -right-2 absolute flex justify-center items-center bg-primary/70 rounded-full w-4 h-4 text-[8px]">
+                  {cart.length}
+                </span>
+              ) : null}
             </Button>
           </Link>
         </div>

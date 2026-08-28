@@ -19,6 +19,7 @@ import { getChangedValues } from "@/utils/getChangedValues";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useUpdateProfile } from "../../hooks/useProfile";
+import { Spinner } from "@/components/ui/spinner";
 
 function parseBirthdayDate(value: string | null | undefined) {
   if (!value) return undefined;
@@ -273,10 +274,17 @@ const ProfilePage = () => {
           <Button
             type="submit"
             variant="default"
-            disabled={!dirty}
+            disabled={!dirty && isProfileUpdating}
             className="justify-start p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >
-            Update Profile
+            {isProfileUpdating ? (
+              <span className="flex justify-center items-center gap-2">
+                <Spinner data-icon="inline-start" />
+                Update Profile
+              </span>
+            ) : (
+              "Update Profile"
+            )}
           </Button>
         </div>
       </form>

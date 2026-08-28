@@ -29,7 +29,11 @@ export const getShopProducts = async (
     query = query.in("brand_id", brands);
   }
 
-  query = query.gte("price", minPrice).lte("price", maxPrice).range(from, to);
+  query = query
+    .gte("price", minPrice)
+    .lte("price", maxPrice)
+    .range(from, to)
+    .order("name", { ascending: true });
 
   const { data, error, count } = await query;
 
@@ -67,7 +71,10 @@ export const getShopProduct = async (productId: number) => {
 // -------------- get categories --------------
 
 export const getShopCategories = async () => {
-  const { data, error } = await supabase.from("categories").select("name , id");
+  const { data, error } = await supabase
+    .from("categories")
+    .select("name , id")
+    .order("id", { ascending: true });
 
   if (error) {
     throw error;
@@ -78,7 +85,10 @@ export const getShopCategories = async () => {
 // -------------- get brands --------------
 
 export const getShopBrands = async () => {
-  const { data, error } = await supabase.from("brands").select("name , id");
+  const { data, error } = await supabase
+    .from("brands")
+    .select("name , id")
+    .order("id", { ascending: true });
 
   if (error) {
     throw error;

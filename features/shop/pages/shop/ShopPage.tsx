@@ -1,9 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Field, FieldDescription, FieldTitle } from "@/components/ui/field";
-import { Slider } from "@/components/ui/slider";
-
 import { useState, useEffect } from "react";
 import { ProductType } from "@/types/product";
 import ProductCard from "../../components/ProductCard";
@@ -12,8 +9,8 @@ import {
   useGetShopBrands,
   useGetShopCategories,
 } from "./hooks/useShop";
-import { supabase } from "@/lib/supabase";
 import { ProductCardSkeleton } from "../../components/ProductCardSkilton";
+import { FilterBar } from "../../components/FilterBar";
 
 type Option = {
   label: string;
@@ -110,100 +107,19 @@ const ShopPage = () => {
     <div className="mx-10">
       {/* body */}
       <div className="flex flex-wrap gap-10 mt-15">
-        {/* Left */}
-
-        <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-full max-w-xs h-fit">
-          {/* 1 L */}
-          <div className="flex flex-col gap-3 text-primary">
-            <div>FILTERS</div>
-            <div className="bg-primary w-full h-px"></div>
-          </div>
-
-          {/* 2 L */}
-
-          <div className="flex flex-col gap-8 mt-8">
-            {filterMenu.map((menu, i) => (
-              <div key={i} className="flex flex-col gap-5">
-                <div className="font-bold text-primary text-lg">
-                  {menu.title}
-                </div>
-
-                <div className="flex flex-col gap-5">
-                  {menu.options.map((option, j: number) => {
-                    const checkboxId = `${menu.title}-${j}`;
-
-                    return (
-                      <div key={j} className="flex items-center gap-3">
-                        <input
-                          id={checkboxId}
-                          type="checkbox"
-                          checked={
-                            menu.title === "CATEGORY"
-                              ? selectedCategories.includes(option.value)
-                              : selectedBrands.includes(option.value)
-                          }
-                          onChange={() => {
-                            if (menu.title === "CATEGORY") {
-                              handleFilterChange(
-                                option.value,
-                                selectedCategories,
-                                setSelectedCategories,
-                              );
-                            }
-
-                            if (menu.title === "BRAND") {
-                              handleFilterChange(
-                                option.value,
-                                selectedBrands,
-                                setSelectedBrands,
-                              );
-                            }
-                          }}
-                        />
-                        <label
-                          htmlFor={checkboxId}
-                          className="text-zinc-400 text-sm"
-                        >
-                          {option.label}
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-
-            {/* price filter */}
-            <div className="flex flex-col gap-4 w-full">
-              <div>
-                <Field className="w-full max-w-xs">
-                  <FieldTitle className="text-primary text-lg">
-                    PRICE
-                  </FieldTitle>
-                  <FieldDescription className="text-sm">
-                    ($
-                    <span className="font-medium tabular-nums">
-                      {value[0]}
-                    </span>{" "}
-                    -{" "}
-                    <span className="font-medium tabular-nums">{value[1]}</span>
-                    )
-                  </FieldDescription>
-                  <Slider
-                    value={value}
-                    onValueChange={(val) => setValue(val)}
-                    onValueCommit={(val) => setPriceRange(val)}
-                    min={0}
-                    max={1000}
-                    step={10}
-                    className="mt-2 w-full"
-                    aria-label="Price Range"
-                  />
-                </Field>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Left - Filter Component */}
+        <FilterBar
+          filterMenu={filterMenu}
+          selectedCategories={selectedCategories}
+          selectedBrands={selectedBrands}
+          handleFilterChange={handleFilterChange}
+          setSelectedCategories={setSelectedCategories}
+          setSelectedBrands={setSelectedBrands}
+          value={value}
+          setValue={setValue}
+          setPriceRange={setPriceRange}
+          setCurrentPage={setCurrentPage}
+        />
 
         <div className="flex flex-col flex-1 gap-10 w-full min-h-screen">
           {/* 1 R - Header */}
@@ -224,12 +140,6 @@ const ShopPage = () => {
 
           {/* 2 R - Flexible Grid */}
           <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
-            {products?.data &&
-              products?.data?.length > 0 &&
-              products?.data?.map((product: ProductType) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-
             {isProductsLoading ? (
               Array.from({ length: 8 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
