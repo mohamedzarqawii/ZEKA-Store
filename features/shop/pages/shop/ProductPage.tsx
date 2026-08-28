@@ -20,6 +20,13 @@ import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  useGetFavorites,
+  useToggleFavorites,
+} from "@/features/profile/pages/favorites/hooks/useFavorites";
+import { FavoriteItem } from "@/types/favoriteItem";
+import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import { Heart, HeartIcon } from "@/components/animate-ui/icons/heart";
 
 interface ViewProps {
   productId: string;
@@ -83,6 +90,35 @@ const ProductPage = ({ productId }: ViewProps) => {
 
   const handleChangeImage = (url: string) => {
     setSelectedImage(url);
+  };
+
+  // ------------- handle favorites -------------
+
+  const { data: favorites = [] } = useGetFavorites(currentUser?.id);
+  const { mutate: toggleFavorites, isPending: isToggleFavorite } =
+    useToggleFavorites();
+
+  const favoriteItem = favorites.find(
+    (item: FavoriteItem) => item.productId === product?.id,
+  );
+  const isInFavorite = !!favoriteItem;
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (!currentUser?.id) {
+      toast.error("Please login to manage you favorites");
+      return;
+    }
+
+    if (!product) {
+      return;
+    }
+
+    toggleFavorites({
+      userId: currentUser.id,
+      productId: product.id,
+    });
   };
 
   if (isProductLoading) {
@@ -232,14 +268,26 @@ const ProductPage = ({ productId }: ViewProps) => {
             {/* add to favorites button */}
             <Button
               variant={"outline"}
+              onClick={handleFavoriteClick}
               className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl h-20 text-lg cursor-pointer"
             >
-              {/* {isFavorite ? (
-                  <IconHeartFilled className="size-7 text-primary" />
-                ) : (
-                <IconHeart className="size-7 text-primary" />
-                )} */}
-              <IconHeart className="size-7 text-primary" />
+              {isToggleFavorite ? (
+                <AnimateIcon loop animateOnView loopDelay={100}>
+                  <Heart
+                    className="size-7 text-primary cursor-pointer"
+                    animation="path"
+                  />
+                </AnimateIcon>
+              ) : isInFavorite ? (
+                <AnimateIcon animateOnView>
+                  <Heart
+                    className="size-7 text-primary cursor-pointer"
+                    animation="fill"
+                  />
+                </AnimateIcon>
+              ) : (
+                <Heart className="size-7 text-primary cursor-pointer" />
+              )}
             </Button>
           </div>
         </div>

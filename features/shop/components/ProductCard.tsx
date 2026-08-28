@@ -7,6 +7,7 @@ import {
   IconShoppingCartPlus,
   IconShoppingCart,
 } from "@tabler/icons-react";
+import { Heart } from "../../../components/animate-ui/icons/heart";
 
 import { Badge } from "@/components/ui/badge";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
@@ -19,15 +20,13 @@ import {
   useToggleFavorites,
 } from "@/features/profile/pages/favorites/hooks/useFavorites";
 import { FavoriteItem } from "@/types/favoriteItem";
+import { Spinner } from "@/components/ui/spinner";
+import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const { data: currentUser } = useGetCurrentUser();
   const { data: cart = [] } = useGetCart(currentUser?.id);
   const { mutate: toggleCart, isPending: isToggleCart } = useToggleCart();
-
-  const { data: favorites = [] } = useGetFavorites(currentUser?.id);
-  const { mutate: toggleFavorites, isPending: isToggleFavorite } =
-    useToggleFavorites();
 
   const cartItem = cart.find((item) => item.productId === product.id);
   console.log(cartItem);
@@ -48,10 +47,13 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     });
   };
 
+  const { data: favorites = [] } = useGetFavorites(currentUser?.id);
+  const { mutate: toggleFavorites, isPending: isToggleFavorite } =
+    useToggleFavorites();
+
   const favoriteItem = favorites.find(
     (item: FavoriteItem) => item.productId === product.id,
   );
-  console.log(favoriteItem);
   const isInFavorite = !!favoriteItem;
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
@@ -78,17 +80,27 @@ const ProductCard = ({ product }: { product: ProductType }) => {
             {/* love icon */}
             <div className="flex flex-col">
               <Button
-                variant={"none"}
-                size={"none"}
-                onClick={(e) => {
-                  handleFavoriteClick(e);
-                }}
+                variant="none"
+                size="none"
+                onClick={handleFavoriteClick}
                 className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
               >
-                {isInFavorite ? (
-                  <IconHeartFilled className="size-6 text-primary" />
+                {isToggleFavorite ? (
+                  <AnimateIcon loop animateOnView loopDelay={100}>
+                    <Heart
+                      className="size-5 text-primary cursor-pointer"
+                      animation="path"
+                    />
+                  </AnimateIcon>
+                ) : isInFavorite ? (
+                  <AnimateIcon animateOnView>
+                    <Heart
+                      className="size-5 text-primary cursor-pointer"
+                      animation="fill"
+                    />
+                  </AnimateIcon>
                 ) : (
-                  <IconHeart className="size-6 text-primary" />
+                  <Heart className="size-5 text-primary cursor-pointer" />
                 )}
               </Button>
 
