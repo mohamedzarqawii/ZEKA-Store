@@ -1,9 +1,16 @@
+import { ProductType } from "./product";
+
+export type OrderItemType = {
+  id: number;
+  price: number;
+  product: ProductType;
+  quantity: number;
+};
+
 export type OrderType = {
-  id: string;
-  createdAt: Date;
-  products: {
-    productId: number;
-    quantity: number;
-    size?: number;
-  }[];
+  id: number;
+  status: string;
+  total: number;
+  createdAt: string;
+  order_items: OrderItemType[];
 };

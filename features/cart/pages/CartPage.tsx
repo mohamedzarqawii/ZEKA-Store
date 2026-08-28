@@ -5,9 +5,17 @@ import { useState } from "react";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart } from "./hooks/useCart";
 import { ProductType } from "@/types/product";
+import { useCreateOrder } from "@/features/profile/pages/orders/pages/hooks/useOrder";
 
 const CartPage = () => {
   const { data: currentUser, isLoading } = useGetCurrentUser();
+  const { mutate: createOrderMutation, isPending } = useCreateOrder();
+
+  const handleCreateOrder = () => {
+    if (!currentUser?.id) return;
+
+    createOrderMutation(currentUser.id);
+  };
 
   const { data: cart = [], isLoading: isLoadingCart } = useGetCart(
     currentUser?.id,
@@ -77,7 +85,7 @@ const CartPage = () => {
                 </div>
 
                 <button
-                  onClick={handleCheckout}
+                  onClick={handleCreateOrder}
                   disabled={checkoutStatus !== "idle"}
                   className="bg-primary hover:bg-secondary disabled:opacity-70 px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300"
                 >

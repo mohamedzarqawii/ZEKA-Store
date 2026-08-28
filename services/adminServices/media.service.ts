@@ -27,3 +27,19 @@ export const uploadMedia = async (file: File) => {
     url: publicUrl,
   };
 };
+
+export const getProductImageUrls = async () => {
+  const { data, error } = await supabase.storage.from("products media").list();
+
+  if (error) {
+    throw error;
+  }
+
+  return data.map((file) => {
+    const { data } = supabase.storage
+      .from("products media")
+      .getPublicUrl(file.name);
+
+    return data.publicUrl;
+  });
+};
