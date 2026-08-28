@@ -102,7 +102,7 @@ const ProductPage = ({ productId }: ViewProps) => {
       <div className="flex items-center gap-6 w-full h-fit">
         {/* left */}
         <div className="relative flex gap-8 w-full max-w-155">
-          <div className="flex flex-col gap-4 rounded-2xl w-25 h-130 overflow-y-auto no-scrollbar">
+          <div className="flex flex-col gap-4 rounded-2xl w-31 h-130 overflow-y-auto no-scrollbar">
             {product?.images?.length ? (
               product.images.map((image, i) => (
                 <img
