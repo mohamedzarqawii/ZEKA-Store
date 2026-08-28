@@ -8,10 +8,15 @@ import { AnimateIcon } from "./animate-ui/icons/icon";
 import { ShieldCogCorner } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useGetCart } from "@/features/cart/pages/hooks/useCart";
+import { Badge } from "./ui/badge";
 
 const Header = () => {
   const pathname = usePathname();
-  const router = useRouter();
+  const { data: currentUser } = useGetCurrentUser();
+  const { data: cart = [], isLoading: isLoadingCart } = useGetCart(
+    currentUser?.id,
+  );
 
   const menuItems = [
     { name: "HOME", href: "/" },
@@ -19,8 +24,6 @@ const Header = () => {
     { name: "ABOUT", href: "/aboutUs" },
     { name: "CONTACT", href: "/contact" },
   ];
-
-  const { data: currentUser } = useGetCurrentUser();
 
   return (
     <header className="top-0 left-0 z-50 sticky backdrop-blur-md w-full">
@@ -96,14 +99,14 @@ const Header = () => {
             )}
           </div>
 
-          <Link
-            href="/cart"
-            className="flex items-center p-1 rounded-lg hover:text-primary transition-color duration-300 hover:cursor-pointer"
-          >
-            <Button className="hover:cursor-pointer">
+          <Link href="/cart" className="inline-flex relative">
+            <Button className="flex justify-center items-center hover:cursor-pointer">
               <ShoppingCartIcon
                 className={`hover:cursor-pointer ${pathname === "/cart" ? "text-primary" : "hover:text-primary"}`}
               />
+              <span className="-top-2 -right-2 absolute flex justify-center items-center bg-primary/70 rounded-full w-4 h-4 text-[8px]">
+                {cart.length}
+              </span>
             </Button>
           </Link>
         </div>
