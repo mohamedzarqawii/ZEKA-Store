@@ -11,8 +11,6 @@ import { useGetShopProducts } from "../shop/pages/shop/hooks/useShop";
 const HomePage = () => {
   const { data: products, isLoading: isProductsLoading } = useGetShopProducts();
 
-  console.log(products);
-
   return (
     <div className="mx-10">
       {/* <div className="bg-[#FEFEFE] h-px"></div> */}

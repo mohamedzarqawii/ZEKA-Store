@@ -8,9 +8,35 @@ import {
 } from "@tabler/icons-react";
 
 import { Badge } from "@/components/ui/badge";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
+import { toast } from "sonner";
 import Counter from "@/components/Counter";
+import { Button } from "@/components/ui/button";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
+  const { data: currentUser } = useGetCurrentUser();
+  const { data: cart = [] } = useGetCart(currentUser?.id);
+  const { mutate: toggleCart, isPending } = useToggleCart();
+
+  const cartItem = cart.find((item) => item.productId === product.id);
+  console.log(cartItem);
+  const isInCart = !!cartItem;
+
+  const handleCartClick = (e: React.MouseEvent, action: "add" | "decrease") => {
+    e.preventDefault(); // منع فتح الرابط عند الضغط على الزر
+
+    if (!currentUser?.id) {
+      toast.error("Please login to manage your cart");
+      return;
+    }
+
+    toggleCart({
+      userId: currentUser.id,
+      productId: product.id,
+      action: action,
+    });
+  };
   return (
     <div>
       <Link href={`/shop/${product.id}`}>
@@ -49,40 +75,37 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           {/* content */}
           <div className="bg-zinc-900 p-4">
             <div className="flex flex-col gap-4">
-              <div className="flex justify-between items-center h-7">
+              <div className="flex justify-between items-center w-full h-7">
                 <div className="font-light text-[15px] line-clamp-1">
                   {product.name}
                 </div>
 
                 {/* add to cart */}
 
-                {/* {isInCart && cartItem ? (
+                {isInCart && cartItem ? (
                   <>
                     <Counter
-                      product={cartItem}
-                      classname="flex items-center bg-zinc-700 h-7 rounded-md w-18"
-                      plusClass="flex justify-center items-center pl-2 py-0.5 hover:cursor-pointer"
-                      minusClass="flex justify-center items-center pr-2 py-0.5"
+                      product={cartItem.product}
+                      classname="flex items-center bg-zinc-700 h-7 min-w-19 rounded-md max-w-20"
+                      plusClass="flex justify-center items-center pr-2 py-0.5 hover:cursor-pointer"
+                      minusClass="flex justify-center items-center pl-2 py-0.5 hover:cursor-pointer"
                       spanClass="mx-auto select-none"
-                      trashSize="size-4 text-primary"
+                      trashSize="size-4 text-primary flex justify-center items-center hover:cursor-pointer "
                     />
                   </>
                 ) : (
-                  <button
+                  <Button
+                    size={"none"}
+                    variant={"none"}
                     className="p-1.5 border border-primary rounded-lg hover:scale-105 transition-transform duration-600 group-hover:cursor-pointer"
                     onClick={(e) => {
-                      e.preventDefault();
-                      if (isInCart) {
-                        removeFromCart(product.id);
-                      } else {
-                        addToCart(product, 1);
-                      }
+                      handleCartClick(e, "add");
                     }}
                     disabled={product.stock == 0}
                   >
                     <IconShoppingCartPlus className="size-4 text-primary" />
-                  </button>
-                )} */}
+                  </Button>
+                )}
               </div>
 
               <p className="text-gray-400 text-xs line-clamp-1">

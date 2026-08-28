@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { ReqResetPassType } from "@/types/auth/resetPassword";
 import { supabase } from "@/lib/supabase";
+import { User } from "@/types/user";
 
 const AUTH_TOKEN_CHANGED_EVENT = "auth-token-changed";
 
@@ -47,7 +48,7 @@ const getErrorMessage = (error: unknown, fallback: string) => {
   );
 };
 export const useGetCurrentUser = () => {
-  return useQuery({
+  return useQuery<User>({
     queryKey: ["currentUser"],
     queryFn: getCurrentUser,
     retry: false,
@@ -137,7 +138,7 @@ export const useDeleteAccount = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (userId: number) => deleteAccount(userId),
+    mutationFn: (userId: string) => deleteAccount(userId),
     onSuccess: () => {
       localStorage.removeItem("token");
       notifyAuthTokenChanged();

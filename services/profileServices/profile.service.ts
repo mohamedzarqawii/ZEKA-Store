@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { reqUpdateProfile } from "@/types/auth/profile";
 // -------------- update profile --------------
 
-export const updateProfile = async (userId: number, body: reqUpdateProfile) => {
+export const updateProfile = async (userId: string, body: reqUpdateProfile) => {
   const { data, error } = await supabase
     .from("users")
     .update(body)
@@ -20,7 +20,7 @@ export const updateProfile = async (userId: number, body: reqUpdateProfile) => {
 
 // -------------- get profile --------------
 
-export const getProfile = async (userId: number) => {
+export const getProfile = async (userId: string) => {
   const { data, error } = await supabase
     .from("users")
     .select("*")

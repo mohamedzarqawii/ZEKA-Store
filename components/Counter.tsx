@@ -1,7 +1,13 @@
-import { useState } from "react";
-import { CartItemType } from "@/context/CartContext";
-import { useCart } from "@/context/CartContext";
 import { IconTrash } from "@tabler/icons-react";
+import { ProductType } from "@/types/product";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
+import { toast } from "sonner";
+import { CartItemType } from "@/context/CartContext";
+import { Spinner } from "./ui/spinner";
+import { Button } from "./ui/button";
+import { stat } from "fs";
+import { useGetShopProduct } from "@/features/shop/pages/shop/hooks/useShop";
 
 const Counter = ({
   product,
@@ -11,16 +17,53 @@ const Counter = ({
   spanClass,
   trashSize,
 }: {
-  product: CartItemType;
+  product: ProductType;
   classname?: string;
   plusClass?: string;
   minusClass?: string;
   spanClass?: string;
   trashSize?: string;
 }) => {
-  const { removeFromCart, updateQuantity } = useCart();
-  const [quantity, setQuantity] = useState(product.quantity);
+  const {
+    data,
+    isLoading: isProductLoading,
+    refetch: reGetProduct,
+  } = useGetShopProduct(Number(product.id));
+  const { data: currentUser, refetch } = useGetCurrentUser();
+  const { data: cart = [], refetch: reGetCart } = useGetCart(currentUser?.id);
+  const { mutateAsync: toggleCart, isPending } = useToggleCart();
 
+  const cartItem = cart.find((item) => item?.productId === product?.id);
+
+  const handleCartClick = async (
+    e: React.MouseEvent,
+    action: "add" | "decrease",
+  ) => {
+    e.preventDefault();
+
+    if (!currentUser?.id) {
+      toast.error("Please login to manage your cart");
+      return;
+    }
+
+    await toggleCart({
+      userId: currentUser.id,
+      productId: product.id,
+      action: action,
+    });
+
+    await Promise.all([reGetCart(), reGetProduct()]);
+  };
+
+  const disabled = () => {
+    if (cartItem?.quantity == product.stock) {
+      return true;
+    } else return false;
+  };
+
+  if (!cartItem) {
+    return;
+  }
   return (
     <div
       className={classname}
@@ -28,34 +71,37 @@ const Counter = ({
         e.preventDefault();
       }}
     >
-      <button
-        className={plusClass}
+      <Button
+        size={"none"}
+        variant={"none"}
+        className={minusClass}
         onClick={(e) => {
-          e.preventDefault();
-          if (quantity > 1) {
-            setQuantity(quantity - 1);
-            updateQuantity(product.id, quantity - 1);
-          } else {
-            removeFromCart(product.id);
-          }
+          handleCartClick(e, "decrease");
         }}
+        disabled={isPending}
       >
-        {quantity > 1 ? "-" : <IconTrash className={trashSize} />}
-      </button>
-      <div className={` ${spanClass}`}>{quantity}</div>
-      <button
-        className={`${minusClass} ${quantity >= product.stock ? "text-zinc-500 cursor-not-allowed" : "hover:cursor-pointer"}`}
-        disabled={quantity >= product.stock}
+        {cartItem.quantity > 1 ? "-" : <IconTrash className={trashSize} />}
+      </Button>
+      <div className={` ${spanClass}`}>
+        {isPending ? (
+          <span className="flex justify-center items-center gap-2">
+            <Spinner data-icon="inline-start" />
+          </span>
+        ) : (
+          `${cartItem?.quantity}`
+        )}
+      </div>
+      <Button
+        variant={"none"}
+        size={"none"}
+        className={plusClass}
+        disabled={isPending || disabled()}
         onClick={(e) => {
-          e.preventDefault();
-          if (quantity < product.stock) {
-            setQuantity(quantity + 1);
-            updateQuantity(product.id, quantity + 1);
-          }
+          handleCartClick(e, "add");
         }}
       >
         +
-      </button>
+      </Button>
     </div>
   );
 };

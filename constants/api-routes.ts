@@ -4,7 +4,7 @@ const API_ROUTES = {
     login: "/api/auth/local",
     signup: "/api/auth/local/register",
     emailConfirmation: "api/auth/send-email-confirmation",
-    deleteAccount: (userId: number) => `/api/users/${userId}`,
+    deleteAccount: (userId: string) => `/api/users/${userId}`,
     resetPassword: "/api/auth/change-password",
   },
   profile: {

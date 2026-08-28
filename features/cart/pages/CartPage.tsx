@@ -1,17 +1,26 @@
 "use client";
 
 import ItemCart from "@/features/cart/components/CartItemCard";
-import { useCart } from "@/context/CartContext";
 import { useState } from "react";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useGetCart } from "./hooks/useCart";
+import { ProductType } from "@/types/product";
 
 const CartPage = () => {
+  const { data: currentUser, isLoading } = useGetCurrentUser();
+
+  const { data: cart = [], isLoading: isLoadingCart } = useGetCart(
+    currentUser?.id,
+  );
+
+  console.log(currentUser?.id);
+
   const [checkoutStatus, setCheckoutStatus] = useState<
     "idle" | "processing" | "success"
   >("idle");
-  const { cart } = useCart();
-  // const { checkout } = useAuth();
+
   const subtotal = cart.reduce((sum, item) => {
-    return sum + item.price * item.quantity;
+    return sum + (item.product?.price || 0) * item.quantity;
   }, 0);
   const shippingFee = cart.length > 0 ? 20 : 0;
   const total = subtotal + shippingFee;
@@ -24,8 +33,6 @@ const CartPage = () => {
     setCheckoutStatus("success");
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // checkout();
   }
 
   return (
@@ -41,7 +48,7 @@ const CartPage = () => {
             {/* left */}
             <div className="flex flex-col gap-6 w-full">
               {cart.map((item) => (
-                <ItemCart key={item.id} product={item} />
+                <ItemCart key={item.id} product={item.product} />
               ))}
             </div>
 

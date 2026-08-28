@@ -31,7 +31,7 @@ const AddressesPage = () => {
                   Governorate - Egypt
                 </div>
                 <div className="mt-4 text-zinc-400 text-xs">
-                  {currentUser?.firstName} {currentUser?.lastName}
+                  {currentUser?.first_name} {currentUser?.last_name}
                 </div>
               </div>
             </div>

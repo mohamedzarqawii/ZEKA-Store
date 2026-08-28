@@ -1,14 +1,11 @@
 "use client";
 
-import { CartItemType } from "@/context/CartContext";
 import { useCart } from "@/context/CartContext";
 import Counter from "@/components/Counter";
 import Link from "next/link";
+import { ProductType } from "@/types/product";
 
-const ItemCart = ({ product }: { product: CartItemType }) => {
-  const { cart } = useCart();
-  const cartItem = cart.find((item) => item.id === product.id);
-
+const ItemCart = ({ product }: { product: ProductType }) => {
   return (
     <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl">
       {/* 1 */}
@@ -18,8 +15,7 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
           {/* image */}
 
           <img
-            // src={product?.image}
-            src={"product?.image"}
+            src={product?.images[0]}
             alt={product.name}
             className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
           />
@@ -34,9 +30,7 @@ const ItemCart = ({ product }: { product: CartItemType }) => {
       {/* 2 */}
       <div className="flex justify-between items-center gap-6">
         {/* price */}
-        <div className="min-w-3 font-bold text-xl">
-          ${product.price.toFixed(2)}
-        </div>
+        <div className="min-w-3 font-bold text-xl">${product?.price}</div>
 
         {/* Counter */}
         <Counter

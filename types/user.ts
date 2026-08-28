@@ -2,9 +2,9 @@ import { OrderType } from "./order";
 import { ProductType } from "./product";
 
 export type User = {
-  id: number;
-  firstName: string;
-  lastName: string;
+  id: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   phoneNumber?: string;
@@ -17,5 +17,5 @@ export type User = {
   birthday?: string;
   gender?: "male" | "female";
   orders: OrderType[];
-  role?: { name: string };
+  role?: string;
 };

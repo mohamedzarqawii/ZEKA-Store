@@ -200,7 +200,7 @@ const ProfileLeftBar = () => {
     <div className="top-24 sticky flex flex-col gap-4 w-full max-w-xs h-fit">
       <div className="flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-6 border border-primary rounded-3xl h-fit">
         <div className="flex flex-col gap-2">
-          <div>Hello, {currentUser.firstName} !</div>
+          <div>Hello, {currentUser.first_name} !</div>
           <div className="text-zinc-400 text-xs">{currentUser.email}</div>
         </div>
       </div>

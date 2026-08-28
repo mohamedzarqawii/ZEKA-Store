@@ -45,7 +45,6 @@ const ProfilePage = () => {
   const { mutateAsync: handleUpdateProfile, isPending: isProfileUpdating } =
     useUpdateProfile();
 
-  console.log(currentUser);
   const router = useRouter();
 
   const [open, setOpen] = useState(false);

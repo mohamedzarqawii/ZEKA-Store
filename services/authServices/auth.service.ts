@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { ReqLoginType } from "@/types/auth/login";
 import { ReqResetPassType, ResResetPassType } from "@/types/auth/resetPassword";
 import { ReqSignUpType } from "@/types/auth/signup";
+import { User } from "@/types/user";
 import { toast } from "sonner";
 
 // -------------- get current user --------------
@@ -80,7 +81,7 @@ export const signUp = async ({
 
 // -------------- delete account --------------
 
-export const deleteAccount = async (userId: number) => {
+export const deleteAccount = async (userId: string) => {
   const { data } = await api.delete(API_ROUTES.auth.deleteAccount(userId));
   return data;
 };

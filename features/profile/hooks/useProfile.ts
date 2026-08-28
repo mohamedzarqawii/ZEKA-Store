@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface UpdateProfileParams {
-  userId: number;
+  userId: string;
   body: reqUpdateProfile;
 }
 
@@ -35,7 +35,7 @@ export const useGetProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (userId: number) => {
+    mutationFn: async (userId: string) => {
       return getProfile(userId);
     },
     onSuccess: (res) => {

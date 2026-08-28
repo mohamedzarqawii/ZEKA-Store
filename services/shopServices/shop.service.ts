@@ -36,9 +36,6 @@ export const getShopProducts = async (
   if (error) {
     throw error;
   }
-  if (data) {
-    console.log(data);
-  }
 
   return {
     data: data ?? [],
@@ -120,16 +117,16 @@ export const getShopRelatedProductsByBrand = async (brandId: number) => {
 
 // -------------- update user favorites --------------
 
-export const updateUserFavorites = async (
-  userId: string,
-  newFavorites: number[],
-) => {
-  const { data } = await api.put(API_ROUTES.favorite.update(userId), {
-    favorites: newFavorites,
-  });
+// export const updateUserFavorites = async (
+//   userId: string,
+//   newFavorites: number[],
+// ) => {
+//   const { data } = await api.put(API_ROUTES.favorite.update(userId), {
+//     favorites: newFavorites,
+//   });
 
-  return data;
-};
+//   return data;
+// };
 
 // // -------------- get favorites --------------
 
