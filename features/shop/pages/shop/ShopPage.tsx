@@ -13,6 +13,7 @@ import {
   useGetShopCategories,
 } from "./hooks/useShop";
 import { supabase } from "@/lib/supabase";
+import { ProductCardSkeleton } from "../../components/ProductCardSkilton";
 
 type Option = {
   label: string;
@@ -90,12 +91,17 @@ const ShopPage = () => {
     setCurrentPage(1);
   };
 
-  if (isProductsLoading && !products) {
+  if (
+    isProductsLoading &&
+    !products &&
+    isBrandsLoading &&
+    isCategoriesLoading
+  ) {
     return (
       <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
         {/* 1 */}
         <div className="flex flex-col items-center gap-4">
-          <div className="text-primary text-3xl">Loading Product...</div>
+          <div className="text-primary text-3xl">Loading Products...</div>
         </div>
       </div>
     );
@@ -223,6 +229,20 @@ const ShopPage = () => {
               products?.data?.map((product: ProductType) => (
                 <ProductCard key={product.id} product={product} />
               ))}
+
+            {isProductsLoading ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))
+            ) : products?.data && products?.data?.length > 0 ? (
+              products.data.map((product: ProductType) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <div className="col-span-full py-10 text-muted-foreground text-center">
+                No products found.
+              </div>
+            )}
           </div>
         </div>
 

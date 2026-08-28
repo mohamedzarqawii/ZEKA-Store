@@ -22,12 +22,23 @@ import {
 import { FavoriteItem } from "@/types/favoriteItem";
 import { Spinner } from "@/components/ui/spinner";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import { ProductCardSkeleton } from "./ProductCardSkilton";
+import { useGetShopProduct } from "../pages/shop/hooks/useShop";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
-  const { data: currentUser } = useGetCurrentUser();
-  const { data: cart = [] } = useGetCart(currentUser?.id);
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
+  const { data: cart = [], isLoading: isCartLoading } = useGetCart(
+    currentUser?.id,
+  );
   const { mutate: toggleCart, isPending: isToggleCart } = useToggleCart();
 
+  const { data: favorites = [], isLoading: isLoadingFavorites } =
+    useGetFavorites(currentUser?.id);
+  const { mutate: toggleFavorites, isPending: isToggleFavorite } =
+    useToggleFavorites();
+
+  // ------------------------------------
   const cartItem = cart.find((item) => item.productId === product.id);
   console.log(cartItem);
   const isInCart = !!cartItem;
@@ -47,10 +58,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     });
   };
 
-  const { data: favorites = [] } = useGetFavorites(currentUser?.id);
-  const { mutate: toggleFavorites, isPending: isToggleFavorite } =
-    useToggleFavorites();
-
+  // -----------------------------------
   const favoriteItem = favorites.find(
     (item: FavoriteItem) => item.productId === product.id,
   );
@@ -70,6 +78,9 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     });
   };
 
+  // if (isCartLoading && isLoadingFavorites && isCurrentUserLoading) {
+  //   return <ProductCardSkeleton />;
+  // }
   return (
     <div>
       <Link href={`/shop/${product.id}`}>
