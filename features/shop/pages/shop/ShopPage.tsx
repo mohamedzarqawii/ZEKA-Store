@@ -123,38 +123,46 @@ const ShopPage = () => {
                 </div>
 
                 <div className="flex flex-col gap-5">
-                  {menu.options.map((option, j: number) => (
-                    <div key={j} className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        checked={
-                          menu.title === "CATEGORY"
-                            ? selectedCategories.includes(option.value)
-                            : selectedBrands.includes(option.value)
-                        }
-                        onChange={() => {
-                          if (menu.title === "CATEGORY") {
-                            handleFilterChange(
-                              option.value,
-                              selectedCategories,
-                              setSelectedCategories,
-                            );
-                          }
+                  {menu.options.map((option, j: number) => {
+                    const checkboxId = `${menu.title}-${j}`;
 
-                          if (menu.title === "BRAND") {
-                            handleFilterChange(
-                              option.value,
-                              selectedBrands,
-                              setSelectedBrands,
-                            );
+                    return (
+                      <div key={j} className="flex items-center gap-3">
+                        <input
+                          id={checkboxId}
+                          type="checkbox"
+                          checked={
+                            menu.title === "CATEGORY"
+                              ? selectedCategories.includes(option.value)
+                              : selectedBrands.includes(option.value)
                           }
-                        }}
-                      />
-                      <label className="text-zinc-400 text-sm">
-                        {option.label}
-                      </label>
-                    </div>
-                  ))}
+                          onChange={() => {
+                            if (menu.title === "CATEGORY") {
+                              handleFilterChange(
+                                option.value,
+                                selectedCategories,
+                                setSelectedCategories,
+                              );
+                            }
+
+                            if (menu.title === "BRAND") {
+                              handleFilterChange(
+                                option.value,
+                                selectedBrands,
+                                setSelectedBrands,
+                              );
+                            }
+                          }}
+                        />
+                        <label
+                          htmlFor={checkboxId}
+                          className="text-zinc-400 text-sm"
+                        >
+                          {option.label}
+                        </label>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ))}

@@ -113,3 +113,12 @@ const Header = () => {
 };
 
 export default Header;
+
+{
+  /* <div className="inline-flex relative">
+  <IconShoppingCart className="text-primary" />
+  <span className="-right-2 -bottom-2 absolute bg-primary p-0.5 rounded-full text-[8px] text-white">
+    {cartItem?.quantity}
+  </span>
+</div>; */
+}

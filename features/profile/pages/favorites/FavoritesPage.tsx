@@ -1,16 +1,22 @@
 "use client";
 
 import { useFavorites } from "@/context/FavoritesContext";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import ProductCard from "@/features/shop/components/ProductCard";
 
 import React, { useEffect } from "react";
+import { useGetFavorites, useToggleFavorites } from "./hooks/useFavorites";
 
 const FavoritesPage = () => {
-  const { favoritesData, refreshFavorites } = useFavorites();
+  // const { favoritesData, refreshFavorites } = useFavorites();
 
-  useEffect(() => {
-    refreshFavorites();
-  }, []);
+  // useEffect(() => {
+  //   refreshFavorites();
+  // }, []);
+
+  const { data: currentUser } = useGetCurrentUser();
+  const { data: favoritesData = [] } = useGetFavorites(currentUser?.id);
+  console.log(favoritesData);
 
   return (
     <div>

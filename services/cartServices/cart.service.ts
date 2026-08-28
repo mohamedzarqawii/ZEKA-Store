@@ -9,14 +9,7 @@ export const getCart = async (userId: string) => {
       userId,
       productId,
       quantity,
-      product:products (
-        id,
-        name,
-        description,
-        price,
-        stock,
-        images
-      )
+      product:products (*, category:categories(*) , brand:brands(*))
     `,
     )
     .eq("userId", userId);
