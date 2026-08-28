@@ -33,7 +33,8 @@ export const getAdminProducts = async (
     query = query.in("brand_id", brands);
   }
 
-  query = query.gte("price", minPrice).lte("price", maxPrice).range(from, to);
+  // query = query.gte("price", minPrice).lte("price", maxPrice).range(from, to);
+  query = query.gte("price", minPrice).lte("price", maxPrice);
 
   const { data, error, count } = await query;
 
@@ -56,6 +57,18 @@ export const getAdminProducts = async (
     },
   };
 };
+
+// export const getAdminProducts = async (
+//   page: number = 1,
+//   categories: string[] = [],
+//   brands: string[] = [],
+//   minPrice: number = 0,
+//   maxPrice: number = 1000,
+// ) => {
+//   const { data, error } = await supabase.from("products").select("*");
+
+//   return data: data ?? []
+// };
 
 // -------------- GetProduct --------------
 
