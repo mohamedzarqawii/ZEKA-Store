@@ -269,7 +269,7 @@ const ProductPage = ({ productId }: ViewProps) => {
             <Button
               variant={"outline"}
               onClick={handleFavoriteClick}
-              className="px-6 py-6 border border-primary hover:border-secondary rounded-2xl h-20 text-lg cursor-pointer"
+              className="px-6 py-6 border border-primary rounded-2xl h-20 text-lg cursor-pointer"
             >
               {isToggleFavorite ? (
                 <AnimateIcon loop animateOnView loopDelay={100}>
