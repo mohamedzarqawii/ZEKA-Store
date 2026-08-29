@@ -1,7 +1,3 @@
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
 const GiftCardPage = () => {
   return (
     <div>
