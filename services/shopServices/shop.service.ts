@@ -1,7 +1,4 @@
-import API_ROUTES from "@/constants/api-routes";
-import api from "@/lib/axios";
 import { supabase } from "@/lib/supabase";
-import { ProductType } from "@/types/product";
 
 // -------------- getProducts --------------
 

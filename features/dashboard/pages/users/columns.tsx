@@ -22,31 +22,6 @@ export const columns = (
   onToggleBlock: (userId: string, currentStatus: boolean) => void,
   onDelete: (documentId: string) => void,
 ): ColumnDef<Users>[] => [
-  //   {
-  //     accessorKey: "image",
-  //     header: () => (
-  //       <div className="pl-3 text-sm text-left tracking-wider">
-  //         Images
-  //       </div>
-  //     ),
-  //     cell: ({ row }) => {
-  //       const images = row.original.images;
-  //       const imageUrl = images?.[0]?.url
-  //         ? `http://localhost:1337${images[0].url}`
-  //         : "/images/placeholder.jpeg";
-  //       return (
-  //         <div className="flex justify-start pl-3">
-  //           <div className="relative bg-muted/20 border border-border/50 rounded-lg w-12 h-12 overflow-hidden">
-  //             <img
-  //               src={imageUrl}
-  //               alt={row.original.name}
-  //               className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-  //             />
-  //           </div>
-  //         </div>
-  //       );
-  //     },
-  //   },
   {
     accessorKey: "id",
     header: ({ column }) => (
