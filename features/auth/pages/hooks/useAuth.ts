@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   deleteAccount,
+  forgotPassword,
   getCurrentUser,
   login,
   resetPassword,
@@ -13,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { ReqResetPassType } from "@/types/auth/resetPassword";
 import { supabase } from "@/lib/supabase";
 import { User } from "@/types/user";
+import { reqForgotPassword } from "@/types/auth/forgotPassword";
 
 const AUTH_TOKEN_CHANGED_EVENT = "auth-token-changed";
 
@@ -152,37 +154,40 @@ export const useDeleteAccount = () => {
   });
 };
 
-export const useResestPassword = () => {
-  const queryClient = useQueryClient();
-
+export const useForgotPassword = () => {
   return useMutation({
-    mutationFn: (body: ReqResetPassType) => resetPassword(body),
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-      toast.success("Your Password has been changed successfully.", {
+    mutationFn: (email: reqForgotPassword) => forgotPassword(email),
+    onSuccess: (_, variables) => {
+      toast.success(`Please check your email ${variables.email}`, {
+        position: "bottom-right",
+      });
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to send recovery email. Please try again.";
+
+      toast.error(message, {
+        position: "bottom-right",
+      });
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: (password: string) => resetPassword(password),
+    onSuccess: () => {
+      toast.success("Password updated successfully!", {
         position: "bottom-right",
       });
     },
     onError: (error: unknown) => {
-      toast.error("Current password is not correct! Try agian.");
-
-      // const status =
-      //   (error as ApiError).response?.data?.error?.status ||
-      //   (error as ApiError).response?.data?.error?.status;
-      // switch (Number(status)) {
-      //   case 400:
-      //     toast.error("Invalid email or password, register first", {
-      //       position: "bottom-right",
-      //       action: {
-      //         label: "Register",
-      //         onClick: () => router.push("/register"),
-      //       },
-      //     });
-      //     break;
-      //   case 401:
-      //     toast.error("Unauthorized access", { position: "bottom-right" });
-      //     break;
-      // }
+      console.log(error);
+      toast.error("Failed to update password", {
+        position: "bottom-right",
+      });
     },
   });
 };

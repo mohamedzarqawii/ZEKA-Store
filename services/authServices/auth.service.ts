@@ -1,6 +1,10 @@
 import API_ROUTES from "@/constants/api-routes";
 import api from "@/lib/axios";
 import { supabase } from "@/lib/supabase";
+import {
+  reqForgotPassword,
+  reqResetPassword,
+} from "@/types/auth/forgotPassword";
 import { ReqLoginType } from "@/types/auth/login";
 import { ReqResetPassType, ResResetPassType } from "@/types/auth/resetPassword";
 import { ReqSignUpType } from "@/types/auth/signup";
@@ -79,19 +83,32 @@ export const signUp = async ({
   return data;
 };
 
-// -------------- delete account --------------
+// -------------- forgot password --------------
 
-export const deleteAccount = async (userId: string) => {
-  const { data } = await api.delete(API_ROUTES.auth.deleteAccount(userId));
+export const forgotPassword = async (email: reqForgotPassword) => {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(
+    "mohamedzarqawi1@gmail.com",
+  );
+
+  console.log(data);
+  if (error) {
+    throw error;
+  }
+
   return data;
 };
 
 // -------------- reset password --------------
 
-export const resetPassword = async (body: ReqResetPassType) => {
-  const { data } = await api.post<ResResetPassType>(
-    API_ROUTES.auth.resetPassword,
-    body,
-  );
+export const resetPassword = async (password: string) => {
+  const { error } = await supabase.auth.updateUser({
+    password: password,
+  });
+};
+
+// -------------- delete account --------------
+
+export const deleteAccount = async (userId: string) => {
+  const { data } = await api.delete(API_ROUTES.auth.deleteAccount(userId));
   return data;
 };

@@ -21,7 +21,7 @@ import SecurityInfomationCard from "@/features/profile/components/securityInfoma
 import {
   useDeleteAccount,
   useGetCurrentUser,
-  useResestPassword,
+  useResetPassword,
 } from "@/features/auth/pages/hooks/useAuth";
 
 const SecuritySettingsPage = () => {

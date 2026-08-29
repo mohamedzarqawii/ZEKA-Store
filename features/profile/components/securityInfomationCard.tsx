@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { useResestPassword } from "@/features/auth/pages/hooks/useAuth";
+import { useResetPassword } from "@/features/auth/pages/hooks/useAuth";
 import { resetPassSchema } from "@/types/auth/resetPassword";
 import { getChangedValues } from "@/utils/getChangedValues";
 
@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 
 const SecurityInfomationCard = () => {
   const { mutate: handleResetPassword, isPending: isResetPassword } =
-    useResestPassword();
+    useResetPassword();
 
   const {
     values,

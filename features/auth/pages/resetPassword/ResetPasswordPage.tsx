@@ -1,34 +1,25 @@
 "use client";
 
-import { IconArrowLeft } from "@tabler/icons-react";
-import Link from "next/link";
-
-import { useFormik } from "formik";
-import { forgotPasswordSchema } from "@/types/auth/forgotPassword";
-import { useForgotPassword } from "../hooks/useAuth";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import { FieldError, FieldLabel } from "@/components/ui/field";
-import { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import { resetPasswordSchema } from "@/types/auth/forgotPassword";
+import { useResetPassword } from "../hooks/useAuth";
+import { Spinner } from "@/components/ui/spinner";
 
-const ForgotPasswordPage = () => {
-  const { mutateAsync: handleForgotPassword, isPending: isEmailSending } =
-    useForgotPassword();
+export default function ResetPasswordPage() {
+  const router = useRouter();
 
-  const [cooldown, setCooldown] = useState(0);
+  const { mutateAsync: handleResetPassword, isPending: isReseting } =
+    useResetPassword();
 
-  useEffect(() => {
-    if (cooldown <= 0) return;
-
-    const timer = setInterval(() => {
-      setCooldown((prev) => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [cooldown]);
-
-  type ForgotPasswordValues = {
-    email: string;
+  type ResetPasswordValues = {
+    password: string;
   };
   const {
     values,
@@ -39,15 +30,15 @@ const ForgotPasswordPage = () => {
     setFieldValue,
     initialValues,
     dirty,
-  } = useFormik<ForgotPasswordValues>({
+  } = useFormik<ResetPasswordValues>({
     enableReinitialize: true,
     initialValues: {
-      email: "",
+      password: "",
     },
-    validationSchema: forgotPasswordSchema,
+    validationSchema: resetPasswordSchema,
     onSubmit: async (values) => {
-      await handleForgotPassword(values);
-      setCooldown(30);
+      await handleResetPassword(values.password);
+      router.push("/login");
     },
   });
 
@@ -57,7 +48,7 @@ const ForgotPasswordPage = () => {
 
   function handleErrors(type: string) {
     if (type == "email") {
-      return capitalizeFirstLetter(errors.email);
+      return capitalizeFirstLetter(errors.password);
     }
   }
 
@@ -69,10 +60,8 @@ const ForgotPasswordPage = () => {
           <div className="flex flex-col justify-center items-center gap-7 bg-[#1a1a1a]/20 backdrop-blur-md p-12 border border-primary rounded-3xl w-160 h-fit">
             {/* 1 */}
             <div className="flex flex-col justify-center items-center gap-4">
-              <div className="text-primary text-4xl">FORGOT PASSWORD</div>
-              <div className="text-md text-zinc-400">
-                Enter your email and we'll send you a recovery link.
-              </div>
+              <div className="text-primary text-4xl">RESET PASSWORD</div>
+              {/* <div className="text-md text-zinc-400">Enter new password</div> */}
             </div>
 
             {/* 2 */}
@@ -80,17 +69,17 @@ const ForgotPasswordPage = () => {
             <div className="group flex flex-col justify-center items-end gap-4 w-full">
               <div className="flex flex-col gap-2 w-full">
                 <FieldLabel htmlFor="email">
-                  Email<span className="text-destructive">*</span>
+                  New Password<span className="text-destructive">*</span>
                 </FieldLabel>
                 <Input
-                  type="email"
-                  id="email"
-                  value={values.email}
+                  type="password"
+                  id="password"
+                  value={values.password}
                   onChange={handleChange}
-                  aria-invalid={!!errors.email && !!touched.email}
+                  aria-invalid={!!errors.password && !!touched.password}
                 />
-                {errors.email && touched.email && (
-                  <FieldError>{handleErrors("email")}</FieldError>
+                {errors.password && touched.password && (
+                  <FieldError>{handleErrors("password")}</FieldError>
                 )}
               </div>
             </div>
@@ -102,26 +91,30 @@ const ForgotPasswordPage = () => {
                   type="submit"
                   variant={"none"}
                   size={"none"}
-                  disabled={!dirty || isEmailSending || cooldown > 0}
+                  disabled={!dirty || isReseting}
                   onClick={handleChange}
                   className="bg-primary hover:bg-secondary disabled:opacity-50 px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer disabled:cursor-not-allowed"
                 >
-                  {cooldown > 0
-                    ? `RESEND IN ${cooldown} Second`
-                    : "SEND RECOVERY EMAIL"}
+                  {isReseting ? (
+                    <span className="flex justify-center items-center gap-2">
+                      <Spinner data-icon="inline-start" />
+                      UPDATING . . .
+                    </span>
+                  ) : (
+                    "UPDATE PASSWORD"
+                  )}
                 </Button>
               </div>
             </div>
-            <div className="flex justify-center items-center gap-1 text-zinc-400 hover:text-primary transition-colors duration-300 hover:cursor-pointer">
+            {/* <div className="flex justify-center items-center gap-1 text-zinc-400 hover:text-primary transition-colors duration-300 hover:cursor-pointer">
               <IconArrowLeft className="size-" />
               <Link href="/register" className="">
                 Back to login
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </form>
     </div>
   );
-};
-export default ForgotPasswordPage;
+}
