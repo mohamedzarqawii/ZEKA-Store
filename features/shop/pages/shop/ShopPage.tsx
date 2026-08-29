@@ -95,8 +95,7 @@ const ShopPage = () => {
     isProductsLoading ||
     !products ||
     isBrandsLoading ||
-    isCategoriesLoading ||
-    isCurrentUserLoading
+    isCategoriesLoading
   ) {
     return (
       <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
