@@ -1,15 +1,6 @@
-import API_ROUTES from "@/constants/api-routes";
-import api from "@/lib/axios";
 import { supabase } from "@/lib/supabase";
-import {
-  reqForgotPassword,
-  reqResetPassword,
-} from "@/types/auth/forgotPassword";
 import { ReqLoginType } from "@/types/auth/login";
-import { ReqResetPassType, ResResetPassType } from "@/types/auth/resetPassword";
 import { ReqSignUpType } from "@/types/auth/signup";
-import { User } from "@/types/user";
-import { toast } from "sonner";
 
 // -------------- get current user --------------
 export const getCurrentUser = async () => {
@@ -110,12 +101,5 @@ export const resetPassword = async (password: string) => {
   if (error) {
     throw error;
   }
-  return data;
-};
-
-// -------------- delete account --------------
-
-export const deleteAccount = async (userId: string) => {
-  const { data } = await api.delete(API_ROUTES.auth.deleteAccount(userId));
   return data;
 };

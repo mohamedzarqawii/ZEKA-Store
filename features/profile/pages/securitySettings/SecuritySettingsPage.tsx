@@ -21,19 +21,16 @@ import SecurityInfomationCard from "@/features/profile/components/securityInfoma
 import {
   useDeleteAccount,
   useGetCurrentUser,
-  useResetPassword,
 } from "@/features/auth/pages/hooks/useAuth";
+import { Spinner } from "@/components/ui/spinner";
 
 const SecuritySettingsPage = () => {
   const router = useRouter();
-  const { data: currentUser, isLoading } = useGetCurrentUser();
   const { mutate: deleteAccount, isPending: isDeletingAccount } =
     useDeleteAccount();
 
   const handleDelete = () => {
-    if (currentUser?.id) {
-      deleteAccount(currentUser.id);
-    }
+    deleteAccount();
   };
 
   return (
@@ -79,8 +76,19 @@ const SecuritySettingsPage = () => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-                <AlertDialogAction variant="destructive" onClick={handleDelete}>
-                  Delete
+                <AlertDialogAction
+                  variant="destructive"
+                  onClick={handleDelete}
+                  disabled={isDeletingAccount}
+                >
+                  {isDeletingAccount ? (
+                    <span className="flex items-center gap-2">
+                      <Spinner data-icon="inline-start" />
+                      Deleting...
+                    </span>
+                  ) : (
+                    "Delete"
+                  )}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

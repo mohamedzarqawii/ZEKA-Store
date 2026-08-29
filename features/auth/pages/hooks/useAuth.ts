@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
-  deleteAccount,
   forgotPassword,
   getCurrentUser,
   login,
@@ -15,6 +14,7 @@ import { ReqResetPassType } from "@/types/auth/resetPassword";
 import { supabase } from "@/lib/supabase";
 import { User } from "@/types/user";
 import { reqForgotPassword } from "@/types/auth/forgotPassword";
+import { deleteAccount } from "@/services/authServices/deleteAccount.service";
 
 const AUTH_TOKEN_CHANGED_EVENT = "auth-token-changed";
 
@@ -135,25 +135,6 @@ export const useLogout = () => {
   };
 };
 
-export const useDeleteAccount = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  return useMutation({
-    mutationFn: (userId: string) => deleteAccount(userId),
-    onSuccess: () => {
-      localStorage.removeItem("token");
-      notifyAuthTokenChanged();
-      queryClient.clear();
-      toast.success("Account deleted successfully");
-      router.push("/login");
-    },
-    onError: (error: unknown) => {
-      toast.error(getErrorMessage(error, "Failed to delete account"));
-    },
-  });
-};
-
 export const useForgotPassword = () => {
   return useMutation({
     mutationFn: (email: reqForgotPassword) => forgotPassword(email),
@@ -188,6 +169,26 @@ export const useResetPassword = () => {
       toast.error("Failed to update password", {
         position: "bottom-right",
       });
+    },
+  });
+};
+
+export const useDeleteAccount = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: async () => {
+      return await deleteAccount();
+    },
+    onSuccess: () => {
+      queryClient.clear();
+      toast.success("Account deleted successfully.");
+      router.push("/login");
+      router.refresh();
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Failed to delete account.");
     },
   });
 };

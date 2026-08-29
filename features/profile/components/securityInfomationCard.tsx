@@ -1,152 +1,106 @@
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { useResetPassword } from "@/features/auth/pages/hooks/useAuth";
-import { resetPassSchema } from "@/types/auth/resetPassword";
-import { getChangedValues } from "@/utils/getChangedValues";
-
+import {
+  useForgotPassword,
+  useGetCurrentUser,
+} from "@/features/auth/pages/hooks/useAuth";
+import { forgotPasswordSchema } from "@/types/auth/forgotPassword";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 
-const SecurityInfomationCard = () => {
-  const { mutate: handleResetPassword, isPending: isResetPassword } =
-    useResetPassword();
+const TIMER_KEY = "reset_password_cooldown_expiry";
+const COOLDOWN_DURATION = 60;
 
-  const {
-    values,
-    errors,
-    touched,
-    handleSubmit,
-    handleChange,
-    setFieldValue,
-    setValues,
-    initialValues,
-    dirty,
-  } = useFormik({
+const SecurityInformationCard = () => {
+  const { data: currentUser } = useGetCurrentUser();
+  const { mutateAsync: handleForgotPassword, isPending: isEmailSending } =
+    useForgotPassword();
+
+  const [cooldown, setCooldown] = useState<number>(0);
+
+  useEffect(() => {
+    const savedExpiry = localStorage.getItem(TIMER_KEY);
+    if (savedExpiry) {
+      const remainingTime = Math.ceil(
+        (parseInt(savedExpiry, 10) - Date.now()) / 1000,
+      );
+      if (remainingTime > 0) {
+        setCooldown(remainingTime);
+      } else {
+        localStorage.removeItem(TIMER_KEY);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+
+    const timer = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          localStorage.removeItem(TIMER_KEY);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
+  // 3. بدء الـ Cooldown وحفظ وقت الانتهاء المستقبلي
+  const startCooldown = () => {
+    const expiryTime = Date.now() + COOLDOWN_DURATION * 1000;
+    localStorage.setItem(TIMER_KEY, expiryTime.toString());
+    setCooldown(COOLDOWN_DURATION);
+  };
+
+  type ForgotPasswordValues = {
+    email: string;
+  };
+
+  const { handleSubmit } = useFormik<ForgotPasswordValues>({
     enableReinitialize: true,
     initialValues: {
-      currentPassword: "",
-      password: "",
-      passwordConfirmation: "",
+      email: String(currentUser?.email || ""),
     },
-    validationSchema: resetPassSchema,
+    validationSchema: forgotPasswordSchema,
     onSubmit: async (values) => {
-      const changedValues = getChangedValues(values, initialValues);
-      await handleResetPassword(changedValues);
+      await handleForgotPassword(values);
+      startCooldown();
     },
   });
 
-  function capitalizeFirstLetter(val: string | undefined) {
-    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-  }
-
-  function handleErrors(type: string) {
-    if (type == "currentPassword") {
-      return capitalizeFirstLetter(errors.currentPassword);
-    } else if (type == "password") {
-      return capitalizeFirstLetter(errors.password);
-    } else if (type == "passwordConfirmation") {
-      return capitalizeFirstLetter(errors.passwordConfirmation);
-    }
-  }
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-6 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
-        <div className="text-md">Change Password</div>
-        <div className="flex flex-col gap-4 mt-5">
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-2">
-              <Field>
-                <FieldLabel htmlFor="name" className="text-primary text-sm">
-                  Current Password<span className="text-destructive">*</span>
-                </FieldLabel>
-                <Input
-                  id="currentPassword"
-                  name="currentPassword"
-                  value={values.currentPassword}
-                  onChange={handleChange}
-                  type="password"
-                  autoComplete="current-password"
-                  className="w-100!"
-                  aria-invalid={
-                    !!errors.currentPassword && !!touched.currentPassword
-                  }
-                />
-                {errors.currentPassword && touched.currentPassword && (
-                  <FieldError>{handleErrors("currentPassword")}</FieldError>
-                )}
-              </Field>
-            </div>
-
-            <div className="flex gap-4">
-              <Field>
-                <FieldLabel htmlFor="name" className="text-primary text-sm">
-                  New Password<span className="text-destructive">*</span>
-                </FieldLabel>
-                <Input
-                  id="password"
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  type="password"
-                  autoComplete="new-password"
-                  className="w-100!"
-                  aria-invalid={!!errors.password && !!touched.password}
-                />
-                {errors.password && touched.password && (
-                  <FieldError>{handleErrors("password")}</FieldError>
-                )}
-              </Field>
-
-              <Field>
-                <FieldLabel
-                  htmlFor="passwordConfirmation"
-                  className="text-primary text-sm"
-                >
-                  Confirmation password
-                  <span className="text-destructive">*</span>
-                </FieldLabel>
-                <Input
-                  id="passwordConfirmation"
-                  name="passwordConfirmation"
-                  value={values.passwordConfirmation}
-                  onChange={handleChange}
-                  type="password"
-                  autoComplete="new-password"
-                  className="w-100!"
-                  aria-invalid={
-                    !!errors.passwordConfirmation &&
-                    !!touched.passwordConfirmation
-                  }
-                />
-                {errors.passwordConfirmation &&
-                  touched.passwordConfirmation && (
-                    <FieldError>
-                      {handleErrors("passwordConfirmation")}
-                    </FieldError>
-                  )}
-              </Field>
-            </div>
+      <div className="flex justify-between items-center bg-[#1a1a1a]/20 backdrop-blur-md mt-6 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
+        <div className="flex flex-col gap-2">
+          <div className="text-primary text-xl">Reset Password</div>
+          <div className="text-muted-foreground text-xs">
+            We will send a reset link to your email address
           </div>
-          <Button
-            type="submit"
-            variant="default"
-            disabled={!dirty || isResetPassword}
-            className="justify-start p-6 rounded-lg outline-none w-fit text-md"
-          >
-            {isResetPassword ? (
-              <span className="flex items-center gap-2">
-                <Spinner data-icon="inline-start" />
-                Changing
-              </span>
-            ) : (
-              "Change Password"
-            )}
-          </Button>
         </div>
+
+        <Button
+          type="submit"
+          variant="default"
+          disabled={isEmailSending || cooldown > 0}
+          className="justify-start p-6 rounded-lg outline-none text-md"
+        >
+          {isEmailSending ? (
+            <span className="flex items-center gap-2">
+              <Spinner data-icon="inline-start" />
+              Sending reset link...
+            </span>
+          ) : cooldown > 0 ? (
+            `Resend link in ${cooldown}s`
+          ) : (
+            "Send Reset Link"
+          )}
+        </Button>
       </div>
     </form>
   );
 };
 
-export default SecurityInfomationCard;
+export default SecurityInformationCard;

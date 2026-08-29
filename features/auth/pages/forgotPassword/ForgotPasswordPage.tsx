@@ -5,27 +5,56 @@ import Link from "next/link";
 
 import { useFormik } from "formik";
 import { forgotPasswordSchema } from "@/types/auth/forgotPassword";
-import { useForgotPassword } from "../hooks/useAuth";
+import { useForgotPassword, useGetCurrentUser } from "../hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FieldError, FieldLabel } from "@/components/ui/field";
 import { useEffect, useState } from "react";
 
+const TIMER_KEY = "reset_password_cooldown_expiry";
+const COOLDOWN_DURATION = 61;
+
 const ForgotPasswordPage = () => {
   const { mutateAsync: handleForgotPassword, isPending: isEmailSending } =
     useForgotPassword();
 
-  const [cooldown, setCooldown] = useState(0);
+  const [cooldown, setCooldown] = useState<number>(0);
+
+  useEffect(() => {
+    const savedExpiry = localStorage.getItem(TIMER_KEY);
+    if (savedExpiry) {
+      const remainingTime = Math.ceil(
+        (parseInt(savedExpiry, 10) - Date.now()) / 1000,
+      );
+      if (remainingTime > 0) {
+        setCooldown(remainingTime);
+      } else {
+        localStorage.removeItem(TIMER_KEY);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (cooldown <= 0) return;
 
     const timer = setInterval(() => {
-      setCooldown((prev) => prev - 1);
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          localStorage.removeItem(TIMER_KEY);
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
     return () => clearInterval(timer);
   }, [cooldown]);
+
+  const startCooldown = () => {
+    const expiryTime = Date.now() + COOLDOWN_DURATION * 1000;
+    localStorage.setItem(TIMER_KEY, expiryTime.toString());
+    setCooldown(COOLDOWN_DURATION);
+  };
 
   type ForgotPasswordValues = {
     email: string;
@@ -47,7 +76,7 @@ const ForgotPasswordPage = () => {
     validationSchema: forgotPasswordSchema,
     onSubmit: async (values) => {
       await handleForgotPassword(values);
-      setCooldown(30);
+      startCooldown();
     },
   });
 
