@@ -1,12 +1,12 @@
 "use client";
 
-import { Product } from "./columns";
 import { Button } from "@/components/ui/button";
-import { Edit, Loader2, Eye } from "lucide-react";
-import { toast } from "sonner";
 import { IconTrash } from "@tabler/icons-react";
-import { useDeleteAdminProduct } from "./hooks/useProducts";
+import { Edit, Eye, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Product } from "./columns";
+import { useDeleteAdminProduct } from "./hooks/useProducts";
 
 interface ActionCellProps {
   product: Product;

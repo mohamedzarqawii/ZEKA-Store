@@ -1,9 +1,8 @@
 "use client";
 
-import { useCart } from "@/context/CartContext";
 import Counter from "@/components/Counter";
-import Link from "next/link";
 import { ProductType } from "@/types/product";
+import Link from "next/link";
 
 const ItemCart = ({ product }: { product: ProductType }) => {
   return (

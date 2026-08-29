@@ -1,6 +1,6 @@
 import NotificationPage from "@/features/profile/pages/notification/NotificationPage";
 
-const notification = () => {
+const Notification = () => {
   return (
     <div>
       <NotificationPage />
@@ -8,4 +8,4 @@ const notification = () => {
   );
 };
 
-export default notification;
+export default Notification;

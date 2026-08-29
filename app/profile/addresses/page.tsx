@@ -1,6 +1,6 @@
 import AddressesPage from "@/features/profile/pages/addresses/AddressesPage";
 
-const addresses = () => {
+const Addresses = () => {
   return (
     <div>
       <AddressesPage />
@@ -8,4 +8,4 @@ const addresses = () => {
   );
 };
 
-export default addresses;
+export default Addresses;

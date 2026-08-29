@@ -1,11 +1,11 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ActionCell } from "./ActionCell";
 import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
+import { ActionCell } from "./ActionCell";
 
 export interface Product {
   id: string;

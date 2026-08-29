@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { Users } from "./columns";
 import { Button } from "@/components/ui/button";
-import { Copy, Files, ShieldBan, ShieldCheck, ShieldX } from "lucide-react";
-import { toast } from "sonner";
 import { IconTrash } from "@tabler/icons-react";
+import { ShieldCheck, ShieldX } from "lucide-react";
+import { Users } from "./columns";
 
 interface ActionCellProps {
   user: Users;

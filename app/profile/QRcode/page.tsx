@@ -1,6 +1,6 @@
 import QrcodePage from "@/features/profile/pages/qrcode/QrcodePage";
 
-const qrcode = () => {
+const Qrcode = () => {
   return (
     <div>
       <QrcodePage />
@@ -8,4 +8,4 @@ const qrcode = () => {
   );
 };
 
-export default qrcode;
+export default Qrcode;

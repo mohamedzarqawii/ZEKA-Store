@@ -1,15 +1,13 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Button } from "./animate-ui/primitives/buttons/button";
-import { User } from "./animate-ui/icons/user";
-import { ShoppingCartIcon } from "@animateicons/react/lucide";
-import { AnimateIcon } from "./animate-ui/icons/icon";
-import { ShieldCogCorner } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart } from "@/features/cart/pages/hooks/useCart";
-import { Badge } from "./ui/badge";
+import { ShoppingCartIcon } from "@animateicons/react/lucide";
+import { ShieldCogCorner } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AnimateIcon } from "./animate-ui/icons/icon";
+import { User } from "./animate-ui/icons/user";
+import { Button } from "./animate-ui/primitives/buttons/button";
 import { Skeleton } from "./ui/skeleton";
 
 const Header = () => {

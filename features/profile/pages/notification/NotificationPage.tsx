@@ -16,8 +16,8 @@ import {
   FieldTitle,
 } from "@/components/ui/field";
 import { Switch } from "@/components/ui/switch";
-import { Mail, MessageCircleMore } from "lucide-react";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
+import { Mail, MessageCircleMore } from "lucide-react";
 
 const NotificationPage = () => {
   return (

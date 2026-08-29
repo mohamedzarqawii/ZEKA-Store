@@ -1,6 +1,6 @@
 import SecuritySettingsPage from "@/features/profile/pages/securitySettings/SecuritySettingsPage";
 
-const securitySettings = () => {
+const SecuritySettings = () => {
   return (
     <div>
       <SecuritySettingsPage />
@@ -8,4 +8,4 @@ const securitySettings = () => {
   );
 };
 
-export default securitySettings;
+export default SecuritySettings;

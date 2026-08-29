@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import { House, Plus } from "lucide-react";
 
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 const AddressesPage = () => {
   const { data: currentUser, isLoading: isCurrentUserLoading } =

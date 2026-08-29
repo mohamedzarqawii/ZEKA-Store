@@ -3,8 +3,7 @@ import {
   updateProfile,
 } from "@/services/profileServices/profile.service";
 import { reqUpdateProfile } from "@/types/auth/profile";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 interface UpdateProfileParams {

@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 export const ProfileLeftBarSkeleton = () => {
   return (
     <div className="top-24 sticky flex flex-col gap-4 w-full max-w-xs h-fit animate-pulse">

@@ -7,12 +7,12 @@ import {
   getAdminProducts,
   UpdateAdminProduct,
 } from "@/services/adminServices/products.service";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Product } from "../columns";
-import { ProductType } from "@/types/product";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { ReqCreateProductType } from "@/types/admin/product";
+import { ProductType } from "@/types/product";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Product } from "../columns";
 
 export const useGetAdminProducts = (
   page: number = 1,

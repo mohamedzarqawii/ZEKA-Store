@@ -1,6 +1,6 @@
 import PaymentsPage from "@/features/profile/pages/payments/PaymentsPage";
 
-const payments = () => {
+const Payments = () => {
   return (
     <div>
       <PaymentsPage />
@@ -8,4 +8,4 @@ const payments = () => {
   );
 };
 
-export default payments;
+export default Payments;

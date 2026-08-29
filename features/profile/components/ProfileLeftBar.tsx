@@ -1,32 +1,32 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useRef } from "react";
 import { Button } from "../../../components/animate-ui/primitives/buttons/button";
 
 import {
-  ShoppingBasketIcon,
+  BoltIcon,
   CreditCardIcon,
   GiftIcon,
-  BoltIcon,
   QrCodeIcon,
+  ShoppingBasketIcon,
 } from "@animateicons/react/lucide";
 
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import { User } from "@/components/animate-ui/icons/user";
-import { Heart } from "../../../components/animate-ui/icons/heart";
-import { Bell } from "../../../components/animate-ui/icons/bell";
-import { MapPin } from "../../../components/animate-ui/icons/map-pin";
-import { LogOut } from "../../../components/animate-ui/icons/log-out";
-import { handleHover } from "@/lib/handle-hover";
-import type { IconHandle } from "@animateicons/react";
+import { Badge } from "@/components/ui/badge";
 import {
   useGetCurrentUser,
   useLogout,
 } from "@/features/auth/pages/hooks/useAuth";
+import { handleHover } from "@/lib/handle-hover";
+import type { IconHandle } from "@animateicons/react";
+import { Bell } from "../../../components/animate-ui/icons/bell";
+import { Heart } from "../../../components/animate-ui/icons/heart";
+import { LogOut } from "../../../components/animate-ui/icons/log-out";
+import { MapPin } from "../../../components/animate-ui/icons/map-pin";
 import { useGetFavorites } from "../pages/favorites/hooks/useFavorites";
-import { Badge } from "@/components/ui/badge";
 import { ProfileLeftBarSkeleton } from "./ProfileLeftBarSkilton";
 
 const icons = {
@@ -72,12 +72,7 @@ const SidebarNavItem = ({
           <span>{item.name}</span>
 
           {!!item.count && item.count > 0 && (
-            <Badge
-              variant={"outline"}
-              // className="bg-primary/20 ml-auto px-2 py-1 rounded-lg text-primary text-xs"
-            >
-              {item.count} items
-            </Badge>
+            <Badge variant={"outline"}>{item.count} items</Badge>
           )}
         </Link>
       </Button>

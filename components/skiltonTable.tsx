@@ -1,9 +1,8 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useState } from "react";
 
-export function SkiltonTable(columnCount: number, rowCount: number) {
+export function TableSkilton(columnCount: number, rowCount: number) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex justify-end items-center gap-2 w-full">

@@ -1,9 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import HomePage from "@/features/home/HomePage";
-import { getProductImageUrls } from "@/services/adminServices/media.service";
 
-const home = () => {
+const Home = () => {
   return (
     <div>
       <HomePage />
@@ -11,4 +9,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;

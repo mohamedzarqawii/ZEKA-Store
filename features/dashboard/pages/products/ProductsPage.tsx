@@ -3,7 +3,6 @@
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./columns";
 import { useGetAdminProducts } from "./hooks/useProducts";
-import { useState } from "react";
 
 const ProductsPage = () => {
   // ------------------- States -------------------

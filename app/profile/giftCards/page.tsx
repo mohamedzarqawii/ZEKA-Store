@@ -1,6 +1,6 @@
 import GiftCardPage from "@/features/profile/pages/giftCard/GiftCardPage";
 
-const giftCard = () => {
+const GiftCard = () => {
   return (
     <div>
       <GiftCardPage />
@@ -8,4 +8,4 @@ const giftCard = () => {
   );
 };
 
-export default giftCard;
+export default GiftCard;

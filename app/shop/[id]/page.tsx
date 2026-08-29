@@ -3,7 +3,7 @@
 import ProductPage from "@/features/shop/pages/shop/ProductPage";
 import { useParams } from "next/navigation";
 
-const productView = () => {
+const ProductView = () => {
   const { id } = useParams();
 
   return (
@@ -13,4 +13,4 @@ const productView = () => {
   );
 };
 
-export default productView;
+export default ProductView;

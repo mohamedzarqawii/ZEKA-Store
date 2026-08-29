@@ -1,21 +1,21 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { useFormik } from "formik";
+import { Pin, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Product } from "./columns";
 import {
   useGetAdminBrands,
   useGetAdminCategories,
   useGetAdminProduct,
   useUpdateAdminProduct,
 } from "./hooks/useProducts";
-import { Product } from "./columns";
-import { Button } from "@/components/ui/button";
-import { Pin, Plus } from "lucide-react";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
-import { useFormik } from "formik";
 
-import { UpdateProductSchema } from "@/types/admin/product";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -24,13 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getChangedValues } from "@/utils/getChangedValues";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import { IconTrash } from "@tabler/icons-react";
-import { Badge } from "@/components/ui/badge";
-import { useMedia } from "@/hooks/useMedia";
 import { Spinner } from "@/components/ui/spinner";
+import { Textarea } from "@/components/ui/textarea";
+import { useMedia } from "@/hooks/useMedia";
+import { UpdateProductSchema } from "@/types/admin/product";
+import { getChangedValues } from "@/utils/getChangedValues";
+import { IconTrash } from "@tabler/icons-react";
+import { useState } from "react";
 
 interface EditProductPageProps {
   productId: string;

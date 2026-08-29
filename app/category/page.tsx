@@ -1,6 +1,6 @@
 import CategoryCard from "@/app/category/CategoryCard";
 
-export default function Home() {
+export default function Categories() {
   return (
     <div className="mx-10">
       {/* body */}

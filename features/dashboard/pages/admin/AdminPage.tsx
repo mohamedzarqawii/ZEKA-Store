@@ -1,8 +1,7 @@
 "use client";
 
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const AdminPage = () => {
   const router = useRouter();

@@ -1,12 +1,10 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
-import { Field, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useGetAdminProduct } from "./hooks/useProducts";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { useEffect } from "react";
 
 interface ViewProps {
   productId: string;

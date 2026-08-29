@@ -1,6 +1,6 @@
 import SignUpPage from "@/features/auth/pages/signUp/SignupPage";
 
-const sigup = () => {
+const Signup = () => {
   return (
     <div>
       <SignUpPage />
@@ -8,4 +8,4 @@ const sigup = () => {
   );
 };
 
-export default sigup;
+export default Signup;

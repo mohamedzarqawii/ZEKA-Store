@@ -3,13 +3,13 @@
 import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 
-import { useFormik } from "formik";
-import { forgotPasswordSchema } from "@/types/auth/forgotPassword";
-import { useForgotPassword, useGetCurrentUser } from "../hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { forgotPasswordSchema } from "@/types/auth/forgotPassword";
+import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import { useForgotPassword } from "../hooks/useAuth";
 
 const TIMER_KEY = "reset_password_cooldown_expiry";
 const COOLDOWN_DURATION = 61;

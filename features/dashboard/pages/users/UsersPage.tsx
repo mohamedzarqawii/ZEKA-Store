@@ -1,18 +1,16 @@
 "use client";
 
 import { DataTable } from "@/components/DataTable";
-import React, { useEffect, useState } from "react";
-import { columns, Users } from "./columns";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   blockUserAdmin,
   deleteUserAdmin,
   getUsersAdmin,
   unblockUserAdmin,
-  updateUserAdmin,
 } from "@/services/adminServices/users.service";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { columns, Users } from "./columns";
 
 const UsersPage = () => {
   const [users, setUsers] = useState<Users[]>([]);

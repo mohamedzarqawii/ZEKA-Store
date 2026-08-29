@@ -1,14 +1,13 @@
 "use client";
 
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useFormik } from "formik";
 import * as yup from "yup";
-import { Input } from "@/components/ui/input";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { useGetCurrentUser, useSignUp } from "../hooks/useAuth";
-import { Spinner } from "@/components/ui/spinner";
 
 const SignUpPage = () => {
   const router = useRouter();

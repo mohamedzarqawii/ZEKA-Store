@@ -1,6 +1,6 @@
 import AdminPage from "@/features/dashboard/pages/admin/AdminPage";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <AdminPage />
@@ -8,4 +8,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

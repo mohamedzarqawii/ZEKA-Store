@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { supabase } from "@/lib/supabase";
 import {
   forgotPassword,
   getCurrentUser,
@@ -7,14 +8,12 @@ import {
   resetPassword,
   signUp,
 } from "@/services/authServices/auth.service";
-import { ReqLoginType } from "@/types/auth/login";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { ReqResetPassType } from "@/types/auth/resetPassword";
-import { supabase } from "@/lib/supabase";
-import { User } from "@/types/user";
-import { reqForgotPassword } from "@/types/auth/forgotPassword";
 import { deleteAccount } from "@/services/authServices/deleteAccount.service";
+import { reqForgotPassword } from "@/types/auth/forgotPassword";
+import { ReqLoginType } from "@/types/auth/login";
+import { User } from "@/types/user";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const AUTH_TOKEN_CHANGED_EVENT = "auth-token-changed";
 

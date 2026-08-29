@@ -1,7 +1,6 @@
 "use client";
 
 import ItemCart from "@/features/cart/components/CartItemCard";
-import { useEffect, useState } from "react";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart } from "./hooks/useCart";
 import { useCreateOrder } from "@/features/profile/pages/orders/pages/hooks/useOrder";

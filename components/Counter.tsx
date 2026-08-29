@@ -3,10 +3,8 @@ import { ProductType } from "@/types/product";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
 import { toast } from "sonner";
-import { CartItemType } from "@/context/CartContext";
 import { Spinner } from "./ui/spinner";
 import { Button } from "./ui/button";
-import { stat } from "fs";
 import { useGetShopProduct } from "@/features/shop/pages/shop/hooks/useShop";
 
 const Counter = ({

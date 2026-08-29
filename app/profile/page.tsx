@@ -1,6 +1,6 @@
 import ProfilePage from "@/features/profile/pages/profile/ProfilePage";
 
-const profile = () => {
+const Profile = () => {
   return (
     <div>
       <ProfilePage />
@@ -8,4 +8,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;

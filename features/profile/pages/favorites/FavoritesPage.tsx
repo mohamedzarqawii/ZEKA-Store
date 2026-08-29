@@ -2,10 +2,8 @@
 
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import ProductCard from "@/features/shop/components/ProductCard";
-import { useGetFavorites, useToggleFavorites } from "./hooks/useFavorites";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useGetFavorites } from "./hooks/useFavorites";
 
 const FavoritesPage = () => {
   const { data: currentUser, isLoading: isCurrentUserLoading } =

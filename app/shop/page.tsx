@@ -1,6 +1,6 @@
 import ShopPage from "@/features/shop/pages/shop/ShopPage";
 
-const shop = () => {
+const Shop = () => {
   return (
     <div>
       <ShopPage />
@@ -8,4 +8,4 @@ const shop = () => {
   );
 };
 
-export default shop;
+export default Shop;

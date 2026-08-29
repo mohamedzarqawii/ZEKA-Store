@@ -1,6 +1,6 @@
 import OrdersPage from "@/features/profile/pages/orders/pages/OrdersPage";
 
-const orders = () => {
+const Orders = () => {
   return (
     <div>
       <OrdersPage />
@@ -8,4 +8,4 @@ const orders = () => {
   );
 };
 
-export default orders;
+export default Orders;

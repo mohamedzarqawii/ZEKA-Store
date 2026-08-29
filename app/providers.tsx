@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { CartProvider } from "@/context/CartContext";
-import { FavoritesProvider } from "@/context/FavoritesContext";
+import { useState } from "react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  // استخدام useState لضمان إنشاء QueryClient واحدة فقط لكل sesión
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -21,9 +18,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <FavoritesProvider>
-        <CartProvider>{children}</CartProvider>
-      </FavoritesProvider>
+      {children}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

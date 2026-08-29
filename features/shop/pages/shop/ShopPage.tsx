@@ -1,17 +1,17 @@
 "use client";
 
-import * as React from "react";
-import { useState, useEffect } from "react";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { ProductType } from "@/types/product";
+import * as React from "react";
+import { useState } from "react";
+import { FilterBar } from "../../components/FilterLeftBar";
 import ProductCard from "../../components/ProductCard";
+import { ProductCardSkeleton } from "../../components/ProductCardSkilton";
 import {
-  useGetShopProducts,
   useGetShopBrands,
   useGetShopCategories,
+  useGetShopProducts,
 } from "./hooks/useShop";
-import { ProductCardSkeleton } from "../../components/ProductCardSkilton";
-import { FilterBar } from "../../components/FilterLeftBar";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 
 type Option = {
   label: string;

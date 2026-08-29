@@ -1,12 +1,10 @@
 "use client";
 
-import React from "react";
-
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { useGetOrders } from "./hooks/useOrder";
-import OrderCard from "../components/OrderCard";
-import Link from "next/link";
 import { Spinner } from "@/components/ui/spinner";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import Link from "next/link";
+import OrderCard from "../components/OrderCard";
+import { useGetOrders } from "./hooks/useOrder";
 
 const OrdersPage = () => {
   const { data: currentUser, isLoading: isCurrentUserLoading } =

@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useGetAdminProducts } from "@/features/dashboard/pages/products/hooks/useProducts";
 import ProductCard from "@/features/shop/components/ProductCard";
 import { ProductType } from "@/types/product";
 import { Loader2 } from "lucide-react";
@@ -13,8 +12,6 @@ const HomePage = () => {
 
   return (
     <div className="mx-10">
-      {/* <div className="bg-[#FEFEFE] h-px"></div> */}
-
       {/* body */}
 
       <div className="flex flex-col">

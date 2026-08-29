@@ -1,6 +1,6 @@
 import ForgotPasswordPage from "@/features/auth/pages/forgotPassword/ForgotPasswordPage";
 
-const forgotPassword = () => {
+const ForgotPassword = () => {
   return (
     <div>
       <ForgotPasswordPage />
@@ -8,4 +8,4 @@ const forgotPassword = () => {
   );
 };
 
-export default forgotPassword;
+export default ForgotPassword;

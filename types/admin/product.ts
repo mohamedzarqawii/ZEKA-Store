@@ -1,5 +1,4 @@
 import * as y from "yup";
-import { ProductType } from "../product";
 
 export const CreateProductSchema = y.object({
   name: y.string().required(),
@@ -30,7 +29,7 @@ export type ResUpdateProductType = {
     price: number;
     stock: number;
 
-    images: String[];
+    images: string[];
 
     category: {
       id: number;

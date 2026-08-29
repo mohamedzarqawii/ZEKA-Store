@@ -1,21 +1,21 @@
 "use client";
-import Link from "next/link";
-import { ProductType } from "@/types/product";
-import { IconShoppingCartPlus } from "@tabler/icons-react";
-import { Heart } from "../../../components/animate-ui/icons/heart";
+import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import Counter from "@/components/Counter";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
-import { toast } from "sonner";
-import Counter from "@/components/Counter";
-import { Button } from "@/components/ui/button";
 import {
   useGetFavorites,
   useToggleFavorites,
 } from "@/features/profile/pages/favorites/hooks/useFavorites";
 import { FavoriteItem } from "@/types/favoriteItem";
-import { Spinner } from "@/components/ui/spinner";
-import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import { ProductType } from "@/types/product";
+import { IconShoppingCartPlus } from "@tabler/icons-react";
+import Link from "next/link";
+import { toast } from "sonner";
+import { Heart } from "../../../components/animate-ui/icons/heart";
 import { ProductCardSkeleton } from "./ProductCardSkilton";
 
 const ProductCard = ({ product }: { product: ProductType }) => {

@@ -1,6 +1,6 @@
 import LoginPage from "@/features/auth/pages/login/LoginPage";
 
-const login = () => {
+const Login = () => {
   return (
     <div>
       <LoginPage />
@@ -8,4 +8,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

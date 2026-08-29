@@ -1,6 +1,6 @@
 import FavoritesPage from "@/features/profile/pages/favorites/FavoritesPage";
 
-const favorites = () => {
+const Favorites = () => {
   return (
     <div>
       <FavoritesPage />
@@ -8,4 +8,4 @@ const favorites = () => {
   );
 };
 
-export default favorites;
+export default Favorites;

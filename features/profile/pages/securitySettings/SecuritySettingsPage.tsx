@@ -17,12 +17,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import SecurityInfomationCard from "@/features/profile/components/securityInfomationCard";
-import {
-  useDeleteAccount,
-  useGetCurrentUser,
-} from "@/features/auth/pages/hooks/useAuth";
 import { Spinner } from "@/components/ui/spinner";
+import { useDeleteAccount } from "@/features/auth/pages/hooks/useAuth";
+import SecurityInfomationCard from "@/features/profile/components/securityInfomationCard";
 
 const SecuritySettingsPage = () => {
   const router = useRouter();

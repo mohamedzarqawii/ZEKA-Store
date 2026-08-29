@@ -1,13 +1,8 @@
 import { cn } from "@/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { LoaderCircle, LoaderIcon } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 
-import {
-  LoaderPinwheelIcon,
-  Loading01Icon,
-  Loading03Icon,
-  Loading04Icon,
-} from "@hugeicons/core-free-icons";
+
+
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (

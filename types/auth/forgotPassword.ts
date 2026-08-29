@@ -1,4 +1,3 @@
-import { Password } from "@hugeicons/core-free-icons";
 import * as y from "yup";
 
 export const forgotPasswordSchema = y.object({

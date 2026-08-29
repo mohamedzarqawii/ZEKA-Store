@@ -1,8 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import {
-  ReqCreateProductType,
-  ResUpdateProductType,
-} from "@/types/admin/product";
+import { ReqCreateProductType } from "@/types/admin/product";
 
 // -------------- getProducts --------------
 

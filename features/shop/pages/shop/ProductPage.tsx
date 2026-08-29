@@ -1,32 +1,27 @@
 "use client";
 
-import {
-  IconHeart,
-  IconHeartFilled,
-  IconStar,
-  IconStarFilled,
-} from "@tabler/icons-react";
-import { useState } from "react";
-import { ProductType } from "@/types/product";
-import ProductCard from "../../components/ProductCard";
-import {
-  useGetShopProduct,
-  useGetShopRelatedProductsByCategory,
-} from "./hooks/useShop";
-import { Loader2 } from "lucide-react";
+import { Heart } from "@/components/animate-ui/icons/heart";
+import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import Counter from "@/components/Counter";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
 import {
   useGetFavorites,
   useToggleFavorites,
 } from "@/features/profile/pages/favorites/hooks/useFavorites";
 import { FavoriteItem } from "@/types/favoriteItem";
-import { AnimateIcon } from "@/components/animate-ui/icons/icon";
-import { Heart, HeartIcon } from "@/components/animate-ui/icons/heart";
+import { ProductType } from "@/types/product";
+import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import ProductCard from "../../components/ProductCard";
+import {
+  useGetShopProduct,
+  useGetShopRelatedProductsByCategory,
+} from "./hooks/useShop";
 
 interface ViewProps {
   productId: string;

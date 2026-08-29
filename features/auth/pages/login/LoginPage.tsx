@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { useEffect } from "react";
 import { useFormik } from "formik";
 import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";

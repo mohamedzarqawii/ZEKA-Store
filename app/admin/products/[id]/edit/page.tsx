@@ -2,9 +2,8 @@
 
 import EditProductPage from "@/features/dashboard/pages/products/EditProductPage";
 import { useParams } from "next/navigation";
-import React from "react";
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   const productId = params.id;
 
@@ -15,4 +14,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

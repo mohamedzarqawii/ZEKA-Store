@@ -1,25 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useFormik } from "formik";
-import { Mars, Venus } from "lucide-react";
-import { Field, FieldLabel, FieldError } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { useFormik } from "formik";
+import { Mars, Venus } from "lucide-react";
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Spinner } from "@/components/ui/spinner";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { updateProfileSchema } from "@/types/auth/profile";
 import { getChangedValues } from "@/utils/getChangedValues";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useUpdateProfile } from "../../hooks/useProfile";
-import { Spinner } from "@/components/ui/spinner";
 
 function parseBirthdayDate(value: string | null | undefined) {
   if (!value) return undefined;
