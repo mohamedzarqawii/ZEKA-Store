@@ -2,6 +2,9 @@
 
 import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useGetCurrentUser } from "../hooks/useAuth";
+import { useEffect } from "react";
 
 const ForgotPasswordPage = () => {
   return (

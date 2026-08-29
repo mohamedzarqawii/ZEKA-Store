@@ -12,6 +12,7 @@ import {
   unblockUserAdmin,
   updateUserAdmin,
 } from "@/services/adminServices/users.service";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 
 const UsersPage = () => {
   const [users, setUsers] = useState<Users[]>([]);

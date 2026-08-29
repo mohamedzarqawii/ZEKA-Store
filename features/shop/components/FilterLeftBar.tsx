@@ -83,6 +83,7 @@ export const FilterBar = ({
     tempBrands.every((brand) => selectedBrands.includes(brand)) &&
     tempPrice[0] === 0 &&
     tempPrice[1] === 1000;
+
   return (
     <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-full max-w-xs h-fit">
       {/* Header */}

@@ -41,7 +41,8 @@ const ProductPage = ({ productId }: ViewProps) => {
     refetch: reGetProduct,
   } = useGetShopProduct(Number(productId));
 
-  const { data: currentUser, refetch } = useGetCurrentUser();
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
   const { data: cart = [], refetch: reGetCart } = useGetCart(currentUser?.id);
   const { mutateAsync: toggleCart, isPending } = useToggleCart();
 
@@ -123,11 +124,10 @@ const ProductPage = ({ productId }: ViewProps) => {
 
   if (isProductLoading) {
     return (
-      <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
+      <div className="flex justify-center items-center gap-2 h-[calc(100vh-155px)] text-primary text-4xl">
         {/* 1 */}
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-primary text-3xl">Loading Product...</div>
-        </div>
+        <Spinner className="size-8" data-icon="inline-start" />
+        <div className="text-primary text-3xl">Loading Product . . .</div>
       </div>
     );
   }

@@ -42,19 +42,14 @@ function formatBirthday(value: string | null | undefined) {
 }
 
 const ProfilePage = () => {
-  const { data: currentUser, isLoading } = useGetCurrentUser();
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
   const { mutateAsync: handleUpdateProfile, isPending: isProfileUpdating } =
     useUpdateProfile();
 
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!isLoading && !currentUser) {
-      router.replace("/login");
-    }
-  }, [currentUser, isLoading, router]);
 
   type ProfileFormValues = {
     first_name: string;
@@ -92,12 +87,18 @@ const ProfilePage = () => {
 
   const dateValue = parseBirthdayDate(values.birthday);
 
-  if (isLoading) {
-    return <div className="p-10 text-primary">Loading profile...</div>;
+  if (isCurrentUserLoading) {
+    return (
+      <div className="flex justify-center items-center gap-2 h-[calc(100vh-270px)] text-primary text-4xl">
+        <Spinner className="size-8" data-icon="inline-start" />
+        Loading Profile . . .
+      </div>
+    );
   }
   if (!currentUser) {
     return null;
   }
+
   function capitalizeFirstLetter(val: string | undefined) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
   }
@@ -274,7 +275,7 @@ const ProfilePage = () => {
           <Button
             type="submit"
             variant="default"
-            disabled={!dirty && isProfileUpdating}
+            disabled={!dirty || isProfileUpdating}
             className="justify-start p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >
             {isProfileUpdating ? (

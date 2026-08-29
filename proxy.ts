@@ -1,0 +1,89 @@
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
+
+export async function proxy(request: NextRequest) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value),
+          );
+          response = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options),
+          );
+        },
+      },
+    },
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { pathname } = request.nextUrl;
+  const protectedRoutes = ["/profile", "/cart"];
+
+  // قائمة مسارات المصادقة التي يجب منع المسجلين من دخولها
+  const authRoutes = ["/login", "/register", "/forgotPassword"];
+
+  // 1️⃣ حماية مسار الـ Admin (يتطلب تسجيل دخول + صلاحية أدمن)
+  if (pathname.startsWith("/admin")) {
+    if (!user) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    const isAdmin = user.user_metadata?.role === "admin";
+
+    if (!isAdmin) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  // 2️⃣ حماية المسارات العادية (Profile, Checkout, Orders)
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route),
+  );
+
+  if (isProtectedRoute && !user) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // 3️⃣ توجيه المستخدم المسجل بعيداً عن جميع صفحات التوثيق (Login, Register, Forgot Password)
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+
+  if (isAuthRoute && user) {
+    return NextResponse.redirect(new URL("/profile", request.url));
+  }
+
+  return response;
+}
+
+export const config = {
+  matcher: [
+    "/profile/:path*",
+    "/cart/:path*",
+    "/admin/:path*",
+    "/login/:path*",
+    "/register/:path*",
+    "/forgotPassword/:path*",
+  ],
+};

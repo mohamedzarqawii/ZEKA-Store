@@ -1,7 +1,11 @@
-import React from "react";
+import AdminPage from "@/features/dashboard/pages/admin/AdminPage";
 
 const page = () => {
-  return <div>Admin</div>;
+  return (
+    <div>
+      <AdminPage />
+    </div>
+  );
 };
 
 export default page;

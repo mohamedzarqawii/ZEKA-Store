@@ -3,9 +3,14 @@
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import ProductCard from "@/features/shop/components/ProductCard";
 import { useGetFavorites, useToggleFavorites } from "./hooks/useFavorites";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const FavoritesPage = () => {
-  const { data: currentUser } = useGetCurrentUser();
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
+
   const { data: favoritesData = [] } = useGetFavorites(currentUser?.id);
 
   return (
@@ -17,13 +22,12 @@ const FavoritesPage = () => {
             <div className="text-primary text-3xl">
               YOUR FAVORITES LOOK EMPTY !
             </div>
-            <div className="text-xl">WHAT ARE YOU WAITING FOR?</div>
-            <a
+            <Link
               href="/shop"
               className="bg-primary hover:bg-secondary mt-4 px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
             >
-              START SHOPPING NOW !
-            </a>
+              START SHOPPING HERE !
+            </Link>
           </div>
         </div>
       ) : (

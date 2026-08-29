@@ -19,7 +19,6 @@ import {
   CreateProductSchema,
   ReqCreateProductType,
 } from "@/types/admin/product";
-import { CreateAdminProduct } from "@/services/adminServices/products.service";
 
 import {
   useCreateAdminProduct,
@@ -28,7 +27,7 @@ import {
   useGetAdminProducts,
 } from "./hooks/useProducts";
 import { Button } from "@/components/ui/button";
-import { Image, Loader2, Pin, Plus } from "lucide-react";
+import { Image, Pin } from "lucide-react";
 import { IconTrash } from "@tabler/icons-react";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { Badge } from "@/components/ui/badge";

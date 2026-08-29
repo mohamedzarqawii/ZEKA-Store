@@ -16,9 +16,11 @@ import {
 import { FavoriteItem } from "@/types/favoriteItem";
 import { Spinner } from "@/components/ui/spinner";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import { ProductCardSkeleton } from "./ProductCardSkilton";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
-  const { data: currentUser } = useGetCurrentUser();
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
   const { data: cart = [], isLoading: isCartLoading } = useGetCart(
     currentUser?.id,
   );
@@ -68,9 +70,9 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     });
   };
 
-  // if (isCartLoading && isLoadingFavorites && isCurrentUserLoading) {
-  //   return <ProductCardSkeleton />;
-  // }
+  if (isCartLoading || isLoadingFavorites || isCurrentUserLoading) {
+    return <ProductCardSkeleton />;
+  }
   return (
     <div>
       <Link href={`/shop/${product.id}`}>

@@ -3,7 +3,9 @@
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./columns";
 import { useGetAdminProducts } from "./hooks/useProducts";
-import { useState } from "react";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const ProductsPage = () => {
   // ------------------- States -------------------

@@ -1,13 +1,14 @@
 "use client";
 
 import ItemCart from "@/features/cart/components/CartItemCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart } from "./hooks/useCart";
 import { useCreateOrder } from "@/features/profile/pages/orders/pages/hooks/useOrder";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import Link from "next/link";
 
 const CartPage = () => {
   const router = useRouter();
@@ -111,12 +112,12 @@ const CartPage = () => {
               YOUR SHOPPING CART LOOK EMPTY !
             </div>
             <div className="text-xl">WHAT ARE YOU WAITING FOR?</div>
-            <a
+            <Link
               href="/shop"
               className="bg-primary hover:bg-secondary mt-4 px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
             >
               START SHOPPING NOW !
-            </a>
+            </Link>
           </div>
         </div>
       )}

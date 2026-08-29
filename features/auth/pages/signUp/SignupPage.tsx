@@ -38,14 +38,6 @@ const SignUpPage = () => {
 
   // -----------------------
 
-  useEffect(() => {
-    if (currentUser) {
-      router.replace("/profile");
-    }
-  }, [currentUser, router]);
-
-  if (currentUser) return null;
-
   // -----------------------
 
   function capitalizeFirstLetter(val: string | undefined) {
@@ -165,9 +157,9 @@ const SignUpPage = () => {
               disabled={!dirty || isSignUp}
             >
               {isSignUp ? (
-                <span className="flex items-center gap-2">
+                <span className="flex justify-center items-center gap-2">
                   <Spinner data-icon="inline-start" />
-                  Changing
+                  Registering
                 </span>
               ) : (
                 "CREATE ACCOUNT"

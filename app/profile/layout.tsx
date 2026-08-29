@@ -1,3 +1,4 @@
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import ProfileLeftBar from "@/features/profile/components/ProfileLeftBar";
 
 export default function ProfileLayout({

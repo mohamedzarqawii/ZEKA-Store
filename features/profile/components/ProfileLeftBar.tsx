@@ -27,6 +27,7 @@ import {
 } from "@/features/auth/pages/hooks/useAuth";
 import { useGetFavorites } from "../pages/favorites/hooks/useFavorites";
 import { Badge } from "@/components/ui/badge";
+import { ProfileLeftBarSkeleton } from "./ProfileLeftBarSkilton";
 
 const icons = {
   Orders: ShoppingBasketIcon,
@@ -115,14 +116,11 @@ const SidebarNavItem = ({
 
 const ProfileLeftBar = () => {
   const pathname = usePathname();
-
   const router = useRouter();
-
   const logout = useLogout();
-
   const {
     data: currentUser,
-    isLoading: isCurrentUser,
+    isLoading: isCurrentUserLoading,
     refetch: refetchcurrentUser,
   } = useGetCurrentUser();
   const { data: favoritesData = [] } = useGetFavorites(currentUser?.id);
@@ -210,11 +208,15 @@ const ProfileLeftBar = () => {
     },
   ];
 
+  if (isCurrentUserLoading) {
+    return <ProfileLeftBarSkeleton />;
+  }
+
   return (
     <div className="top-24 sticky flex flex-col gap-4 w-full max-w-xs h-fit">
       <div className="flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-6 border border-primary rounded-3xl h-fit">
         <div className="flex flex-col gap-2">
-          <div>Hello, {currentUser.first_name} !</div>
+          <div className="text-primary">Hello, {currentUser.first_name} !</div>
           <div className="text-zinc-400 text-xs">{currentUser.email}</div>
         </div>
       </div>

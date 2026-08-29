@@ -1,23 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
 import { Product } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Edit, Loader2, Eye } from "lucide-react";
 import { toast } from "sonner";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { IconTrash } from "@tabler/icons-react";
-import {
-  useDeleteAdminProduct,
-  useUpdateAdminProduct,
-} from "./hooks/useProducts";
+import { useDeleteAdminProduct } from "./hooks/useProducts";
 import { useRouter } from "next/navigation";
 
 interface ActionCellProps {

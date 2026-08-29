@@ -9,7 +9,7 @@ import {
 } from "./hooks/useProducts";
 import { Product } from "./columns";
 import { Button } from "@/components/ui/button";
-import { Loader2, Pin, Plus } from "lucide-react";
+import { Pin, Plus } from "lucide-react";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IconTrash } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
 import { useMedia } from "@/hooks/useMedia";
@@ -194,14 +194,6 @@ const EditProductPage = ({ productId }: EditProductPageProps) => {
   });
 
   const mainImage = values.images[0];
-
-  if (isProductLoading) {
-    return (
-      <div className="flex justify-center items-center p-8">
-        <Loader2 className="w-8 h-8 text-primary animate-spin" />
-      </div>
-    );
-  }
 
   return (
     product && (

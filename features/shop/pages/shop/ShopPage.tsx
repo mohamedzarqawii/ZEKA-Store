@@ -10,7 +10,8 @@ import {
   useGetShopCategories,
 } from "./hooks/useShop";
 import { ProductCardSkeleton } from "../../components/ProductCardSkilton";
-import { FilterBar } from "../../components/FilterBar";
+import { FilterBar } from "../../components/FilterLeftBar";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 
 type Option = {
   label: string;
@@ -26,6 +27,8 @@ const ShopPage = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
   const [value, setValue] = useState<number[]>([0, 1000]);
 
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
   const { data: products, isLoading: isProductsLoading } = useGetShopProducts(
     currentPage,
     selectedCategories,
@@ -89,16 +92,17 @@ const ShopPage = () => {
   };
 
   if (
-    isProductsLoading &&
-    !products &&
-    isBrandsLoading &&
-    isCategoriesLoading
+    isProductsLoading ||
+    !products ||
+    isBrandsLoading ||
+    isCategoriesLoading ||
+    isCurrentUserLoading
   ) {
     return (
       <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
         {/* 1 */}
         <div className="flex flex-col items-center gap-4">
-          <div className="text-primary text-3xl">Loading Products...</div>
+          <div className="text-primary text-3xl">Loading Products . . .</div>
         </div>
       </div>
     );

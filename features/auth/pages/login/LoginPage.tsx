@@ -31,21 +31,15 @@ const LoginPage = () => {
   const { values, errors, dirty, touched, handleSubmit, handleChange } =
     loginFormik;
 
-  useEffect(() => {
-    if (currentUser) {
-      router.replace("/profile");
-    }
-  }, [currentUser, router]);
-
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-155px)] text-primary">
-        Loading...
+      <div className="flex justify-center items-center gap-2 h-[calc(100vh-155px)] text-primary text-4xl">
+        <Spinner className="size-8" data-icon="inline-start" />
+        Loading . . .
       </div>
     );
   }
 
-  // 2. إذا كان مسجلاً دخول، لا ترجع شيء (سيتم التوجيه عبر useEffect)
   if (currentUser) return null;
 
   return (

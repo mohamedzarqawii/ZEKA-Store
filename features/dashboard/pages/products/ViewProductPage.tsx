@@ -5,6 +5,8 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useGetAdminProduct } from "./hooks/useProducts";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { useEffect } from "react";
 
 interface ViewProps {
   productId: string;
@@ -18,7 +20,6 @@ export const ViewProductPage = ({ productId }: ViewProps) => {
   const imageUrl = images?.[0] ? `${images[0]}` : "/images/placeholder.jpeg";
 
   const router = useRouter();
-
   if (isProductLoading) {
     return (
       <div className="flex justify-center items-center p-8">
