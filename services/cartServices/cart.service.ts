@@ -12,7 +12,8 @@ export const getCart = async (userId: string) => {
       product:products (*, category:categories(*) , brand:brands(*))
     `,
     )
-    .eq("userId", userId);
+    .eq("userId", userId)
+    .order("id", { ascending: true });
 
   if (error) {
     throw error;
@@ -35,7 +36,6 @@ export const toggleCart = async (
 
   if (action === "add") {
     if (existingItem) {
-      // إذا كان موجوداً: زيادة الكمية بـ 1
       const { data, error } = await supabase
         .from("cart_items")
         .update({ quantity: existingItem.quantity + 1 })
@@ -45,7 +45,6 @@ export const toggleCart = async (
       if (error) throw error;
       return { action: "updated", data };
     } else {
-      // إذا لم يكن موجوداً: إضافته بقدر كمية 1
       const { data, error } = await supabase
         .from("cart_items")
         .insert({ userId, productId, quantity: 1 })

@@ -1,11 +1,11 @@
-import { IconTrash } from "@tabler/icons-react";
-import { ProductType } from "@/types/product";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
-import { toast } from "sonner";
-import { Spinner } from "./ui/spinner";
-import { Button } from "./ui/button";
 import { useGetShopProduct } from "@/features/shop/pages/shop/hooks/useShop";
+import { ProductType } from "@/types/product";
+import { IconTrash } from "@tabler/icons-react";
+import { toast } from "sonner";
+import { Button } from "./ui/button";
+import { Spinner } from "./ui/spinner";
 
 const Counter = ({
   product,
