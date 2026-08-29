@@ -47,7 +47,7 @@ export default function ResetPasswordPage() {
   }
 
   function handleErrors(type: string) {
-    if (type == "email") {
+    if (type == "password") {
       return capitalizeFirstLetter(errors.password);
     }
   }
@@ -68,7 +68,7 @@ export default function ResetPasswordPage() {
 
             <div className="group flex flex-col justify-center items-end gap-4 w-full">
               <div className="flex flex-col gap-2 w-full">
-                <FieldLabel htmlFor="email">
+                <FieldLabel htmlFor="password">
                   New Password<span className="text-destructive">*</span>
                 </FieldLabel>
                 <Input
