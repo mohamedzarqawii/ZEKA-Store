@@ -85,13 +85,10 @@ export const signUp = async ({
 
 // -------------- forgot password --------------
 
-export const forgotPassword = async (email: reqForgotPassword) => {
-  const { data, error } = await supabase.auth.resetPasswordForEmail(
-    "mohamedzarqawi1@gmail.com",
-    {
-      redirectTo: `${window.location.origin}/resetPassword`,
-    },
-  );
+export const forgotPassword = async (email: string) => {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/resetPassword`,
+  });
 
   console.log(data);
   if (error) {
