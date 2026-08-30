@@ -1,3 +1,4 @@
+import { AddressType } from "./address";
 import { OrderType } from "./order";
 import { ProductType } from "./product";
 
@@ -17,5 +18,6 @@ export type User = {
   birthday?: string;
   gender?: "male" | "female";
   orders: OrderType[];
+  addresses: AddressType[];
   role?: string;
 };

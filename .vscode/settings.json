@@ -1,5 +1,11 @@
+// {
+//   "editor.codeActionsOnSave": {
+//     "source.organizeImports": "always"
+//   }
+// }
+
 {
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "always"
+    "source.organizeImports": "never"
   }
 }

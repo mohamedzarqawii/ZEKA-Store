@@ -1,4 +1,4 @@
-import AddressesPage from "@/features/profile/pages/addresses/AddressesPage";
+import AddressesPage from "@/features/profile/pages/addresses/pages/AddressesPage";
 
 const Addresses = () => {
   return (

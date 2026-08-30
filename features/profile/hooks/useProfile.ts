@@ -38,7 +38,6 @@ export const useGetProfile = () => {
       return getProfile(userId);
     },
     onSuccess: (res) => {
-      console.log(res);
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
     },
     onError: (error: unknown) => {

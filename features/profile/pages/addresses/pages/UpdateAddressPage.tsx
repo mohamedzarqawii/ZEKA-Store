@@ -1,0 +1,383 @@
+"use client";
+import { useParams } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
+import { useGetAddress, useUpdateAddress } from "../hooks/useAddresses";
+import { useFormik } from "formik";
+import {
+  AddAddressSchema,
+  AddressType,
+  UpdateAddressSchema,
+} from "@/types/address";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { getChangedValues } from "@/utils/getChangedValues";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { City, Country } from "country-state-city";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+const ALL_COUNTRIES = Country.getAllCountries();
+const UpdateAddressPage = () => {
+  const { id } = useParams();
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
+
+  const {
+    data: address,
+    isLoading: isAddressLoading,
+    refetch: reGetAddress,
+  } = useGetAddress(String(id));
+
+  const { mutateAsync: handleUpdateAddress, isPending: isAddressUpdating } =
+    useUpdateAddress();
+
+  type AddressFormikType = {
+    title: string;
+    phone: string;
+    phoneCode: string;
+    isDefault: boolean;
+    name: string;
+    addressLine: string;
+    addressDetails: string;
+    zip: string;
+    city: string;
+    country: string;
+  };
+
+  const {
+    values,
+    errors,
+    touched,
+    setFieldTouched,
+    handleSubmit,
+    handleChange,
+    setFieldValue,
+    initialValues,
+    dirty,
+  } = useFormik<AddressFormikType>({
+    enableReinitialize: true,
+    initialValues: {
+      title: address?.title || "",
+      phone: address?.phone || "",
+      phoneCode: address?.phoneCode || "",
+      isDefault: address?.isDefault || false,
+      name: address?.name || "",
+      addressLine: address?.addressLine || "",
+      addressDetails: address?.addressDetails || "",
+      zip: address?.zip || "",
+      city: address?.city || "",
+      country: address?.country || "",
+    },
+    validationSchema: AddAddressSchema,
+    onSubmit: async (values) => {
+      if (!currentUser) return;
+      const changedValues = getChangedValues(values, initialValues);
+      await handleUpdateAddress({
+        addressId: String(address?.id),
+        addressData: changedValues,
+      });
+      await reGetAddress();
+    },
+  });
+
+  const selectedCountryObj = useMemo(() => {
+    return ALL_COUNTRIES.find(
+      (c) =>
+        c.name.toLowerCase() === values.country?.toLowerCase() ||
+        c.isoCode === values.country,
+    );
+  }, [values.country]);
+
+  const uniqueCities = useMemo(() => {
+    if (!selectedCountryObj) return [];
+    const rawCities = City.getCitiesOfCountry(selectedCountryObj.isoCode) || [];
+    return Array.from(
+      new Map(rawCities.map((city) => [city.name, city])).values(),
+    );
+  }, [selectedCountryObj]);
+
+  if (isCurrentUserLoading || isAddressLoading) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <div>
+      <div className="text-primary text-3xl">Edit {address?.title} Address</div>
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-6 px-8 py-8 border border-primary rounded-3xl w-full h-fit">
+          <div className="font-semibold text-lg">Address Details</div>
+          <div className="flex flex-wrap gap-6 mt-5">
+            <div className="flex flex-col">
+              <FieldLabel
+                htmlFor="addressTitle"
+                className="mb-2 text-primary text-sm"
+              >
+                Address Title
+              </FieldLabel>
+              <div id="addressTitle" className="flex gap-3">
+                <Button
+                  onClick={() => setFieldValue("title", "Home")}
+                  type="button"
+                  variant={"outline"}
+                  className={
+                    values.title === "Home" ? "bg-primary! text-foreground" : ""
+                  }
+                >
+                  Home
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => setFieldValue("title", "Work")}
+                  variant={"outline"}
+                  className={
+                    values.title === "Work" ? "bg-primary! text-foreground" : ""
+                  }
+                >
+                  Work
+                </Button>
+                <Button
+                  type="button"
+                  variant={"outline"}
+                  onClick={() => setFieldValue("title", "Other")}
+                  className={
+                    values.title === "Other"
+                      ? "bg-primary! text-foreground"
+                      : ""
+                  }
+                >
+                  Other
+                </Button>
+              </div>
+            </div>
+            <Field>
+              <FieldLabel className="text-primary text-sm">
+                Address Line
+              </FieldLabel>
+              <Input
+                id="addressLine"
+                name="addressLine"
+                value={values.addressLine}
+                onChange={handleChange}
+                className="w-full"
+                aria-invalid={!!errors.addressLine && !!touched.addressLine}
+              />
+              {errors.addressLine && touched.addressLine && (
+                <FieldError>{errors.addressLine}</FieldError>
+              )}
+            </Field>
+
+            <Field>
+              <FieldLabel className="text-primary text-sm">
+                Address Details
+              </FieldLabel>
+              <Input
+                id="addressDetails"
+                name="addressDetails"
+                value={values.addressDetails}
+                onChange={handleChange}
+                className="w-full"
+                aria-invalid={
+                  !!errors.addressDetails && !!touched.addressDetails
+                }
+              />
+              {errors.addressDetails && touched.addressDetails && (
+                <FieldError>{errors.addressDetails}</FieldError>
+              )}
+            </Field>
+
+            <div className="flex gap-3 w-full">
+              <Field>
+                <FieldLabel className="text-primary text-sm">
+                  Country<span className="text-destructive">*</span>
+                </FieldLabel>
+                <Select
+                  value={values.country}
+                  onValueChange={(value) => {
+                    setFieldValue("country", value);
+                    setFieldValue("city", "");
+                  }}
+                  onOpenChange={(open) => {
+                    if (!open) setFieldTouched("country", true);
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {ALL_COUNTRIES.map((country, i) => (
+                        <SelectItem key={country.isoCode} value={country.name}>
+                          {country.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {errors.country && touched.country && (
+                  <FieldError>{String(errors.country)}</FieldError>
+                )}
+              </Field>
+
+              <Field>
+                <FieldLabel className="text-primary text-sm">
+                  City<span className="text-destructive">*</span>
+                </FieldLabel>
+                <Select
+                  value={values.city}
+                  onValueChange={(value) => {
+                    setFieldValue("city", value);
+                  }}
+                  onOpenChange={(open) => {
+                    if (!open) setFieldTouched("city", true);
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select City" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {uniqueCities.map((city) => (
+                        <SelectItem
+                          key={(city.latitude, city.name)}
+                          value={city.name}
+                        >
+                          {city.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {errors.city && touched.city && (
+                  <FieldError>{String(errors.city)}</FieldError>
+                )}
+              </Field>
+
+              <Field>
+                <FieldLabel className="text-primary text-sm">
+                  ZIP Code
+                </FieldLabel>
+                <Input
+                  id="zip"
+                  name="zip"
+                  value={values.zip}
+                  onChange={handleChange}
+                  className="w-full"
+                  aria-invalid={!!errors.zip && !!touched.zip}
+                />
+                {errors.zip && touched.zip && (
+                  <FieldError>{errors.zip}</FieldError>
+                )}
+              </Field>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-6 px-8 py-8 border border-primary rounded-3xl w-full h-fit">
+          <div className="font-semibold text-lg">Receiver Details</div>
+          <div className="flex flex-wrap gap-6 mt-5">
+            <Field>
+              <FieldLabel className="text-primary text-sm">
+                Full Name
+              </FieldLabel>
+              <Input
+                id="name"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+                className="w-full sm:w-96"
+                aria-invalid={!!errors.name && !!touched.name}
+              />
+              {errors.name && touched.name && (
+                <FieldError>{errors.name}</FieldError>
+              )}
+            </Field>
+
+            <div className="flex gap-3">
+              <Field>
+                <FieldLabel className="text-primary text-sm">
+                  Country Code
+                </FieldLabel>
+                <Select
+                  value={
+                    ALL_COUNTRIES.find(
+                      (c) =>
+                        c.phonecode.replace("+", "") ===
+                        String(values.phoneCode).replace("+", ""),
+                    )?.isoCode || ""
+                  }
+                  onValueChange={(selectedIso) => {
+                    const selectedCountry = ALL_COUNTRIES.find(
+                      (c) => c.isoCode === selectedIso,
+                    );
+                    if (selectedCountry) {
+                      setFieldValue(
+                        "phoneCode",
+                        selectedCountry.phonecode.replace("+", ""),
+                      );
+                    }
+                  }}
+                  onOpenChange={(open) => {
+                    if (!open) setFieldTouched("phoneCode", true);
+                  }}
+                >
+                  <SelectTrigger className="w-40">
+                    <SelectValue placeholder="+" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {ALL_COUNTRIES.map((country) => {
+                        const cleanCode = country.phonecode.replace("+", "");
+                        return (
+                          <SelectItem
+                            key={country.isoCode}
+                            value={country.isoCode}
+                          >
+                            +{cleanCode} ({country.isoCode})
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </Field>
+
+              <Field>
+                <FieldLabel className="text-primary text-sm">
+                  Phone Number
+                </FieldLabel>
+                <Input
+                  id="phone"
+                  name="phone"
+                  value={values.phone}
+                  onChange={handleChange}
+                  className="w-full sm:w-96"
+                  aria-invalid={!!errors.phone && !!touched.phone}
+                />
+                {errors.phone && touched.phone && (
+                  <FieldError>{errors.phone}</FieldError>
+                )}
+              </Field>
+            </div>
+          </div>
+        </div>
+
+        <Button
+          size={"lg"}
+          disabled={!dirty || isAddressUpdating}
+          type="submit"
+          className="mt-3"
+        >
+          Update
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export default UpdateAddressPage;
