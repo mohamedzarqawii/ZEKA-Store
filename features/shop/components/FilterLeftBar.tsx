@@ -95,7 +95,7 @@ export const FilterBar = ({
       <div className="flex flex-col gap-8 mt-4">
         {filterMenu.map((menu, i) => (
           <div key={i} className="flex flex-col gap-4">
-            <div className="font-bold text-primary text-lg">{menu.title}</div>
+            <div className="text-primary text-lg">{menu.title}</div>
 
             <div className="flex flex-col gap-5">
               {menu.options.map((option, j: number) => {

@@ -1,10 +1,12 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { ProductType } from "@/types/product";
 import * as React from "react";
 import { useState } from "react";
 import { FilterBar } from "../../components/FilterLeftBar";
+import { FilterLeftBarSkeleton } from "../../components/FilterLeftBarSkilton";
 import ProductCard from "../../components/ProductCard";
 import { ProductCardSkeleton } from "../../components/ProductCardSkilton";
 import {
@@ -91,54 +93,66 @@ const ShopPage = () => {
     setCurrentPage(1);
   };
 
-  if (
-    isProductsLoading ||
-    !products ||
-    isBrandsLoading ||
-    isCategoriesLoading
-  ) {
-    return (
-      <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
-        {/* 1 */}
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-primary text-3xl">Loading Products . . .</div>
-        </div>
-      </div>
-    );
-  }
+  // if (
+  //   isProductsLoading ||
+  //   !products ||
+  //   isBrandsLoading ||
+  //   isCategoriesLoading
+  // ) {
+  //   return (
+  //     <div className="flex flex-col justify-center h-[calc(100vh-155px)]">
+  //       {/* 1 */}
+  //       <div className="flex flex-col items-center gap-4">
+  //         <div className="text-primary text-3xl">Loading Products . . .</div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   return (
     <div className="mx-10">
       {/* body */}
       <div className="flex flex-wrap gap-10 mt-15">
         {/* Left - Filter Component */}
-        <FilterBar
-          filterMenu={filterMenu}
-          selectedCategories={selectedCategories}
-          selectedBrands={selectedBrands}
-          handleFilterChange={handleFilterChange}
-          setSelectedCategories={setSelectedCategories}
-          setSelectedBrands={setSelectedBrands}
-          value={value}
-          setValue={setValue}
-          setPriceRange={setPriceRange}
-          setCurrentPage={setCurrentPage}
-        />
+
+        {isCategoriesLoading || isBrandsLoading ? (
+          <FilterLeftBarSkeleton />
+        ) : (
+          <FilterBar
+            filterMenu={filterMenu}
+            selectedCategories={selectedCategories}
+            selectedBrands={selectedBrands}
+            handleFilterChange={handleFilterChange}
+            setSelectedCategories={setSelectedCategories}
+            setSelectedBrands={setSelectedBrands}
+            value={value}
+            setValue={setValue}
+            setPriceRange={setPriceRange}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
 
         <div className="flex flex-col flex-1 gap-10 w-full min-h-screen">
           {/* 1 R - Header */}
           <div className="flex sm:flex-row flex-col justify-between items-start sm:items-end gap-2">
             <h1 className="font-bold text-primary text-2xl sm:text-3xl tracking-tight">
-              ALL PRODUCTS
+              PRODUCTS
             </h1>
-            <div className="text-zinc-400 text-xs sm:text-sm">
-              Showing{" "}
-              <span className="font-medium text-primary">
-                {fromItem} - {toItem}
-              </span>{" "}
-              of{" "}
-              <span className="font-medium text-primary">{productsNumber}</span>{" "}
-              products
-            </div>
+
+            {isProductsLoading ? (
+              <Skeleton className="bg-zinc-800 rounded-sm w-65 h-4" />
+            ) : (
+              <div className="text-zinc-400 text-xs sm:text-sm">
+                Showing{" "}
+                <span className="font-medium text-primary">
+                  {fromItem} - {toItem}
+                </span>{" "}
+                of{" "}
+                <span className="font-medium text-primary">
+                  {productsNumber}
+                </span>{" "}
+                products
+              </div>
+            )}
           </div>
 
           {/* 2 R - Flexible Grid */}

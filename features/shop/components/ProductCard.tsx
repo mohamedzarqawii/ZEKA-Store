@@ -86,7 +86,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 variant="none"
                 size="none"
                 onClick={handleFavoriteClick}
-                className="top-4 right-4 absolute p-1.5 rounded-lg transition-transform duration-300 cursor-pointer"
+                className="top-4 right-4 absolute p-1.5 rounded-lg cursor-pointer"
               >
                 {isToggleFavorite ? (
                   <AnimateIcon loop animateOnView loopDelay={100}>
