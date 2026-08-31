@@ -39,7 +39,7 @@ export const UpdateAddressSkeleton = () => {
             <FieldLabel className="text-primary text-sm">
               Address Line
             </FieldLabel>
-            <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+            <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
           </div>
 
           {/* Address Details Input */}
@@ -47,7 +47,7 @@ export const UpdateAddressSkeleton = () => {
             <FieldLabel className="text-primary text-sm">
               Address Details
             </FieldLabel>
-            <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+            <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
           </div>
 
           {/* Country, City & ZIP Row */}
@@ -56,19 +56,19 @@ export const UpdateAddressSkeleton = () => {
               <FieldLabel className="text-primary text-sm">
                 Country<span className="text-destructive">*</span>
               </FieldLabel>
-              <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+              <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
             </div>
 
             <div className="flex flex-col flex-1 gap-2">
               <FieldLabel className="text-primary text-sm">
                 City<span className="text-destructive">*</span>
               </FieldLabel>
-              <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+              <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
             </div>
 
             <div className="flex flex-col flex-1 gap-2">
               <FieldLabel className="text-primary text-sm">ZIP Code</FieldLabel>
-              <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+              <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
             </div>
           </div>
         </div>
@@ -82,23 +82,23 @@ export const UpdateAddressSkeleton = () => {
           {/* Full Name Input */}
           <div className="flex flex-col gap-2 w-full sm:w-96">
             <FieldLabel className="text-primary text-sm">Full Name</FieldLabel>
-            <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+            <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
           </div>
 
           {/* Phone Code & Phone Number */}
           <div className="flex gap-3 w-full">
-            <div className="flex flex-col gap-2 w-40">
+            <div className="flex flex-col gap-2 w-32">
               <FieldLabel className="text-primary text-sm">
                 Country Code
               </FieldLabel>
-              <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+              <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
             </div>
 
             <div className="flex flex-col gap-2 w-full sm:w-96">
               <FieldLabel className="text-primary text-sm">
                 Phone Number
               </FieldLabel>
-              <Skeleton className="bg-input/30 px-4 py-3 border border-primary/30 rounded-lg w-full h-13" />
+              <Skeleton className="px-4 py-3 rounded-lg w-full h-13" />
             </div>
           </div>
         </div>
@@ -106,7 +106,13 @@ export const UpdateAddressSkeleton = () => {
 
       {/* زر الحفظ والتحديث (Submit Button) */}
       <div className="flex justify-end mt-6">
-        <Skeleton className="bg-primary/40 rounded-lg w-52 h-12" />
+        <Button
+          size={"lg"}
+          disabled={true}
+          className="flex justify-center mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
+        >
+          Update Address
+        </Button>
       </div>
     </div>
   );

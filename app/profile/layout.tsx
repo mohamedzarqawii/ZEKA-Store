@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import ProfileLeftBar from "@/features/profile/components/ProfileLeftBar";
-import { ProfileLeftBarSkeleton } from "@/features/profile/components/ProfileLeftBarSkilton";
+import ProfileLeftBarSkeleton from "@/features/profile/components/ProfileLeftBarSkilton";
 
 export default function ProfileLayout({
   children,

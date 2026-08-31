@@ -6,14 +6,8 @@ import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 
 import { useRouter } from "next/navigation";
 import AddressCard from "../components/AddressCard";
-import {
-  useAddAddress,
-  useDeleteAddress,
-  useGetAddresses,
-  useUpdateAddress,
-} from "../hooks/useAddresses";
-import { AddressType } from "@/types/address";
 import AddressesPageSkeleton from "../components/AddressesPageSkilton";
+import { useGetAddresses } from "../hooks/useAddresses";
 
 const AddressesPage = () => {
   const router = useRouter();
@@ -41,7 +35,7 @@ const AddressesPage = () => {
             Add New
           </Button>
         </div>
-        <div className="gap-4 grid grid-cols-3 w-full">
+        <div className="gap-4 grid grid-cols-2 w-full">
           {addresses.map((Address, i) => {
             console.log(Address);
             return <AddressCard key={i} address={Address} />;

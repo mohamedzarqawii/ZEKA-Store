@@ -75,6 +75,7 @@ const ContactPage = () => {
                   navigator.clipboard.writeText("+1 234 567 890");
                   toast.success("Copied phone number to clipboard", {
                     position: "bottom-right",
+                    richColors: true,
                   });
                 }}
               >
@@ -95,6 +96,7 @@ const ContactPage = () => {
                   navigator.clipboard.writeText("info@myshop.com");
                   toast.success("Copied email to clipboard", {
                     position: "bottom-right",
+                    richColors: true,
                   });
                 }}
               >
@@ -117,6 +119,7 @@ const ContactPage = () => {
                   );
                   toast.success("Copied address to clipboard", {
                     position: "bottom-right",
+                    richColors: true,
                   });
                 }}
               >

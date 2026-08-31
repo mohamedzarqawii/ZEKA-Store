@@ -32,7 +32,7 @@ const ItemCart = ({ product }: { product: ProductType }) => {
     e.preventDefault();
 
     if (!currentUser?.id) {
-      toast.error("Please login to manage you favorites");
+      toast.error("Please login to manage you favorites", { richColors: true });
       return;
     }
 

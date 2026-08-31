@@ -23,10 +23,16 @@ export const ActionCell = ({ product, viewHref }: ActionCellProps) => {
 
     deleteProduct(product.id, {
       onSuccess: () => {
-        toast.success("Product deleted successfully!");
+        toast.success("Product deleted successfully!", {
+          position: "bottom-right",
+          richColors: true,
+        });
       },
       onError: (error) => {
-        toast.error("Failed to delete product!");
+        toast.error("Failed to delete product!", {
+          position: "bottom-right",
+          richColors: true,
+        });
         console.error(error);
       },
     });

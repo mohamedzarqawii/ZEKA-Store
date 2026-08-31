@@ -20,6 +20,7 @@ import { updateProfileSchema } from "@/types/auth/profile";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { useRouter } from "next/navigation";
 import { useUpdateProfile } from "../../hooks/useProfile";
+import ProfilePageSkeleton from "./ProfilePageSkilton";
 
 function parseBirthdayDate(value: string | null | undefined) {
   if (!value) return undefined;
@@ -87,16 +88,8 @@ const ProfilePage = () => {
 
   const dateValue = parseBirthdayDate(values.birthday);
 
-  if (isCurrentUserLoading) {
-    return (
-      <div className="flex justify-center items-center gap-2 h-[calc(100vh-270px)] text-primary text-4xl">
-        <Spinner className="size-8" data-icon="inline-start" />
-        Loading Profile . . .
-      </div>
-    );
-  }
-  if (!currentUser) {
-    return null;
+  if (isCurrentUserLoading || !currentUser) {
+    return <ProfilePageSkeleton />;
   }
 
   function capitalizeFirstLetter(val: string | undefined) {
@@ -119,21 +112,19 @@ const ProfilePage = () => {
       <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-10 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
         <div className="text-md">Contact Information</div>
         <div className="flex flex-wrap gap-4 mt-5">
-          <div>
-            <Field>
-              <FieldLabel htmlFor="name" className="text-primary text-sm">
-                Email
-              </FieldLabel>
-              <Input
-                name="email"
-                type="text"
-                value={currentUser.email}
-                onChange={handleChange}
-                className="bg-zinc-800/30! w-100! text-zinc-400 hover:cursor-not-allowed"
-                readOnly
-              />
-            </Field>
-          </div>
+          <Field>
+            <FieldLabel htmlFor="name" className="text-primary text-sm">
+              Email
+            </FieldLabel>
+            <Input
+              name="email"
+              type="text"
+              value={currentUser.email}
+              onChange={handleChange}
+              className="bg-zinc-800/30! w-100! text-zinc-400 hover:cursor-not-allowed"
+              readOnly
+            />
+          </Field>
         </div>
       </div>
 
@@ -195,7 +186,7 @@ const ProfilePage = () => {
                         type="button"
                         variant="outline"
                         id="date"
-                        className="justify-start bg-background! p-6 border border-primary rounded-lg outline-none w-100 text-md"
+                        className="justify-start bg-background! p-6 border border-primary rounded-lg outline-none w-100 h-13 text-md"
                       >
                         {formatBirthday(values.birthday)}
                       </Button>
@@ -236,16 +227,16 @@ const ProfilePage = () => {
                 </Field>
               </div>
 
-              <div className="flex flex-col justify-center gap-2">
+              <div className="flex flex-col justify-center gap-3">
                 <div className="text-primary text-sm">Gender</div>
                 <div className="flex gap-2">
                   <Button
                     variant={"outline"}
-                    size={"lg"}
+                    size={"icon-lg"}
                     type="button"
                     onClick={() => setFieldValue("gender", "male")}
-                    className={`flex justify-center items-center gap-2 border border-primary rounded-lg outline-none w-35 hover:cursor-pointer transition-all
-                      ${values.gender === "male" ? "ring-secondary! ring-2! bg-secondary/10!" : ""}`}
+                    className={`p-6 text-md gap-2 border-primary rounded-lg outline-none w-35 hover:cursor-pointer transition-all
+                      ${values.gender === "male" ? "ring-secondary! ring-1! bg-secondary/10!" : ""}`}
                   >
                     <Mars className="size-5" />
                     Male{" "}
@@ -253,11 +244,11 @@ const ProfilePage = () => {
 
                   <Button
                     variant={"outline"}
-                    size={"lg"}
+                    size={"icon-lg"}
                     type="button"
                     onClick={() => setFieldValue("gender", "female")}
-                    className={`flex justify-center items-center gap-2 border border-primary rounded-lg outline-none w-35 hover:cursor-pointer transition-all
-                      ${values.gender === "female" ? "ring-secondary! ring-2! bg-secondary/10!" : ""}`}
+                    className={`p-6 text-md gap-2 border-primary rounded-lg outline-none w-35 hover:cursor-pointer transition-all
+                      ${values.gender === "female" ? "ring-secondary! ring-1! bg-secondary/10!" : ""}`}
                   >
                     <Venus className="size-5" />
                     Female

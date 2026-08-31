@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const AddressesPageSkeleton = () => {
@@ -7,16 +8,16 @@ export const AddressesPageSkeleton = () => {
       <div className="text-primary text-3xl">ADDRESSES</div>
 
       {/* الحاوية الرئيسية */}
-      <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-10 px-8 py-10 border border-primary/30 rounded-3xl w-full h-fit">
+      <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-10 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
         {/* شريط الهيدر (العنوان + زر إضافة عنوان) */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between">
           <div className="mb-10 text-md">Saved Addresses</div>
-          <Skeleton className="bg-primary/20 rounded-lg w-28 h-9" />
+          <Button>Add New</Button>
         </div>
 
         {/* شبكة العناوين (Grid of 2) */}
-        <div className="gap-4 grid grid-cols-3 w-full">
-          {[1, 2, 3, 4].map((i) => (
+        <div className="gap-4 grid grid-cols-2 w-full">
+          {[1, 2, 3].map((i) => (
             <div
               key={i}
               className="flex flex-col gap-4 bg-card px-4 py-5 border border-border rounded-md w-full"

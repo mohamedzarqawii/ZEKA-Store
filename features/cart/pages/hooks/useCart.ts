@@ -32,15 +32,17 @@ export const useToggleCart = () => {
       queryClient.invalidateQueries({ queryKey: ["cart", variables.userId] });
 
       if (res?.action === "added") {
-        toast.success("Added to cart successfully!");
+        toast.success("Added to cart successfully!", { richColors: true });
       } else if (res?.action === "updated") {
-        toast.success("Cart quantity updated");
+        toast.success("Cart quantity updated", { richColors: true });
       } else if (res?.action === "deleted") {
-        toast.success("Item removed from cart");
+        toast.success("Item removed from cart", { richColors: true });
       }
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to update cart");
+      toast.error(error.message || "Failed to update cart", {
+        richColors: true,
+      });
     },
   });
 };

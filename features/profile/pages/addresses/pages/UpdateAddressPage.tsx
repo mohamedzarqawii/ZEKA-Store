@@ -1,16 +1,7 @@
 "use client";
-import { useParams } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
-import { useGetAddress, useUpdateAddress } from "../hooks/useAddresses";
-import { useFormik } from "formik";
-import {
-  AddAddressSchema,
-  AddressType,
-  UpdateAddressSchema,
-} from "@/types/address";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { getChangedValues } from "@/utils/getChangedValues";
+import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -19,10 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
+import { AddAddressSchema } from "@/types/address";
+import { getChangedValues } from "@/utils/getChangedValues";
 import { City, Country } from "country-state-city";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useFormik } from "formik";
+import { useParams } from "next/navigation";
+import { useMemo } from "react";
 import UpdateAddressSkeleton from "../components/UpdateAddressPageSkilton";
+import { useGetAddress, useUpdateAddress } from "../hooks/useAddresses";
 
 const ALL_COUNTRIES = Country.getAllCountries();
 const UpdateAddressPage = () => {
@@ -104,13 +100,22 @@ const UpdateAddressPage = () => {
     );
   }, [selectedCountryObj]);
 
-  if (
-    isCurrentUserLoading ||
-    isAddressLoading ||
-    !ALL_COUNTRIES ||
-    !uniqueCities ||
-    !selectedCountryObj
-  ) {
+  // if (
+  //   isCurrentUserLoading ||
+  //   isAddressLoading ||
+  //   !ALL_COUNTRIES ||
+  //   !uniqueCities ||
+  //   !selectedCountryObj
+  // ) {
+  //   return (
+  //     <div>
+  //       <UpdateAddressSkeleton />
+  //     </div>
+  //   );
+  // }
+
+  const aha = true;
+  if (aha) {
     return (
       <div>
         <UpdateAddressSkeleton />

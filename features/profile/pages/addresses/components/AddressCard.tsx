@@ -13,6 +13,7 @@ const AddressCard = ({ address }: { address: AddressType }) => {
     useUpdateAddress();
   const handleSetDefault = (addressId: string) => {
     handleUpdateAddress({
+      action: "pin",
       addressId: String(addressId),
       addressData: { isDefault: true },
     });
@@ -69,7 +70,11 @@ const AddressCard = ({ address }: { address: AddressType }) => {
                 }}
                 className="p-2 border border-border cursor-pointer"
               >
-                <Pin className="w-4 h-4 hover:cursor-pointer" />
+                {isAddressUpdating ? (
+                  <Loader2 className="w-4 h-4 text-destructive animate-spin" />
+                ) : (
+                  <Pin className="w-4 h-4 hover:cursor-pointer" />
+                )}
               </Button>
             )}
           </div>

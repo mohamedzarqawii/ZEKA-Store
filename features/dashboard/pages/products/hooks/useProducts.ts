@@ -73,6 +73,7 @@ export const useUpdateAdminProduct = () => {
     onError: () => {
       toast.error("Invalid email or password, register first", {
         position: "bottom-right",
+        richColors: true,
         action: {
           label: "Register",
           onClick: () => router.push("/register"),
@@ -96,6 +97,7 @@ export const useCreateAdminProduct = () => {
     onError: () => {
       toast.error("Invalid email or password, register first", {
         position: "bottom-right",
+        richColors: true,
         action: {
           label: "Register",
           onClick: () => router.push("/register"),

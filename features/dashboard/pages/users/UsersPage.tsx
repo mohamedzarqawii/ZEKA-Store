@@ -35,6 +35,7 @@ const UsersPage = () => {
         currentBlockedState
           ? "User activated successfully!"
           : "User blocked successfully!",
+        { position: "bottom-right", richColors: true },
       );
       const newBlockedState = !currentBlockedState;
       setUsers((prevUsers: any[]) =>
@@ -57,7 +58,10 @@ const UsersPage = () => {
 
   const handleDelete = (userId: string) => {
     deleteUserAdmin(userId).then((res) => {
-      toast.success("User deleted successfully!");
+      toast.success("User deleted successfully!", {
+        position: "bottom-right",
+        richColors: true,
+      });
 
       setUsers((prevProducts: any[]) =>
         prevProducts.filter((p) => p.id !== userId),

@@ -5,7 +5,7 @@ import {
   getAddressItem,
   updateAddress,
 } from "@/services/addressesServices/addresses.service";
-import { AddressType, reqAddAdderess } from "@/types/address";
+import { AddressType } from "@/types/address";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -49,20 +49,33 @@ export const useUpdateAddress = () => {
 
   return useMutation({
     mutationFn: ({
+      action,
       addressId,
       addressData,
     }: {
+      action: string;
       addressId: string;
       addressData: Partial<AddressType>;
     }) => updateAddress(addressId, addressData),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["addresses"] });
-      toast.success("Address Updated Successfully !", {
-        position: "bottom-right",
-      });
+      {
+        variables.action == "pin"
+          ? toast.success(`Address Seted As Default Successfully!`, {
+              position: "bottom-right",
+              richColors: true,
+            })
+          : toast.success("Address Updated Successfully !", {
+              position: "bottom-right",
+              richColors: true,
+            });
+      }
     },
     onError: () => {
-      toast.error("Could not update Address, please try again later.");
+      toast.error("Could not update Address, please try again later.", {
+        position: "bottom-right",
+        richColors: true,
+      });
     },
   });
 };

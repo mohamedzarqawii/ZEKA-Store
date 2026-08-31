@@ -15,6 +15,7 @@ export const useMedia = () => {
     onError: () => {
       toast.error("Failed upload media", {
         position: "bottom-right",
+        richColors: true,
       });
     },
   });

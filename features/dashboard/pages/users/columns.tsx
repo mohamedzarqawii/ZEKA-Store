@@ -42,7 +42,10 @@ export const columns = (
           variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue<string>("id"));
-            toast.success("Copied to clipboard", { position: "bottom-right" });
+            toast.success("Copied to clipboard", {
+              position: "bottom-right",
+              richColors: true,
+            });
           }}
           className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >
@@ -63,7 +66,10 @@ export const columns = (
           variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue<string>("documentId"));
-            toast.success("Copied to clipboard", { position: "bottom-right" });
+            toast.success("Copied to clipboard", {
+              position: "bottom-right",
+              richColors: true,
+            });
           }}
           className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >
@@ -95,7 +101,10 @@ export const columns = (
           variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue("username"));
-            toast.success("Copied to clipboard", { position: "bottom-right" });
+            toast.success("Copied to clipboard", {
+              position: "bottom-right",
+              richColors: true,
+            });
           }}
           className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >
@@ -117,7 +126,10 @@ export const columns = (
           variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue("email"));
-            toast.success("Copied to clipboard", { position: "bottom-right" });
+            toast.success("Copied to clipboard", {
+              position: "bottom-right",
+              richColors: true,
+            });
           }}
           className="-ml-3 text-foreground/90 hover:text-primary text-sm tracking-wider"
         >

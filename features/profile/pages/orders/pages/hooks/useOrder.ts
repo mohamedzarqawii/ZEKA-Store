@@ -19,7 +19,10 @@ export const useCreateOrder = () => {
       });
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to update cart");
+      toast.error(error.message || "Failed to update cart", {
+        position: "bottom-right",
+        richColors: true,
+      });
     },
   });
 };

@@ -65,7 +65,10 @@ export const useLogin = () => {
     onSuccess: (res) => {
       notifyAuthTokenChanged();
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-      toast.success("Login Successfully", { position: "bottom-right" });
+      toast.success("Login Successfully", {
+        position: "bottom-right",
+        richColors: true,
+      });
       router.push("/profile");
     },
     onError: (error: unknown) => {
@@ -75,6 +78,7 @@ export const useLogin = () => {
           label: "Register",
           onClick: () => router.push("/register"),
         },
+        richColors: true,
       });
     },
   });
@@ -107,6 +111,7 @@ export const useSignUp = () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       toast.success("Account Created Successfully", {
         position: "bottom-right",
+        richColors: true,
       });
       router.push("/profile");
     },
@@ -117,6 +122,7 @@ export const useSignUp = () => {
           label: "Login",
           onClick: () => router.push("/login"),
         },
+        richColors: true,
       });
     },
   });
@@ -140,6 +146,7 @@ export const useForgotPassword = () => {
     onSuccess: (_, variables) => {
       toast.success(`Please check your email ${variables.email}`, {
         position: "bottom-right",
+        richColors: true,
       });
     },
     onError: (error: any) => {
@@ -150,6 +157,7 @@ export const useForgotPassword = () => {
 
       toast.error(message, {
         position: "bottom-right",
+        richColors: true,
       });
     },
   });
@@ -161,12 +169,14 @@ export const useResetPassword = () => {
     onSuccess: () => {
       toast.success("Password updated successfully!", {
         position: "bottom-right",
+        richColors: true,
       });
     },
     onError: (error: unknown) => {
       console.log(error);
       toast.error("Failed to update password", {
         position: "bottom-right",
+        richColors: true,
       });
     },
   });
@@ -182,12 +192,14 @@ export const useDeleteAccount = () => {
     },
     onSuccess: () => {
       queryClient.clear();
-      toast.success("Account deleted successfully.");
+      toast.success("Account deleted successfully.", { richColors: true });
       router.push("/login");
       router.refresh();
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to delete account.");
+      toast.error(error.message || "Failed to delete account.", {
+        richColors: true,
+      });
     },
   });
 };

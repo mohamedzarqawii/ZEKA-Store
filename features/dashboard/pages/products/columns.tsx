@@ -44,7 +44,10 @@ export const columns = (): ColumnDef<Product>[] => [
           variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue<string>("documentId"));
-            toast.success("Copied to clipboard", { position: "bottom-right" });
+            toast.success("Copied to clipboard", {
+              position: "bottom-right",
+              richColors: true,
+            });
           }}
         >
           {row.getValue("id")}
@@ -98,7 +101,10 @@ export const columns = (): ColumnDef<Product>[] => [
           variant="link"
           onClick={() => {
             navigator.clipboard.writeText(row.getValue<string>("name"));
-            toast.success("Copied to clipboard", { position: "bottom-right" });
+            toast.success("Copied to clipboard", {
+              position: "bottom-right",
+              richColors: true,
+            });
           }}
         >
           {row.getValue("name")}

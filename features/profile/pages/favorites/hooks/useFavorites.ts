@@ -32,13 +32,22 @@ export const useToggleFavorites = () => {
       });
 
       if (res?.action === "added") {
-        toast.success("Added to favorites successfully!");
+        toast.success("Added to favorites successfully!", {
+          position: "bottom-right",
+          richColors: true,
+        });
       } else if (res?.action === "deleted") {
-        toast.success("Item removed from Favorites");
+        toast.success("Item removed from Favorites", {
+          position: "bottom-right",
+          richColors: true,
+        });
       }
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to update cart");
+      toast.error(error.message || "Failed to update cart", {
+        position: "bottom-right",
+        richColors: true,
+      });
     },
   });
 };

@@ -27,7 +27,7 @@ import { Heart } from "../../../components/animate-ui/icons/heart";
 import { LogOut } from "../../../components/animate-ui/icons/log-out";
 import { MapPin } from "../../../components/animate-ui/icons/map-pin";
 import { useGetFavorites } from "../pages/favorites/hooks/useFavorites";
-import { ProfileLeftBarSkeleton } from "./ProfileLeftBarSkilton";
+import ProfileLeftBarSkeleton from "./ProfileLeftBarSkilton";
 
 const icons = {
   Orders: ShoppingBasketIcon,
