@@ -271,12 +271,12 @@ const ProfilePage = () => {
         {/* Security Information */}
 
         {/* Buttons */}
-        <div className="flex gap-3 mt-6">
+        <div className="flex justify-end gap-3 mt-6">
           <Button
             type="submit"
             variant="default"
             disabled={!dirty || isProfileUpdating}
-            className="justify-start p-6 rounded-lg outline-none text-md hover:cursor-pointer"
+            className="p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >
             {isProfileUpdating ? (
               <span className="flex justify-center items-center gap-2">

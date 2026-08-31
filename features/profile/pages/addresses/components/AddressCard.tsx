@@ -74,7 +74,7 @@ const AddressCard = ({ address }: { address: AddressType }) => {
             )}
           </div>
         </div>
-        <div className="bg-primary mb-4 w-full h-px"></div>
+        <div className="bg-primary mb-4 w-full h-px" />
       </div>
       <div className="flex flex-col gap-3 text-muted-foreground text-sm">
         <div className="text-primary">{address.name}</div>

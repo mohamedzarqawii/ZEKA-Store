@@ -22,6 +22,7 @@ import {
 import { City, Country } from "country-state-city";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import UpdateAddressSkeleton from "../components/UpdateAddressPageSkilton";
 
 const ALL_COUNTRIES = Country.getAllCountries();
 const UpdateAddressPage = () => {
@@ -110,8 +111,13 @@ const UpdateAddressPage = () => {
     !uniqueCities ||
     !selectedCountryObj
   ) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <UpdateAddressSkeleton />
+      </div>
+    );
   }
+
   return (
     <div>
       <div className="text-primary text-3xl">Edit {address?.title} Address</div>
@@ -131,9 +137,8 @@ const UpdateAddressPage = () => {
                   onClick={() => setFieldValue("title", "Home")}
                   type="button"
                   variant={"outline"}
-                  className={
-                    values.title === "Home" ? "bg-primary! text-foreground" : ""
-                  }
+                  className={` border border-primary rounded-lg outline-none hover:cursor-pointer
+                      ${values.title === "Home" ? "ring-secondary! ring-2! bg-secondary/10!" : ""}`}
                 >
                   Home
                 </Button>
@@ -141,9 +146,8 @@ const UpdateAddressPage = () => {
                   type="button"
                   onClick={() => setFieldValue("title", "Work")}
                   variant={"outline"}
-                  className={
-                    values.title === "Work" ? "bg-primary! text-foreground" : ""
-                  }
+                  className={` border border-primary rounded-lg outline-none hover:cursor-pointer
+                      ${values.title === "Work" ? "ring-secondary! ring-2! bg-secondary/10!" : ""}`}
                 >
                   Work
                 </Button>
@@ -151,11 +155,8 @@ const UpdateAddressPage = () => {
                   type="button"
                   variant={"outline"}
                   onClick={() => setFieldValue("title", "Other")}
-                  className={
-                    values.title === "Other"
-                      ? "bg-primary! text-foreground"
-                      : ""
-                  }
+                  className={`border border-primary rounded-lg outline-none hover:cursor-pointer
+                      ${values.title === "Other" ? "ring-secondary! ring-2! bg-secondary/10!" : ""}`}
                 >
                   Other
                 </Button>
@@ -372,15 +373,16 @@ const UpdateAddressPage = () => {
             </div>
           </div>
         </div>
-
-        <Button
-          size={"lg"}
-          disabled={!dirty || isAddressUpdating}
-          type="submit"
-          className="justify-start mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
-        >
-          Update Address
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            size={"lg"}
+            disabled={!dirty || isAddressUpdating}
+            type="submit"
+            className="flex justify-center mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
+          >
+            Update Address
+          </Button>
+        </div>
       </form>
     </div>
   );

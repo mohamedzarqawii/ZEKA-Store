@@ -13,6 +13,7 @@ import {
   useUpdateAddress,
 } from "../hooks/useAddresses";
 import { AddressType } from "@/types/address";
+import AddressesPageSkeleton from "../components/AddressesPageSkilton";
 
 const AddressesPage = () => {
   const router = useRouter();
@@ -21,8 +22,9 @@ const AddressesPage = () => {
   const { data: addresses = [], isLoading: isAddressesLoading } =
     useGetAddresses(currentUser?.id);
 
-  const { mutate: addAddress, isPending: isAdding } = useAddAddress();
-
+  if (isCurrentUserLoading || !currentUser || isAddressesLoading) {
+    return <AddressesPageSkeleton />;
+  }
   return (
     <div>
       <div className="text-primary text-3xl">ADDRESSES</div>
@@ -39,7 +41,7 @@ const AddressesPage = () => {
             Add New
           </Button>
         </div>
-        <div className="gap-4 grid grid-cols-2 w-full">
+        <div className="gap-4 grid grid-cols-3 w-full">
           {addresses.map((Address, i) => {
             console.log(Address);
             return <AddressCard key={i} address={Address} />;

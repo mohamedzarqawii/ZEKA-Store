@@ -17,7 +17,7 @@ export type AddressType = {
 };
 
 export const AddAddressSchema = y.object({
-  title: y.string().required(),
+  title: y.string().notRequired(),
   phone: y.string().required(),
   phoneCode: y.string().required(),
   name: y.string().required(),

@@ -5,8 +5,9 @@ import {
   getAddressItem,
   updateAddress,
 } from "@/services/addressesServices/addresses.service";
-import { AddressType } from "@/types/address";
+import { AddressType, reqAddAdderess } from "@/types/address";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export const useGetAddresses = (userId?: string) => {
@@ -25,12 +26,20 @@ export const useGetAddress = (addressId: string) => {
 };
 
 export const useAddAddress = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (newAddress: AddressType) => addAddress(newAddress),
+    mutationFn: ({
+      userId,
+      addressData,
+    }: {
+      userId: string;
+      addressData: AddressType;
+    }) => addAddress(userId, addressData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["addresses"] });
+      router.push("/profile/addresses"); // تحويل المستخدم بعد الإضافة
     },
   });
 };

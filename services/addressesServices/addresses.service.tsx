@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { AddressType } from "@/types/address";
+import { AddressType, reqAddAdderess } from "@/types/address";
 
 export const getAddresses = async (userId: string) => {
   const { data, error } = await supabase
@@ -26,10 +26,15 @@ export const getAddressItem = async (addressId: string) => {
   return data;
 };
 
-export const addAddress = async (addressData: AddressType) => {
+export const addAddress = async (userId: string, addressData: AddressType) => {
   const { data, error } = await supabase
     .from("addresses")
-    .insert([addressData])
+    .insert([
+      {
+        ...addressData,
+        userId: userId,
+      },
+    ])
     .select()
     .single();
 
