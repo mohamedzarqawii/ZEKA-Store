@@ -51,62 +51,57 @@ const ItemCart = ({ product }: { product: ProductType }) => {
         <div className="flex items-center gap-5">
           {/* image */}
 
-          <div className="relative flex flex-col justify-center items-center">
-            <img
-              src={product?.images[0]}
-              alt={product.name}
-              className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
-            />
+          <img
+            src={product?.images[0]}
+            alt={product.name}
+            className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+          />
 
-            {/* Counter */}
-            <Counter
-              product={product}
-              classname="center -bottom-4.5 absolute flex  items-center border border-primary bg-primary/90 h-7 min-w-19 rounded-md max-w-20"
-              plusClass="flex justify-center items-center pr-2 py-0.5 hover:cursor-pointer"
-              minusClass="flex justify-center items-center pl-2 py-0.5 hover:cursor-pointer"
-              spanClass="mx-auto select-none"
-              trashSize="size-4  flex justify-center items-center hover:cursor-pointer "
-            />
-          </div>
           {/* content */}
 
           <div className="flex flex-col gap-1">
             <div>{product.name}</div>
-            {/* <div className="flex gap-2 text-muted-foreground text-xs">
-              <div>Delete |</div>
-              <div>Save for later |</div>
-              <div>Share</div>
-            </div> */}
+            {/* price */}
+            <div className="min-w-3 font-bold text-primary text-sm">
+              ${product?.price}
+            </div>
           </div>
         </div>
       </Link>
       {/* 2 */}
-      <div className="flex justify-between items-center gap-4">
-        {/* price */}
-        <div className="min-w-3 font-bold text-xl">${product?.price}</div>
+      <div className="flex justify-between items-center gap-3">
+        {/* Counter */}
+        <Counter
+          product={product}
+          classname="flex justify-between items-center p-1 bg-zinc-700 h-8 rounded-md w-21 "
+          plusClass="flex justify-center items-center px-2 py-1 hover:cursor-pointer"
+          minusClass="flex justify-center items-center px-2 py-1"
+          spanClass="mx-auto select-none"
+          trashSize="size-4 text-primary"
+        />
 
         <Button
           variant="none"
           size="none"
           onClick={handleFavoriteClick}
-          className="flex justify-between items-center bg-zinc-700 p-1 rounded-md"
+          className="flex justify-between items-center bg-zinc-700 p-2 rounded-md"
         >
           {isToggleFavorite ? (
             <AnimateIcon loop animateOnView loopDelay={100}>
               <Heart
-                className="size-5 text-primary cursor-pointer"
+                className="size-4 text-primary cursor-pointer"
                 animation="path"
               />
             </AnimateIcon>
           ) : isInFavorite ? (
             <AnimateIcon animateOnView>
               <Heart
-                className="size-5 text-primary cursor-pointer"
+                className="size-4 text-primary cursor-pointer"
                 animation="fill"
               />
             </AnimateIcon>
           ) : (
-            <Heart className="size-5 text-primary cursor-pointer" />
+            <Heart className="size-4 text-primary cursor-pointer" />
           )}
         </Button>
       </div>
@@ -115,3 +110,42 @@ const ItemCart = ({ product }: { product: ProductType }) => {
 };
 
 export default ItemCart;
+
+// <div className="flex justify-between items-center gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl">
+//   {/* 1 */}
+
+//   <Link href={`/shop/${product.id}`} className="block">
+//     <div className="flex items-center gap-5">
+//       {/* image */}
+
+//       <div className="relative flex flex-col justify-center items-center">
+//         <img
+//           src={product?.images[0]}
+//           alt={product.name}
+//           className="rounded-2xl w-25 h-25 object-center object-cover hover:cursor-pointer"
+//         />
+
+//         {/* Counter */}
+//         <Counter
+//           product={product}
+//           classname="center -bottom-4.5 absolute flex  items-center border border-primary bg-primary/90 h-7 min-w-19 rounded-md max-w-20"
+//           plusClass="flex justify-center items-center pr-2 py-0.5 hover:cursor-pointer"
+//           minusClass="flex justify-center items-center pl-2 py-0.5 hover:cursor-pointer"
+//           spanClass="mx-auto select-none"
+//           trashSize="size-4  flex justify-center items-center hover:cursor-pointer "
+//         />
+//       </div>
+//       {/* content */}
+
+//       <div className="flex flex-col gap-1">
+//         <div>{product.name}</div>
+//       </div>
+//     </div>
+//   </Link>
+//   {/* 2 */}
+//   <div className="flex justify-between items-center gap-4">
+//     {/* price */}
+//     <div className="min-w-3 font-bold text-xl">${product?.price}</div>
+
+//   </div>
+// </div>;
