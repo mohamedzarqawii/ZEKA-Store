@@ -106,7 +106,7 @@ export const UpdateAddressSkeleton = () => {
 
       {/* زر الحفظ والتحديث (Submit Button) */}
       <div className="flex justify-end mt-6">
-        <Skeleton className="bg-primary/40 rounded-lg w-40 h-13" />
+        <Skeleton className="bg-primary/40 rounded-lg w-52 h-12" />
       </div>
     </div>
   );
