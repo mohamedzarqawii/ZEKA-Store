@@ -10,8 +10,9 @@ import {
   useGetFavorites,
   useToggleFavorites,
 } from "@/features/profile/pages/favorites/hooks/useFavorites";
-import { FavoriteItem } from "@/types/favoriteItem";
-import { ProductType } from "@/types/product";
+
+import { FavoriteItem } from "@/types/shop/favoriteItem";
+import { ProductType } from "@/types/shop/product";
 import { IconShoppingCartPlus } from "@tabler/icons-react";
 import Link from "next/link";
 import { toast } from "sonner";

@@ -2,7 +2,7 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { ProductType } from "@/types/product";
+import { ProductType } from "@/types/shop/product";
 import * as React from "react";
 import { useState } from "react";
 import { FilterBar } from "../../components/FilterLeftBar";

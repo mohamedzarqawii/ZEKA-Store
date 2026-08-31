@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { AddAddressSchema } from "@/types/address";
+import { AddAddressSchema } from "@/types/profile/address";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { City, Country } from "country-state-city";
 import { useFormik } from "formik";

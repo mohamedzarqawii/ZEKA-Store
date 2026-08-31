@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { CartItemType } from "@/types/cartItemType";
+import { CartItemType } from "@/types/shop/cartItemType";
 
 export const getCart = async (userId: string) => {
   const { data, error } = await supabase

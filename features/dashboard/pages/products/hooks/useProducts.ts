@@ -8,7 +8,7 @@ import {
   UpdateAdminProduct,
 } from "@/services/adminServices/products.service";
 import { ReqCreateProductType } from "@/types/admin/product";
-import { ProductType } from "@/types/product";
+import { ProductType } from "@/types/shop/product";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

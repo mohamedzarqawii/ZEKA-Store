@@ -1,6 +1,6 @@
-import { AddressType } from "./address";
-import { OrderType } from "./order";
-import { ProductType } from "./product";
+import { AddressType } from "../profile/address";
+import { OrderType } from "../shop/order";
+import { ProductType } from "../shop/product";
 
 export type User = {
   id: string;

@@ -11,7 +11,7 @@ import {
 import { deleteAccount } from "@/services/authServices/deleteAccount.service";
 import { reqForgotPassword } from "@/types/auth/forgotPassword";
 import { ReqLoginType } from "@/types/auth/login";
-import { User } from "@/types/user";
+import { User } from "@/types/auth/user";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/features/shop/components/ProductCard";
-import { ProductType } from "@/types/product";
+import { ProductType } from "@/types/shop/product";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useGetShopProducts } from "../shop/pages/shop/hooks/useShop";

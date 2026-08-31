@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { OrderType } from "@/types/order";
-import { ProductType } from "@/types/product";
+import { OrderType } from "@/types/shop/order";
+import { ProductType } from "@/types/shop/product";
 import Link from "next/link";
 
 const OrderProduct = ({ product }: { product: ProductType }) => {

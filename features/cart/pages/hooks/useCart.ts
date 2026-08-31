@@ -1,5 +1,5 @@
 import { getCart, toggleCart } from "@/services/cartServices/cart.service";
-import { CartItemType } from "@/types/cartItemType";
+import { CartItemType } from "@/types/shop/cartItemType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 

@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { FavoriteItem } from "@/types/favoriteItem";
+import { FavoriteItem } from "@/types/shop/favoriteItem";
 
 export const getFavorites = async (userId: string) => {
   const { data, error } = await supabase

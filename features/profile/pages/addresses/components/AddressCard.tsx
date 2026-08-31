@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { AddressType } from "@/types/address";
+import { AddressType } from "@/types/profile/address";
 import { IconTrash } from "@tabler/icons-react";
 import { Edit, Loader2, Pin } from "lucide-react";
 import { useRouter } from "next/navigation";

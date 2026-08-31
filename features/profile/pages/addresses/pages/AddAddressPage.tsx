@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { AddAddressSchema, AddressType } from "@/types/address";
+import { AddAddressSchema, AddressType } from "@/types/profile/address";
 import { City, Country } from "country-state-city";
 import { useFormik } from "formik";
 import { useMemo } from "react";

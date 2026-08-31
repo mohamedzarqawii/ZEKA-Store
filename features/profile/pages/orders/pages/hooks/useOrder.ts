@@ -1,5 +1,5 @@
 import { createOrder, getOrders } from "@/services/orderServices/order.service";
-import { OrderType } from "@/types/order";
+import { OrderType } from "@/types/shop/order";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 

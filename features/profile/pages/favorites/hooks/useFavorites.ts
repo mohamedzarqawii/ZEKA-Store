@@ -2,7 +2,7 @@ import {
   getFavorites,
   toggleFavorite,
 } from "@/services/favoriteServices/favorite.service";
-import { FavoriteItem } from "@/types/favoriteItem";
+import { FavoriteItem } from "@/types/shop/favoriteItem";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 

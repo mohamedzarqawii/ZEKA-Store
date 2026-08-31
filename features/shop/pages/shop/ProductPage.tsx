@@ -11,8 +11,9 @@ import {
   useGetFavorites,
   useToggleFavorites,
 } from "@/features/profile/pages/favorites/hooks/useFavorites";
-import { FavoriteItem } from "@/types/favoriteItem";
-import { ProductType } from "@/types/product";
+
+import { FavoriteItem } from "@/types/shop/favoriteItem";
+import { ProductType } from "@/types/shop/product";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";

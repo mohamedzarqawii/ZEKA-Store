@@ -5,7 +5,7 @@ import {
   getAddressItem,
   updateAddress,
 } from "@/services/addressesServices/addresses.service";
-import { AddressType } from "@/types/address";
+import { AddressType } from "@/types/profile/address";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

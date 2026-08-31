@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { OrderType } from "@/types/order";
+import { OrderType } from "@/types/shop/order";
 
 export const createOrder = async (userId: string) => {
   const { data, error } = await supabase.rpc("create_order", {

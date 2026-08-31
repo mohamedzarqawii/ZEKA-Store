@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { AddressType, reqAddAdderess } from "@/types/address";
+import { AddressType } from "@/types/profile/address";
 
 export const getAddresses = async (userId: string) => {
   const { data, error } = await supabase
