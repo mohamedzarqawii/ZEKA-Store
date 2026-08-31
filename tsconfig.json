@@ -31,5 +31,5 @@
     "**/*.mts",
     "components/NewCounter.tsx"
   ],
-  "exclude": ["node_modules", "server", "middleware"]
+  "exclude": ["node_modules", "server_beckup", "middleware"]
 }
