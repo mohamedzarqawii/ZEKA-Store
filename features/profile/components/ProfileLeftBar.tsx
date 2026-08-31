@@ -118,17 +118,14 @@ const ProfileLeftBar = () => {
     isLoading: isCurrentUserLoading,
     refetch: refetchcurrentUser,
   } = useGetCurrentUser();
-  const { data: favoritesData = [] } = useGetFavorites(currentUser?.id);
+  const { data: favoritesData = [], isLoading: isFavoritesDataLoading } =
+    useGetFavorites(currentUser?.id);
   const favoritesCount = favoritesData?.length || 0;
 
   const handleLogout = () => {
     logout();
     router.push("/login");
   };
-
-  if (!currentUser) {
-    return null;
-  }
 
   const leftBarItems1 = [
     {
@@ -202,8 +199,7 @@ const ProfileLeftBar = () => {
       ],
     },
   ];
-
-  if (isCurrentUserLoading) {
+  if (isCurrentUserLoading || !currentUser || isFavoritesDataLoading) {
     return <ProfileLeftBarSkeleton />;
   }
 

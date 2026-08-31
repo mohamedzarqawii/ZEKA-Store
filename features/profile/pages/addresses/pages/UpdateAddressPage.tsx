@@ -103,7 +103,13 @@ const UpdateAddressPage = () => {
     );
   }, [selectedCountryObj]);
 
-  if (isCurrentUserLoading || isAddressLoading) {
+  if (
+    isCurrentUserLoading ||
+    isAddressLoading ||
+    !ALL_COUNTRIES ||
+    !uniqueCities ||
+    !selectedCountryObj
+  ) {
     return <div>Loading...</div>;
   }
   return (
@@ -371,9 +377,9 @@ const UpdateAddressPage = () => {
           size={"lg"}
           disabled={!dirty || isAddressUpdating}
           type="submit"
-          className="mt-3"
+          className="justify-start mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
         >
-          Update
+          Update Address
         </Button>
       </form>
     </div>

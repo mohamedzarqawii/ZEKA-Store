@@ -2,7 +2,7 @@ import * as y from "yup";
 
 export type AddressType = {
   id: string;
-  user_id: string;
+  userId: string;
   title: string;
   phone: string;
   phoneCode: string;

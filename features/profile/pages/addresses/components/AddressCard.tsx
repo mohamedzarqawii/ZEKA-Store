@@ -3,12 +3,20 @@ import { AddressType } from "@/types/address";
 import { IconTrash } from "@tabler/icons-react";
 import { Edit, Loader2, Pin } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useDeleteAddress } from "../hooks/useAddresses";
+import { useDeleteAddress, useUpdateAddress } from "../hooks/useAddresses";
 
 const AddressCard = ({ address }: { address: AddressType }) => {
   const router = useRouter();
   const { mutate: handleDelete, isPending: isDeleting } = useDeleteAddress();
 
+  const { mutateAsync: handleUpdateAddress, isPending: isAddressUpdating } =
+    useUpdateAddress();
+  const handleSetDefault = (addressId: string) => {
+    handleUpdateAddress({
+      addressId: String(addressId),
+      addressData: { isDefault: true },
+    });
+  };
   return (
     <div className="bg-card px-4 py-5 border border-border rounded-md w-full">
       <div className="flex flex-col gap-3 text-primary">
@@ -48,13 +56,17 @@ const AddressCard = ({ address }: { address: AddressType }) => {
                 disabled={address.isDefault}
                 variant={"outline"}
                 size={"sm"}
+                className="p-2 border border-border! cursor-pointer"
               >
-                Default address
+                Default
               </Button>
             ) : (
               <Button
                 variant="outline"
                 size={"icon-sm"}
+                onClick={() => {
+                  handleSetDefault(address.id);
+                }}
                 className="p-2 border border-border cursor-pointer"
               >
                 <Pin className="w-4 h-4 hover:cursor-pointer" />
@@ -64,7 +76,7 @@ const AddressCard = ({ address }: { address: AddressType }) => {
         </div>
         <div className="bg-primary mb-4 w-full h-px"></div>
       </div>
-      <div className="flex flex-col gap-2 text-muted-foreground text-sm">
+      <div className="flex flex-col gap-3 text-muted-foreground text-sm">
         <div className="text-primary">{address.name}</div>
         <div>{address.addressLine}</div>
         <div>{address.addressDetails}</div>

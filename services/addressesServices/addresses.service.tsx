@@ -5,7 +5,7 @@ export const getAddresses = async (userId: string) => {
   const { data, error } = await supabase
     .from("addresses")
     .select("*")
-    .eq("user_id", userId)
+    .eq("userId", userId)
     .order("isDefault", { ascending: false });
 
   console.log(data);
