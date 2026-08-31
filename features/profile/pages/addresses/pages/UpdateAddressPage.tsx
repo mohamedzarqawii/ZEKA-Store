@@ -77,6 +77,7 @@ const UpdateAddressPage = () => {
       if (!currentUser) return;
       const changedValues = getChangedValues(values, initialValues);
       await handleUpdateAddress({
+        action: "update",
         addressId: String(address?.id),
         addressData: changedValues,
       });
