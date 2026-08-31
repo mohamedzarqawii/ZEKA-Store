@@ -72,17 +72,14 @@ import {
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import { User } from "@/components/animate-ui/icons/user";
 import { Badge } from "@/components/ui/badge";
-import {
-  useGetCurrentUser,
-  useLogout,
-} from "@/features/auth/pages/hooks/useAuth";
+
+
 import { handleHover } from "@/lib/handle-hover";
 import type { IconHandle } from "@animateicons/react";
 import { Bell } from "../../../components/animate-ui/icons/bell";
 import { Heart } from "../../../components/animate-ui/icons/heart";
 import { LogOut } from "../../../components/animate-ui/icons/log-out";
 import { MapPin } from "../../../components/animate-ui/icons/map-pin";
-import { useGetFavorites } from "../pages/favorites/hooks/useFavorites";
 
 const icons = {
   Orders: ShoppingBasketIcon,

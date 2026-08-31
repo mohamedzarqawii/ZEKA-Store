@@ -1,5 +1,6 @@
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import unusedImports from "eslint-plugin-unused-imports";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 const eslintConfig = defineConfig([
@@ -9,9 +10,6 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "node_modules/**",
-    "server/dist/**",
-    "server/types/**",
-    "server/test-product.js",
     "components/animate-ui/**",
     "components/ui/**",
     "hooks/use-auto-height.tsx",
@@ -23,7 +21,7 @@ const eslintConfig = defineConfig([
 
   {
     plugins: {
-      // "unused-imports": unusedImports,
+      "unused-imports": unusedImports,
     },
     rules: {
       "no-unused-vars": "off",
