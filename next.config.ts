@@ -4,14 +4,13 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "1337",
-        pathname: "/**",
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
       },
     ],
-    dangerouslyAllowLocalIP: true,
   },
   transpilePackages: ["@animateicons/react"],
 };
+
 export default nextConfig;

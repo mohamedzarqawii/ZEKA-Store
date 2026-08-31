@@ -1,48 +1,48 @@
-import API_ROUTES from "@/constants/api-routes";
-import { Users } from "@/features/dashboard/pages/users/columns";
-import api from "@/lib/axios";
+// import API_ROUTES from "@/constants/api-routes";
+// import { Users } from "@/features/dashboard/pages/users/columns";
+// import api from "@/lib/axios";
 
-// -------------------- getUsers --------------------
+// // -------------------- getUsers --------------------
 
-export const getUsersAdmin = async () => {
-  const { data } = await api.get(API_ROUTES.admin.getUsers);
-  return data;
-};
+// export const getUsersAdmin = async () => {
+//   const { data } = await api.get(API_ROUTES.admin.getUsers);
+//   return data;
+// };
 
-// -------------------- updateUser --------------------
+// // -------------------- updateUser --------------------
 
-export const updateUserAdmin = async (
-  userId: string,
-  updatedData: Partial<Users>,
-) => {
-  const { data } = await api.put(
-    API_ROUTES.admin.updateUser(userId),
-    updatedData,
-  );
+// export const updateUserAdmin = async (
+//   userId: string,
+//   updatedData: Partial<Users>,
+// ) => {
+//   const { data } = await api.put(
+//     API_ROUTES.admin.updateUser(userId),
+//     updatedData,
+//   );
 
-  return data;
-};
+//   return data;
+// };
 
-// -------------------- deleteUser --------------------
+// // -------------------- deleteUser --------------------
 
-export const deleteUserAdmin = async (userId: string) => {
-  const { data } = await api.delete(API_ROUTES.admin.deleteUser(userId));
-  return data;
-};
+// export const deleteUserAdmin = async (userId: string) => {
+//   const { data } = await api.delete(API_ROUTES.admin.deleteUser(userId));
+//   return data;
+// };
 
-// -------------------- block User --------------------
+// // -------------------- block User --------------------
 
-export const blockUserAdmin = async (userId: string) => {
-  const { data } = await api.put(API_ROUTES.admin.blockUser(userId), {
-    blocked: true,
-  });
-  return data;
-};
+// export const blockUserAdmin = async (userId: string) => {
+//   const { data } = await api.put(API_ROUTES.admin.blockUser(userId), {
+//     blocked: true,
+//   });
+//   return data;
+// };
 
-// -------------------- Unblock User --------------------
-export const unblockUserAdmin = async (userId: string) => {
-  const { data } = await api.put(API_ROUTES.admin.blockUser(userId), {
-    blocked: false,
-  });
-  return data;
-};
+// // -------------------- Unblock User --------------------
+// export const unblockUserAdmin = async (userId: string) => {
+//   const { data } = await api.put(API_ROUTES.admin.blockUser(userId), {
+//     blocked: false,
+//   });
+//   return data;
+// };
