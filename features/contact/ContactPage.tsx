@@ -49,7 +49,7 @@ const ContactPage = () => {
     <div className="mx-10">
       {/* body */}
 
-      <div className="flex justify-center items-center h-[calc(100vh-155px)]">
+      <div className="flex justify-center items-center -mb-10 h-[calc(100vh-155px)]">
         <div className="flex justify-between items-center gap-14 bg-[#1a1a1a]/20 backdrop-blur-md mx-20 p-6 border border-primary rounded-3xl">
           {/* Left */}
 
