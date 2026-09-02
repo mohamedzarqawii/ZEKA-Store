@@ -101,28 +101,28 @@ const UpdateAddressPage = () => {
     );
   }, [selectedCountryObj]);
 
-  // if (
-  //   isCurrentUserLoading ||
-  //   isAddressLoading ||
-  //   !ALL_COUNTRIES ||
-  //   !uniqueCities ||
-  //   !selectedCountryObj
-  // ) {
-  //   return (
-  //     <div>
-  //       <UpdateAddressSkeleton />
-  //     </div>
-  //   );
-  // }
-
-  const aha = true;
-  if (aha) {
+  if (
+    isCurrentUserLoading ||
+    isAddressLoading ||
+    !ALL_COUNTRIES ||
+    !uniqueCities ||
+    !selectedCountryObj
+  ) {
     return (
       <div>
         <UpdateAddressSkeleton />
       </div>
     );
   }
+
+  // const aha = true;
+  // if (aha) {
+  //   return (
+  //     <div>
+  //       <UpdateAddressSkeleton />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
