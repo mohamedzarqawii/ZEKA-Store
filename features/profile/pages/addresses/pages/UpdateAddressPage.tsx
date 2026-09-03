@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
-import { AddAddressSchema } from "@/types/profile/address";
+import { UpdateAddressSchema } from "@/types/profile/address";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { City, Country } from "country-state-city";
 import { useFormik } from "formik";
@@ -72,7 +72,7 @@ const UpdateAddressPage = () => {
       city: address?.city || "",
       country: address?.country || "",
     },
-    validationSchema: AddAddressSchema,
+    validationSchema: UpdateAddressSchema,
     onSubmit: async (values) => {
       if (!currentUser) return;
       const changedValues = getChangedValues(values, initialValues);
@@ -168,41 +168,32 @@ const UpdateAddressPage = () => {
                 </Button>
               </div>
             </div>
-            <Field>
-              <FieldLabel className="text-primary text-sm">
-                Address Line
-              </FieldLabel>
-              <Input
-                id="addressLine"
-                name="addressLine"
-                value={values.addressLine}
-                onChange={handleChange}
-                className="w-full"
-                aria-invalid={!!errors.addressLine && !!touched.addressLine}
-              />
-              {errors.addressLine && touched.addressLine && (
-                <FieldError>{errors.addressLine}</FieldError>
-              )}
-            </Field>
 
-            <Field>
-              <FieldLabel className="text-primary text-sm">
-                Address Details
-              </FieldLabel>
-              <Input
-                id="addressDetails"
-                name="addressDetails"
-                value={values.addressDetails}
-                onChange={handleChange}
-                className="w-full"
-                aria-invalid={
-                  !!errors.addressDetails && !!touched.addressDetails
-                }
-              />
-              {errors.addressDetails && touched.addressDetails && (
-                <FieldError>{errors.addressDetails}</FieldError>
-              )}
-            </Field>
+            <Input
+              id="addressLine"
+              name="addressLine"
+              label="Address Line"
+              isRequired={true}
+              errors={errors}
+              touched={touched}
+              value={values.addressLine}
+              onChange={handleChange}
+              className="w-full"
+              aria-invalid={!!errors.addressLine && !!touched.addressLine}
+            />
+
+            <Input
+              id="addressDetails"
+              name="addressDetails"
+              label="Address Details"
+              isRequired={true}
+              errors={errors}
+              touched={touched}
+              value={values.addressDetails}
+              onChange={handleChange}
+              className="w-full"
+              aria-invalid={!!errors.addressDetails && !!touched.addressDetails}
+            />
 
             <div className="flex gap-3 w-full">
               <Field>
@@ -272,12 +263,13 @@ const UpdateAddressPage = () => {
               </Field>
 
               <Field>
-                <FieldLabel className="text-primary text-sm">
-                  ZIP Code
-                </FieldLabel>
                 <Input
                   id="zip"
                   name="zip"
+                  label="Name"
+                  isRequired={false}
+                  errors={errors}
+                  touched={touched}
                   value={values.zip}
                   onChange={handleChange}
                   className="w-full"
@@ -294,22 +286,18 @@ const UpdateAddressPage = () => {
         <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-6 px-8 py-8 border border-primary rounded-3xl w-full h-fit">
           <div className="font-semibold text-lg">Receiver Details</div>
           <div className="flex flex-wrap gap-6 mt-5">
-            <Field>
-              <FieldLabel className="text-primary text-sm">
-                Full Name
-              </FieldLabel>
-              <Input
-                id="name"
-                name="name"
-                value={values.name}
-                onChange={handleChange}
-                className="w-full sm:w-96"
-                aria-invalid={!!errors.name && !!touched.name}
-              />
-              {errors.name && touched.name && (
-                <FieldError>{errors.name}</FieldError>
-              )}
-            </Field>
+            <Input
+              id="name"
+              name="name"
+              label="Full Name"
+              isRequired={true}
+              errors={errors}
+              touched={touched}
+              value={values.name}
+              onChange={handleChange}
+              className="w-full sm:w-96"
+              aria-invalid={!!errors.name && !!touched.name}
+            />
 
             <div className="flex gap-3">
               <Field>
@@ -360,30 +348,28 @@ const UpdateAddressPage = () => {
                 </Select>
               </Field>
 
-              <Field>
-                <FieldLabel className="text-primary text-sm">
-                  Phone Number
-                </FieldLabel>
-                <Input
-                  id="phone"
-                  name="phone"
-                  value={values.phone}
-                  onChange={handleChange}
-                  className="w-full sm:w-96"
-                  aria-invalid={!!errors.phone && !!touched.phone}
-                />
-                {errors.phone && touched.phone && (
-                  <FieldError>{errors.phone}</FieldError>
-                )}
-              </Field>
+              <Input
+                id="phone"
+                name="phone"
+                label="Phone Number"
+                isRequired={true}
+                errors={errors}
+                touched={touched}
+                value={values.phone}
+                onChange={handleChange}
+                className="w-full sm:w-96"
+                aria-invalid={!!errors.phone && !!touched.phone}
+              />
             </div>
           </div>
         </div>
         <div className="flex justify-end">
           <Button
             size={"lg"}
-            disabled={!dirty || isAddressUpdating}
             type="submit"
+            disabled={!dirty || isAddressUpdating}
+            isLoading={isAddressUpdating}
+            loadingText="Updating . . ."
             className="flex justify-center mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >
             Update Address

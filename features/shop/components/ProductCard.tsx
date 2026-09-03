@@ -3,7 +3,6 @@ import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import Counter from "@/components/Counter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
 import {
@@ -162,19 +161,14 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                   <Button
                     size={"none"}
                     variant={"none"}
-                    className="bg-primary/80 p-1.5 border border-primary rounded-lg group-hover:cursor-pointer"
+                    disabled={product.stock == 0}
+                    isLoading={isToggleCart}
                     onClick={(e) => {
                       handleCartClick(e, "add");
                     }}
-                    disabled={product.stock == 0}
+                    className="bg-primary/80 p-1.5 border border-primary rounded-lg group-hover:cursor-pointer"
                   >
-                    {isToggleCart ? (
-                      <span className="flex justify-center items-center gap-2">
-                        <Spinner data-icon="inline-start" />
-                      </span>
-                    ) : (
-                      <IconShoppingCartPlus className="size-4" />
-                    )}
+                    <IconShoppingCartPlus className="size-4" />
                   </Button>
                 )}
               </div>

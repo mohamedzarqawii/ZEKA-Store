@@ -254,19 +254,14 @@ const ProductPage = ({ productId }: ViewProps) => {
               ) : (
                 <Button
                   size={"none"}
-                  className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full h-20 text-lg text-center"
+                  disabled={(product.stock == 0, isPending)}
+                  isLoading={isPending}
                   onClick={(e) => {
                     handleCartClick(e, "add");
                   }}
-                  disabled={(product.stock == 0, isPending)}
+                  className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full h-20 text-lg text-center"
                 >
-                  {isPending ? (
-                    <span className="flex justify-center items-center gap-2">
-                      <Spinner data-icon="inline-start" />
-                    </span>
-                  ) : (
-                    "ADD TO CART"
-                  )}
+                  "ADD TO CART"
                 </Button>
               )}
             </div>

@@ -77,7 +77,7 @@
 //         <DataTable
 //           columns={columns(handleToggleBlock, handleDelete)}
 //           data={users}
-//           createHref="/register"
+//           createHref="/signup"
 //           storageKey="usersView"
 //         />
 //       </div>

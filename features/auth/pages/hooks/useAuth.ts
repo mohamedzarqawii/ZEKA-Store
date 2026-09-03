@@ -76,7 +76,7 @@ export const useLogin = () => {
         position: "bottom-right",
         action: {
           label: "Register",
-          onClick: () => router.push("/register"),
+          onClick: () => router.push("/signup"),
         },
         richColors: true,
       });

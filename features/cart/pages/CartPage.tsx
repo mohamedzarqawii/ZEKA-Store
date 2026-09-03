@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import ItemCart from "@/features/cart/components/CartItemCard";
 import { useCreateOrder } from "@/features/profile/pages/orders/pages/hooks/useOrder";
@@ -88,16 +87,11 @@ const CartPage = () => {
                   size={"none"}
                   onClick={handleCreateOrder}
                   disabled={isCreateOrder}
+                  isLoading={isCreateOrder}
+                  loadingText="PROCESSING..."
                   className="bg-primary hover:bg-secondary disabled:opacity-70 px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300"
                 >
-                  {isCreateOrder ? (
-                    <span className="flex justify-center items-center gap-2">
-                      <Spinner data-icon="inline-start" />
-                      PROCESSING...
-                    </span>
-                  ) : (
-                    "PROCEED TO CHECKOUT"
-                  )}
+                  PROCEED TO CHECKOUT
                 </Button>
               </div>
             </div>

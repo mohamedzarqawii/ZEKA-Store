@@ -1,18 +1,16 @@
-import * as React from "react";
-
 import {
-  Tabs as TabsPrimitive,
-  TabsList as TabsListPrimitive,
-  TabsTrigger as TabsTriggerPrimitive,
   TabsContent as TabsContentPrimitive,
   TabsContents as TabsContentsPrimitive,
-  TabsHighlight as TabsHighlightPrimitive,
   TabsHighlightItem as TabsHighlightItemPrimitive,
-  type TabsProps as TabsPrimitiveProps,
-  type TabsListProps as TabsListPrimitiveProps,
-  type TabsTriggerProps as TabsTriggerPrimitiveProps,
+  TabsHighlight as TabsHighlightPrimitive,
+  TabsList as TabsListPrimitive,
+  Tabs as TabsPrimitive,
+  TabsTrigger as TabsTriggerPrimitive,
   type TabsContentProps as TabsContentPrimitiveProps,
   type TabsContentsProps as TabsContentsPrimitiveProps,
+  type TabsListProps as TabsListPrimitiveProps,
+  type TabsProps as TabsPrimitiveProps,
+  type TabsTriggerProps as TabsTriggerPrimitiveProps,
 } from "@/components/animate-ui/primitives/radix/tabs";
 import { cn } from "@/lib/utils";
 
@@ -78,13 +76,13 @@ function TabsContent({ className, ...props }: TabsContentProps) {
 
 export {
   Tabs,
+  TabsContent,
+  TabsContents,
   TabsList,
   TabsTrigger,
-  TabsContents,
-  TabsContent,
-  type TabsProps,
-  type TabsListProps,
-  type TabsTriggerProps,
-  type TabsContentsProps,
   type TabsContentProps,
+  type TabsContentsProps,
+  type TabsListProps,
+  type TabsProps,
+  type TabsTriggerProps,
 };

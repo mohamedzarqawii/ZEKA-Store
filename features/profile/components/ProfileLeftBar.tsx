@@ -16,6 +16,7 @@ import {
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import { User } from "@/components/animate-ui/icons/user";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   useGetCurrentUser,
   useLogout,
@@ -27,7 +28,6 @@ import { Heart } from "../../../components/animate-ui/icons/heart";
 import { LogOut } from "../../../components/animate-ui/icons/log-out";
 import { MapPin } from "../../../components/animate-ui/icons/map-pin";
 import { useGetFavorites } from "../pages/favorites/hooks/useFavorites";
-import ProfileLeftBarSkeleton from "./ProfileLeftBarSkilton";
 
 const icons = {
   Orders: ShoppingBasketIcon,
@@ -199,16 +199,27 @@ const ProfileLeftBar = () => {
       ],
     },
   ];
-  if (isCurrentUserLoading || !currentUser || isFavoritesDataLoading) {
-    return <ProfileLeftBarSkeleton />;
-  }
+
+  const isLoading =
+    isCurrentUserLoading || !currentUser || isFavoritesDataLoading;
 
   return (
     <div className="top-24 sticky flex flex-col gap-4 w-full max-w-xs h-fit">
       <div className="flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-6 border border-primary rounded-3xl h-fit">
         <div className="flex flex-col gap-2">
-          <div className="text-primary">Hello, {currentUser.first_name} !</div>
-          <div className="text-zinc-400 text-xs">{currentUser.email}</div>
+          {isLoading ? (
+            <>
+              <Skeleton className="bg-primary/20 rounded-md w-36 h-6" />
+              <Skeleton className="bg-zinc-700/40 rounded-md w-48 h-4" />
+            </>
+          ) : (
+            <>
+              <div className="text-primary">
+                Hello, {currentUser.first_name}!
+              </div>
+              <div className="text-zinc-400 text-xs">{currentUser?.email}</div>
+            </>
+          )}
         </div>
       </div>
 

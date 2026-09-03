@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { AddressType } from "@/types/profile/address";
 import { IconTrash } from "@tabler/icons-react";
-import { Edit, Loader2, Pin } from "lucide-react";
+import { Edit, Pin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useDeleteAddress, useUpdateAddress } from "../hooks/useAddresses";
 
@@ -27,17 +27,14 @@ const AddressCard = ({ address }: { address: AddressType }) => {
             <Button
               variant="outline"
               size="icon-sm"
-              className="p-2 border border-border cursor-pointer"
+              disabled={isDeleting}
+              isLoading={isDeleting}
               onClick={() => {
                 handleDelete(address.id);
               }}
-              disabled={isDeleting}
+              className="p-2 border border-border cursor-pointer"
             >
-              {isDeleting ? (
-                <Loader2 className="w-4 h-4 text-destructive animate-spin" />
-              ) : (
-                <IconTrash className="w-4 h-4 text-destructive hover:cursor-pointer" />
-              )}
+              <IconTrash className="w-4 h-4 text-destructive hover:cursor-pointer" />
             </Button>
 
             <Button
@@ -54,9 +51,9 @@ const AddressCard = ({ address }: { address: AddressType }) => {
 
             {address.isDefault ? (
               <Button
-                disabled={address.isDefault}
                 variant={"outline"}
                 size={"sm"}
+                disabled={address.isDefault}
                 className="p-2 border border-border! cursor-pointer"
               >
                 Default
@@ -65,16 +62,13 @@ const AddressCard = ({ address }: { address: AddressType }) => {
               <Button
                 variant="outline"
                 size={"icon-sm"}
+                isLoading={isAddressUpdating}
                 onClick={() => {
                   handleSetDefault(address.id);
                 }}
                 className="p-2 border border-border cursor-pointer"
               >
-                {isAddressUpdating ? (
-                  <Loader2 className="w-4 h-4 text-destructive animate-spin" />
-                ) : (
-                  <Pin className="w-4 h-4 hover:cursor-pointer" />
-                )}
+                <Pin className="w-4 h-4 hover:cursor-pointer" />
               </Button>
             )}
           </div>

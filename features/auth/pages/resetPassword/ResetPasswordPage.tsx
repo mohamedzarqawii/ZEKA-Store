@@ -1,13 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FieldError, FieldLabel } from "@/components/ui/field";
-import { useFormik } from "formik";
 import { resetPasswordSchema } from "@/types/auth/forgotPassword";
+import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useResetPassword } from "../hooks/useAuth";
-import { Spinner } from "@/components/ui/spinner";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -65,19 +63,17 @@ export default function ResetPasswordPage() {
 
             <div className="group flex flex-col justify-center items-end gap-4 w-full">
               <div className="flex flex-col gap-2 w-full">
-                <FieldLabel htmlFor="password">
-                  New Password<span className="text-destructive">*</span>
-                </FieldLabel>
                 <Input
                   type="password"
                   id="password"
+                  label="New Password"
+                  isRequired={true}
+                  errors={errors}
+                  touched={touched}
                   value={values.password}
                   onChange={handleChange}
                   aria-invalid={!!errors.password && !!touched.password}
                 />
-                {errors.password && touched.password && (
-                  <FieldError>{handleErrors("password")}</FieldError>
-                )}
               </div>
             </div>
 
@@ -89,23 +85,18 @@ export default function ResetPasswordPage() {
                   variant={"none"}
                   size={"none"}
                   disabled={!dirty || isReseting}
+                  isLoading={isReseting}
+                  loadingText="UPDATING . . ."
                   onClick={handleChange}
                   className="bg-primary hover:bg-secondary disabled:opacity-50 px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer disabled:cursor-not-allowed"
                 >
-                  {isReseting ? (
-                    <span className="flex justify-center items-center gap-2">
-                      <Spinner data-icon="inline-start" />
-                      UPDATING . . .
-                    </span>
-                  ) : (
-                    "UPDATE PASSWORD"
-                  )}
+                  UPDATE PASSWORD
                 </Button>
               </div>
             </div>
             {/* <div className="flex justify-center items-center gap-1 text-zinc-400 hover:text-primary transition-colors duration-300 hover:cursor-pointer">
               <IconArrowLeft className="size-" />
-              <Link href="/register" className="">
+              <Link href="/signup" className="">
                 Back to login
               </Link>
             </div> */}

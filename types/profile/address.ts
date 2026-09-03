@@ -23,23 +23,12 @@ export const AddAddressSchema = y.object({
   name: y.string().required(),
   addressLine: y.string().required(),
   addressDetails: y.string().required(),
-  zip: y.string().required(),
+  zip: y.string().notRequired(),
   city: y.string().required(),
   country: y.string().required(),
 });
 
-export const UpdateAddressSchema = y.object({
-  title: y.string().notRequired(),
-  phone: y.string().notRequired(),
-  phoneCode: y.string().notRequired(),
-  name: y.string().notRequired(),
-  addressLine: y.string().notRequired(),
-  addressDetails: y.string().notRequired(),
-  zip: y.string().notRequired(),
-  city: y.string().notRequired(),
-  country: y.string().notRequired(),
-  isDefault: y.boolean(),
-});
+export const UpdateAddressSchema = AddAddressSchema;
 
 export type reqAddAdderess = y.InferType<typeof AddAddressSchema>;
 

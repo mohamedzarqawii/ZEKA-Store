@@ -76,7 +76,7 @@ export const useUpdateAdminProduct = () => {
         richColors: true,
         action: {
           label: "Register",
-          onClick: () => router.push("/register"),
+          onClick: () => router.push("/signup"),
         },
       });
     },
@@ -100,7 +100,7 @@ export const useCreateAdminProduct = () => {
         richColors: true,
         action: {
           label: "Register",
-          onClick: () => router.push("/register"),
+          onClick: () => router.push("/signup"),
         },
       });
     },

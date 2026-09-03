@@ -1,8 +1,7 @@
 "use client";
 
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -57,7 +56,7 @@ const SignUpPage = () => {
 
   return (
     <div className="mx-10">
-      <div className="flex justify-center items-center h-[calc(100vh-155px)]">
+      <div className="flex justify-center items-center h-[calc(100vh-200px)]">
         {/* body */}
 
         <form
@@ -77,93 +76,74 @@ const SignUpPage = () => {
           <div className="flex flex-col justify-center items-end gap-4 w-full">
             <div className="flex gap-4 w-full">
               <div className="flex flex-col flex-1 gap-2">
-                <Field>
-                  <FieldLabel htmlFor="name">
-                    First Name<span className="text-destructive">*</span>
-                  </FieldLabel>
-                  <Input
-                    name="firstName"
-                    type="text"
-                    value={values.firstName}
-                    onChange={handleChange}
-                    aria-invalid={!!errors.firstName && !!touched.firstName}
-                  />
-                  {errors.firstName && touched.firstName && (
-                    <FieldError>{handleErrors("firstName")}</FieldError>
-                  )}
-                </Field>
+                <Input
+                  name="firstName"
+                  type="text"
+                  label="First Name"
+                  isRequired={true}
+                  errors={errors}
+                  touched={touched}
+                  value={values.firstName}
+                  onChange={handleChange}
+                  aria-invalid={!!errors.firstName && !!touched.firstName}
+                />
               </div>
 
               <div className="flex flex-col flex-1 gap-2">
-                <Field>
-                  <FieldLabel htmlFor="name">Last Name</FieldLabel>
-                  <Input
-                    name="lastName"
-                    type="text"
-                    value={values.lastName}
-                    onChange={handleChange}
-                    aria-invalid={!!errors.lastName && !!touched.lastName}
-                  />
-                  {errors.lastName && touched.lastName && (
-                    <FieldError>{handleErrors("lastName")}</FieldError>
-                  )}
-                </Field>
+                <Input
+                  name="lastName"
+                  type="text"
+                  label="Last Name"
+                  isRequired={false}
+                  errors={errors}
+                  touched={touched}
+                  value={values.lastName}
+                  onChange={handleChange}
+                  aria-invalid={!!errors.lastName && !!touched.lastName}
+                />
               </div>
             </div>
 
             <div className="flex flex-col gap-2 w-full">
-              <Field>
-                <FieldLabel htmlFor="name">
-                  Email<span className="text-destructive">*</span>
-                </FieldLabel>
-                <Input
-                  name="email"
-                  type="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  aria-invalid={!!errors.email && !!touched.email}
-                />
-                {errors.email && touched.email && (
-                  <FieldError>{handleErrors("email")}</FieldError>
-                )}
-              </Field>
+              <Input
+                name="email"
+                type="email"
+                label="Email"
+                isRequired={true}
+                errors={errors}
+                touched={touched}
+                value={values.email}
+                onChange={handleChange}
+                aria-invalid={!!errors.email && !!touched.email}
+              />
             </div>
 
             <div className="flex flex-col gap-2 w-full">
-              <Field>
-                <FieldLabel htmlFor="name">
-                  Password<span className="text-destructive">*</span>
-                </FieldLabel>
-                <Input
-                  name="password"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  aria-invalid={!!errors.password && !!touched.password}
-                />
-                {errors.password && touched.password && (
-                  <FieldError>{handleErrors("password")}</FieldError>
-                )}
-              </Field>
+              <Input
+                name="password"
+                type="password"
+                label="Password"
+                isRequired={true}
+                errors={errors}
+                touched={touched}
+                value={values.password}
+                onChange={handleChange}
+                aria-invalid={!!errors.password && !!touched.password}
+              />
             </div>
           </div>
 
           {/* 3 */}
           <div className="flex flex-col justify-center items-center gap-4 w-full">
-            <button
-              className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
+            <Button
               type="submit"
+              isLoading={isSignUp}
+              loadingText="Registering . . ."
               disabled={!dirty || isSignUp}
+              className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full h-15 text-center"
             >
-              {isSignUp ? (
-                <span className="flex justify-center items-center gap-2">
-                  <Spinner data-icon="inline-start" />
-                  Registering
-                </span>
-              ) : (
-                "CREATE ACCOUNT"
-              )}
-            </button>
+              CREATE ACCOUNT
+            </Button>
             <div>
               Already a member?{" "}
               <Link

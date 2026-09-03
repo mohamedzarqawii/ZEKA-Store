@@ -22,7 +22,6 @@ import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { useMedia } from "@/hooks/useMedia";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { IconTrash } from "@tabler/icons-react";
@@ -168,72 +167,59 @@ const CreateProductPage = () => {
             {/* 2 */}
 
             <div className="group flex flex-col justify-center items-end gap-4 w-full">
-              <Field>
-                <FieldLabel htmlFor="name">
-                  Name<span className="text-destructive">*</span>
-                </FieldLabel>
-                <Input
-                  name="name"
-                  type="text"
-                  value={values.name}
-                  onChange={handleChange}
-                  aria-invalid={!!errors.name && !!touched.name}
-                />
-                {errors.name && touched.name && (
-                  <FieldError>{errors.name}</FieldError>
-                )}
-              </Field>
+              <Input
+                name="name"
+                type="text"
+                label="Name"
+                isRequired={true}
+                errors={errors}
+                touched={touched}
+                value={values.name}
+                onChange={handleChange}
+                aria-invalid={!!errors.name && !!touched.name}
+              />
 
               {/* ----------------------------------------------------- */}
 
-              <Field>
-                <FieldLabel htmlFor="description">Description</FieldLabel>
-                <Textarea
-                  name="description"
-                  value={values.description}
-                  rows={4}
-                  onChange={handleChange}
-                  aria-invalid={!!errors.description && !!touched.description}
-                />
-                {errors.description && touched.description && (
-                  <FieldError>{errors.description}</FieldError>
-                )}
-              </Field>
+              <Textarea
+                name="description"
+                label="Description"
+                value={values.description}
+                rows={4}
+                onChange={handleChange}
+                aria-invalid={!!errors.description && !!touched.description}
+              />
+              {errors.description && touched.description && (
+                <FieldError>{errors.description}</FieldError>
+              )}
 
               {/* ----------------------------------------------------- */}
               <div className="flex gap-4 w-full">
-                <Field>
-                  <FieldLabel htmlFor="price">
-                    Price<span className="text-destructive">*</span>
-                  </FieldLabel>
-                  <Input
-                    name="price"
-                    type="number"
-                    value={values.price}
-                    onChange={handleChange}
-                    aria-invalid={!!errors.price && !!touched.price}
-                  />
-                  {errors.price && touched.price && (
-                    <FieldError>{errors.price}</FieldError>
-                  )}
-                </Field>
+                <Input
+                  name="price"
+                  type="number"
+                  label="Price"
+                  isRequired={true}
+                  errors={errors}
+                  touched={touched}
+                  value={values.price}
+                  onChange={handleChange}
+                  aria-invalid={!!errors.price && !!touched.price}
+                />
 
                 {/* ----------------------------------------------------- */}
-                <Field>
-                  <FieldLabel htmlFor="stock">
-                    Stock<span className="text-destructive">*</span>
-                  </FieldLabel>
-                  <Input
-                    name="stock"
-                    type="number"
-                    value={values.stock}
-                    onChange={handleChange}
-                    aria-invalid={!!errors.stock && !!touched.stock}
-                  />
-                  {errors.stock && touched.stock && (
-                    <FieldError>{errors.stock}</FieldError>
-                  )}
-                </Field>
+
+                <Input
+                  name="stock"
+                  type="number"
+                  label="Stock"
+                  isRequired={true}
+                  errors={errors}
+                  touched={touched}
+                  value={values.stock}
+                  onChange={handleChange}
+                  aria-invalid={!!errors.stock && !!touched.stock}
+                />
               </div>
 
               {/* ----------------------------------------------------- */}
@@ -462,17 +448,12 @@ const CreateProductPage = () => {
             <div className="flex flex-col justify-center items-center gap-4 w-full">
               <Button
                 type="submit"
+                isLoading={isCreating || isMediaUploading}
+                loadingText="Creating . . ."
                 disabled={!dirty || isCreating || isMediaUploading}
                 className="px-4 py-4 rounded-lg w-full h-12 font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
               >
-                {isCreating || isMediaUploading ? (
-                  <span className="flex justify-center items-center gap-2">
-                    <Spinner data-icon="inline-start" />
-                    Creating...
-                  </span>
-                ) : (
-                  " CREATE PRODUCT"
-                )}
+                CREATE PRODUCT
               </Button>
             </div>
           </form>

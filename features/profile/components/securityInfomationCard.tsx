@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import {
   useForgotPassword,
   useGetCurrentUser,
@@ -84,19 +83,12 @@ const SecurityInformationCard = () => {
         <Button
           type="submit"
           variant="default"
+          isLoading={isEmailSending}
+          loadingText="Sending reset link. . ."
           disabled={isEmailSending || cooldown > 0}
           className="justify-start p-6 rounded-lg outline-none text-md"
         >
-          {isEmailSending ? (
-            <span className="flex items-center gap-2">
-              <Spinner data-icon="inline-start" />
-              Sending reset link...
-            </span>
-          ) : cooldown > 0 ? (
-            `Resend link in ${cooldown}s`
-          ) : (
-            "Send Reset Link"
-          )}
+          {cooldown > 0 ? `Resend link in ${cooldown}s` : "Send Reset Link"}
         </Button>
       </div>
     </form>

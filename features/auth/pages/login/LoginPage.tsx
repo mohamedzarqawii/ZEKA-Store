@@ -1,49 +1,45 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { useFormik } from "formik";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { loginSchema } from "@/types/auth/login";
+import { useFormik } from "formik";
 import { useGetCurrentUser, useLogin } from "../hooks/useAuth";
-import { Spinner } from "@/components/ui/spinner";
 
 const LoginPage = () => {
   const { mutate: handleLogin, isPending: isLogin } = useLogin();
-  const { data: currentUser, isLoading } = useGetCurrentUser();
-
-  const router = useRouter();
-
-  const loginFormik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: loginSchema,
-    onSubmit: (values) => {
-      handleLogin(values);
-    },
-  });
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
 
   const { values, errors, dirty, touched, handleSubmit, handleChange } =
-    loginFormik;
+    useFormik({
+      initialValues: {
+        enableReinitialize: true,
+        email: "",
+        password: "",
+      },
+      validationSchema: loginSchema,
+      onSubmit: async (values) => {
+        await handleLogin(values);
+      },
+    });
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center gap-2 h-[calc(100vh-155px)] text-primary text-4xl">
-        <Spinner className="size-8" data-icon="inline-start" />
-        Loading . . .
-      </div>
-    );
-  }
+  // if (isCurrentUserLoading) {
+  //   return (
+  //     <div className="flex justify-center items-center gap-2 h-[calc(100vh-155px)] text-primary text-4xl">
+  //       <Spinner className="size-8" data-icon="inline-start" />
+  //       Loading . . .
+  //     </div>
+  //   );
+  // }
 
   if (currentUser) return null;
 
   return (
     <div className="mx-10">
-      <div className="flex justify-center items-center h-[calc(100vh-155px)]">
+      <div className="flex justify-center items-center h-[calc(100vh-200px)]">
         {/* body */}
 
         <form
@@ -63,40 +59,32 @@ const LoginPage = () => {
           {/* 2 */}
 
           <div className="group flex flex-col justify-center items-end gap-4 w-full">
-            <Field>
-              <FieldLabel htmlFor="name">
-                Email<span className="text-destructive">*</span>
-              </FieldLabel>
-              <Input
-                name="email"
-                type="email"
-                value={values.email}
-                onChange={handleChange}
-                aria-invalid={!!errors.email && !!touched.email}
-              />
-              {errors.email && touched.email && (
-                <FieldError>{errors.email}</FieldError>
-              )}
-            </Field>
+            <Input
+              name="email"
+              type="email"
+              label="Email"
+              isRequired={true}
+              errors={errors}
+              touched={touched}
+              value={values.email}
+              onChange={handleChange}
+              aria-invalid={!!errors.email && !!touched.email}
+            />
 
             {/* ----------------------------------------------------- */}
             <div className="flex flex-col gap-2 w-full"></div>
 
-            <Field>
-              <FieldLabel htmlFor="name">
-                Password<span className="text-destructive">*</span>
-              </FieldLabel>
-              <Input
-                name="password"
-                type="password"
-                value={values.password}
-                onChange={handleChange}
-                aria-invalid={!!errors.password && !!touched.password}
-              />
-              {errors.password && touched.password && (
-                <FieldError>{errors.password}</FieldError>
-              )}
-            </Field>
+            <Input
+              name="password"
+              type="password"
+              label="Password"
+              isRequired={true}
+              errors={errors}
+              touched={touched}
+              value={values.password}
+              onChange={handleChange}
+              aria-invalid={!!errors.password && !!touched.password}
+            />
 
             <Link
               href="/forgotPassword"
@@ -108,25 +96,22 @@ const LoginPage = () => {
 
           {/* 3 */}
           <div className="flex flex-col justify-center items-center gap-4 w-full">
-            <button
+            <Button
+              variant={"none"}
+              size={"none"}
               disabled={!dirty || isLogin}
+              isLoading={isLogin}
+              loadingText="Wait . . ."
               type="submit"
-              className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
+              className="bg-primary hover:bg-secondary px-4! py-4! rounded-lg w-full h-15 text-center hover:cursor-pointer"
             >
-              {isLogin ? (
-                <span className="flex justify-center items-center gap-2">
-                  <Spinner data-icon="inline-start" />
-                  wait..
-                </span>
-              ) : (
-                "LOG IN"
-              )}
-            </button>
+              LOG IN
+            </Button>
 
             <div>
               Don't have an account?{" "}
               <Link
-                href="/register"
+                href="/signup"
                 className="text-primary hover:text-secondary transition-colors duration-300"
               >
                 Sign Up

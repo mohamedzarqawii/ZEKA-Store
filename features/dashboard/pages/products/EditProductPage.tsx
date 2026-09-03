@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { useMedia } from "@/hooks/useMedia";
 import { UpdateProductSchema } from "@/types/admin/product";
@@ -228,38 +227,32 @@ const EditProductPage = ({ productId }: EditProductPageProps) => {
                 <div className="text-muted-foreground">{product.id}</div>
               </Field>
 
-              <Field>
-                <FieldLabel className="text-primary text-sm">Name</FieldLabel>
-                <Input
-                  id="name"
-                  name="name"
-                  value={values.name}
-                  onChange={handleChange}
-                  className="w-full sm:w-96"
-                  aria-invalid={!!errors.name && !!touched.name}
-                />
-                {errors.name && touched.name && (
-                  <FieldError>{errors.name}</FieldError>
-                )}
-              </Field>
+              <Input
+                id="name"
+                name="name"
+                label="Name"
+                isRequired={true}
+                errors={errors}
+                touched={touched}
+                value={values.name}
+                onChange={handleChange}
+                className="w-full sm:w-96"
+                aria-invalid={!!errors.name && !!touched.name}
+              />
 
-              <Field>
-                <FieldLabel className="text-primary text-sm">
-                  Description
-                </FieldLabel>
-                <Textarea
-                  rows={4}
-                  id="description"
-                  name="description"
-                  value={values.description}
-                  onChange={handleChange}
-                  className="w-full sm:w-96"
-                  aria-invalid={!!errors.description && !!touched.description}
-                />
-                {errors.description && touched.description && (
-                  <FieldError>{errors.description}</FieldError>
-                )}
-              </Field>
+              <Textarea
+                rows={4}
+                id="description"
+                name="description"
+                label="Description"
+                isRequired={false}
+                errors={errors}
+                touched={touched}
+                value={values.description}
+                onChange={handleChange}
+                className="w-full sm:w-96"
+                aria-invalid={!!errors.description && !!touched.description}
+              />
             </div>
           </div>
 
@@ -335,42 +328,36 @@ const EditProductPage = ({ productId }: EditProductPageProps) => {
                 </Field>
 
                 {/* Price */}
-                <Field>
-                  <FieldLabel className="text-primary text-sm">
-                    Price
-                  </FieldLabel>
-                  <Input
-                    id="price"
-                    name="price"
-                    type="number"
-                    value={values.price}
-                    onChange={handleChange}
-                    className="w-full"
-                    aria-invalid={!!errors.price && !!touched.price}
-                  />
-                  {errors.price && touched.price && (
-                    <FieldError>{errors.price}</FieldError>
-                  )}
-                </Field>
+
+                <Input
+                  id="price"
+                  name="price"
+                  type="number"
+                  label="Price"
+                  isRequired={true}
+                  errors={errors}
+                  touched={touched}
+                  value={values.price}
+                  onChange={handleChange}
+                  className="w-full"
+                  aria-invalid={!!errors.price && !!touched.price}
+                />
 
                 {/* Stock */}
-                <Field>
-                  <FieldLabel className="text-primary text-sm">
-                    Stock
-                  </FieldLabel>
-                  <Input
-                    id="stock"
-                    name="stock"
-                    type="number"
-                    value={values.stock}
-                    onChange={handleChange}
-                    className="w-full"
-                    aria-invalid={!!errors.stock && !!touched.stock}
-                  />
-                  {errors.stock && touched.stock && (
-                    <FieldError>{errors.stock}</FieldError>
-                  )}
-                </Field>
+
+                <Input
+                  id="stock"
+                  name="stock"
+                  type="number"
+                  label="Stock"
+                  isRequired={true}
+                  errors={errors}
+                  touched={touched}
+                  value={values.stock}
+                  onChange={handleChange}
+                  className="w-full"
+                  aria-invalid={!!errors.stock && !!touched.stock}
+                />
               </div>
             </div>
           </div>
@@ -516,6 +503,8 @@ const EditProductPage = ({ productId }: EditProductPageProps) => {
             <Button
               type="submit"
               variant="default"
+              isLoading={isUpdating || isMediaUploading}
+              loadingText="Updating . . ."
               disabled={
                 (!dirty && selectedImages.length === 0) ||
                 isUpdating ||
@@ -523,14 +512,7 @@ const EditProductPage = ({ productId }: EditProductPageProps) => {
               }
               className="p-6 rounded-lg text-md hover:cursor-pointer"
             >
-              {isUpdating || isMediaUploading ? (
-                <span className="flex justify-center items-center gap-2">
-                  <Spinner data-icon="inline-start" />
-                  Updating...
-                </span>
-              ) : (
-                "Update Product"
-              )}
+              "Update Product"
             </Button>
           </div>
         </form>

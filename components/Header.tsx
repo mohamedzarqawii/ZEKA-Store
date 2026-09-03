@@ -58,8 +58,6 @@ const Header = () => {
           <div className="flex justify-center items-center gap-3 -m-1">
             <Skeleton className="rounded-md w-7 h-7" />
             <Skeleton className="rounded-md w-7 h-7" />
-            {/* <Skeleton className="rounded-full w-7 h-7" /> */}
-            {/* <Skeleton className="rounded-md w-20 h-7" /> */}
           </div>
         ) : (
           <div className="flex justify-center items-center gap-3">

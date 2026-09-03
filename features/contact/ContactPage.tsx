@@ -13,6 +13,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { MailIcon, MapPinIcon, PhoneIcon } from "@animateicons/react/lucide";
 import { toast } from "sonner";
 
@@ -143,25 +145,26 @@ const ContactPage = () => {
             className="flex flex-col gap-6 py-10 pr-10 w-full"
           >
             <div className="flex flex-col gap-4">
-              <input
-                className="bg-transparent px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full text-white"
+              <Input
                 type="text"
                 name="name"
+                isRequired={true}
                 placeholder="Full Name "
+                className="bg-transparent px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full text-white"
                 required
               />
 
-              <input
-                className="bg-transparent px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full text-white"
+              <Input
                 type="email"
                 name="email"
+                isRequired={true}
                 placeholder="Email Address"
                 required
               />
 
-              <textarea
-                className="bg-transparent px-4 py-3 border border-primary rounded-lg outline-none focus:ring-2 focus:ring-secondary w-full text-white resize-none"
+              <Textarea
                 name="message"
+                isRequired={true}
                 placeholder="How can we help you?"
                 rows={4}
                 required

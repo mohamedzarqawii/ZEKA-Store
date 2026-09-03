@@ -1,8 +1,14 @@
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
+
+type ButtonProps = {
+  loadingText?: string;
+  isLoading?: boolean;
+};
 
 const buttonVariants = cva(
   "group/button inline-flex justify-center items-center bg-clip-padding disabled:opacity-50 border border-transparent aria-invalid:border-destructive focus-visible:border-ring dark:aria-invalid:border-destructive/50 rounded-md outline-none aria-invalid:ring-2 aria-invalid:ring-destructive/20 focus-visible:ring-2 focus-visible:ring-ring/30 dark:aria-invalid:ring-destructive/40 font-medium leading-none whitespace-nowrap transition-all active:not-aria-[haspopup]:translate-y-px disabled:hover:cursor-not-allowed [&_svg]:pointer-events-none select-none shrink-0 [&_svg]:shrink-0",
@@ -59,11 +65,13 @@ function Button({
   variant = "default",
   size = "default",
   asChild = false,
+  isLoading,
+  loadingText,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
-  }) {
+  } & ButtonProps) {
   const Comp = asChild ? Slot.Root : "button";
 
   return (
@@ -71,9 +79,19 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
+      disabled={isLoading || props.disabled} // تعطيل الزر أثناء التحميل
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {isLoading ? (
+        <>
+          <Loader2 className="w-4 h-4 animate-spin" />
+          {loadingText ? <span className="ml-1">{loadingText}</span> : null}
+        </>
+      ) : (
+        props.children
+      )}
+    </Comp>
   );
 }
 

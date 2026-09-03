@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { IconTrash } from "@tabler/icons-react";
-import { Edit, Eye, Loader2 } from "lucide-react";
+import { Edit, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Product } from "./columns";
@@ -70,15 +70,12 @@ export const ActionCell = ({ product, viewHref }: ActionCellProps) => {
       <Button
         variant="outline"
         size="icon-sm"
+        isLoading={isDeleting}
+        disabled={isDeleting}
         onClick={handleDelete}
         className="p-2 border border-border cursor-pointer"
-        disabled={isDeleting}
       >
-        {isDeleting ? (
-          <Loader2 className="w-4 h-4 text-destructive animate-spin" />
-        ) : (
-          <IconTrash className="w-4 h-4 text-destructive hover:cursor-pointer" />
-        )}
+        <IconTrash className="w-4 h-4 text-destructive hover:cursor-pointer" />
       </Button>
     </div>
   );

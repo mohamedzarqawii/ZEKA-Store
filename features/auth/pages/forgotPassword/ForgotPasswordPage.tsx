@@ -4,7 +4,6 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { forgotPasswordSchema } from "@/types/auth/forgotPassword";
 import { useFormik } from "formik";
@@ -59,41 +58,23 @@ const ForgotPasswordPage = () => {
   type ForgotPasswordValues = {
     email: string;
   };
-  const {
-    values,
-    errors,
-    touched,
-    handleSubmit,
-    handleChange,
-    setFieldValue,
-    initialValues,
-    dirty,
-  } = useFormik<ForgotPasswordValues>({
-    enableReinitialize: true,
-    initialValues: {
-      email: "",
-    },
-    validationSchema: forgotPasswordSchema,
-    onSubmit: async (values) => {
-      await handleForgotPassword(values);
-      startCooldown();
-    },
-  });
-
-  function capitalizeFirstLetter(val: string | undefined) {
-    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-  }
-
-  function handleErrors(type: string) {
-    if (type == "email") {
-      return capitalizeFirstLetter(errors.email);
-    }
-  }
+  const { values, errors, dirty, touched, handleSubmit, handleChange } =
+    useFormik<ForgotPasswordValues>({
+      enableReinitialize: true,
+      initialValues: {
+        email: "",
+      },
+      validationSchema: forgotPasswordSchema,
+      onSubmit: async (values) => {
+        await handleForgotPassword(values);
+        startCooldown();
+      },
+    });
 
   return (
     <div className="mx-10">
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-center items-center h-[calc(100vh-155px)]">
+        <div className="flex justify-center items-center h-[calc(100vh-200px)]">
           {/* body */}
           <div className="flex flex-col justify-center items-center gap-7 bg-[#1a1a1a]/20 backdrop-blur-md p-12 border border-primary rounded-3xl w-160 h-fit">
             {/* 1 */}
@@ -108,19 +89,17 @@ const ForgotPasswordPage = () => {
 
             <div className="group flex flex-col justify-center items-end gap-4 w-full">
               <div className="flex flex-col gap-2 w-full">
-                <FieldLabel htmlFor="email">
-                  Email<span className="text-destructive">*</span>
-                </FieldLabel>
                 <Input
+                  name="email"
                   type="email"
-                  id="email"
+                  label="Email"
+                  isRequired={true}
+                  errors={errors}
+                  touched={touched}
                   value={values.email}
                   onChange={handleChange}
                   aria-invalid={!!errors.email && !!touched.email}
                 />
-                {errors.email && touched.email && (
-                  <FieldError>{handleErrors("email")}</FieldError>
-                )}
               </div>
             </div>
 
@@ -143,7 +122,7 @@ const ForgotPasswordPage = () => {
             </div>
             <div className="flex justify-center items-center gap-1 text-zinc-400 hover:text-primary transition-colors duration-300 hover:cursor-pointer">
               <IconArrowLeft className="size-" />
-              <Link href="/register" className="">
+              <Link href="/login" className="">
                 Back to login
               </Link>
             </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useFormik } from "formik";
 import { Mars, Venus } from "lucide-react";
@@ -14,13 +14,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Spinner } from "@/components/ui/spinner";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { updateProfileSchema } from "@/types/auth/profile";
 import { getChangedValues } from "@/utils/getChangedValues";
 import { useRouter } from "next/navigation";
 import { useUpdateProfile } from "../../hooks/useProfile";
-import ProfilePageSkeleton from "./ProfilePageSkilton";
 
 function parseBirthdayDate(value: string | null | undefined) {
   if (!value) return undefined;
@@ -88,9 +86,7 @@ const ProfilePage = () => {
 
   const dateValue = parseBirthdayDate(values.birthday);
 
-  if (isCurrentUserLoading || !currentUser) {
-    return <ProfilePageSkeleton />;
-  }
+  const isLoading = isCurrentUserLoading || !currentUser;
 
   function capitalizeFirstLetter(val: string | undefined) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -112,19 +108,18 @@ const ProfilePage = () => {
       <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-10 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
         <div className="text-md">Contact Information</div>
         <div className="flex flex-wrap gap-4 mt-5">
-          <Field>
-            <FieldLabel htmlFor="name" className="text-primary text-sm">
-              Email
-            </FieldLabel>
-            <Input
-              name="email"
-              type="text"
-              value={currentUser.email}
-              onChange={handleChange}
-              className="bg-zinc-800/30! w-100! text-zinc-400 hover:cursor-not-allowed"
-              readOnly
-            />
-          </Field>
+          <Input
+            name="email"
+            type="text"
+            value={currentUser?.email}
+            onChange={handleChange}
+            className="w-100!"
+            readOnly
+            label="Email"
+            errors={errors}
+            touched={touched}
+            isLoading={isLoading}
+          />
         </div>
       </div>
 
@@ -136,41 +131,34 @@ const ProfilePage = () => {
           <div className="flex flex-col gap-4 mt-5">
             <div className="flex gap-4">
               <div className="flex flex-col gap-2">
-                <Field>
-                  <FieldLabel htmlFor="name" className="text-primary text-sm">
-                    First Name
-                  </FieldLabel>
-                  <Input
-                    id="first_name"
-                    name="first_name"
-                    value={values.first_name}
-                    onChange={handleChange}
-                    className="w-100!"
-                    aria-invalid={!!errors.first_name && !!touched.first_name}
-                  />
-                  {errors.first_name && touched.first_name && (
-                    <FieldError>{handleErrors("first_name")}</FieldError>
-                  )}
-                </Field>
+                <Input
+                  id="first_name"
+                  name="first_name"
+                  label="First Name"
+                  isRequired={true}
+                  value={values.first_name}
+                  onChange={handleChange}
+                  className="w-100!"
+                  errors={errors}
+                  touched={touched}
+                  isLoading={isLoading}
+                  aria-invalid={!!errors.first_name && !!touched.first_name}
+                />
               </div>
 
               <div className="flex flex-col gap-2">
-                <Field>
-                  <FieldLabel htmlFor="name" className="text-primary text-sm">
-                    Last Name
-                  </FieldLabel>
-                  <Input
-                    id="last_name"
-                    name="last_name"
-                    value={values.last_name}
-                    onChange={handleChange}
-                    className="w-100!"
-                    aria-invalid={!!errors.last_name && !!touched.last_name}
-                  />
-                  {errors.last_name && touched.last_name && (
-                    <FieldError>{handleErrors("last_name")}</FieldError>
-                  )}
-                </Field>
+                <Input
+                  label="Last Name"
+                  id="last_name"
+                  name="last_name"
+                  value={values.last_name}
+                  onChange={handleChange}
+                  className="w-100!"
+                  errors={errors}
+                  touched={touched}
+                  isLoading={isLoading}
+                  aria-invalid={!!errors.last_name && !!touched.last_name}
+                />
               </div>
             </div>
 
@@ -239,7 +227,7 @@ const ProfilePage = () => {
                       ${values.gender === "male" ? "ring-secondary! ring-1! bg-secondary/10!" : ""}`}
                   >
                     <Mars className="size-5" />
-                    Male{" "}
+                    Male
                   </Button>
 
                   <Button
@@ -267,16 +255,11 @@ const ProfilePage = () => {
             type="submit"
             variant="default"
             disabled={!dirty || isProfileUpdating}
+            isLoading={isProfileUpdating}
+            loadingText="Updating . . ."
             className="p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >
-            {isProfileUpdating ? (
-              <span className="flex justify-center items-center gap-2">
-                <Spinner data-icon="inline-start" />
-                Update Profile
-              </span>
-            ) : (
-              "Update Profile"
-            )}
+            Update Profile
           </Button>
         </div>
       </form>
