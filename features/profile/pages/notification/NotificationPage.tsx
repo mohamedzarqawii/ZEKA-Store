@@ -1,4 +1,4 @@
-import SelectInput from "@/components/myComponents/select";
+import SelectInput from "@/components/myComponents/Select";
 import {
   Field,
   FieldContent,
@@ -18,7 +18,7 @@ const NotificationPage = () => {
         <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-10 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
           <div className="text-md">Receive Communications In</div>
           <div className="flex flex-col gap-2 mt-5">
-            <div className="text-primary text-sm">Languange</div>
+            <div className="text-primary text-sm">Language</div>
 
             <SelectInput
               placeholder="Select Language"

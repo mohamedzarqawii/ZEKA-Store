@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/features/shop/components/ProductCard";
 import { ProductType } from "@/types/shop/product";
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { ProductCardSkeleton } from "../shop/components/ProductCardSkilton";
 import { useGetShopProducts } from "../shop/pages/shop/hooks/useShop";
 
 const HomePage = () => {
@@ -52,8 +52,22 @@ const HomePage = () => {
             <div className="text-primary text-3xl">MOST PRODUCT POPULAR</div>
           </div>
           {isProductsLoading ? (
-            <div className="flex justify-center items-center p-8">
-              <Loader2 className="w-8 h-8 text-primary animate-spin" />
+            <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
             </div>
           ) : (
             <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
