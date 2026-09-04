@@ -138,7 +138,7 @@ const SignUpPage = () => {
             <Button
               type="submit"
               isPending={isSignUp}
-              pendingText="Registering . . ."
+              pendingText="Registering"
               disabled={!dirty || isSignUp}
               className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full h-15 text-center"
             >

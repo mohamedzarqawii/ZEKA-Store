@@ -84,7 +84,7 @@ const SecurityInformationCard = () => {
           type="submit"
           variant="default"
           isPending={isEmailSending}
-          pendingText="Sending reset link. . ."
+          pendingText="Sending reset link"
           disabled={isEmailSending || cooldown > 0}
           className="justify-start p-6 rounded-lg outline-none text-md"
         >

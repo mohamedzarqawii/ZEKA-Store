@@ -16,36 +16,18 @@ export default function ResetPasswordPage() {
   type ResetPasswordValues = {
     password: string;
   };
-  const {
-    values,
-    errors,
-    touched,
-    handleSubmit,
-    handleChange,
-    setFieldValue,
-    initialValues,
-    dirty,
-  } = useFormik<ResetPasswordValues>({
-    enableReinitialize: true,
-    initialValues: {
-      password: "",
-    },
-    validationSchema: resetPasswordSchema,
-    onSubmit: async (values) => {
-      await handleResetPassword(values.password);
-      router.push("/login");
-    },
-  });
-
-  function capitalizeFirstLetter(val: string | undefined) {
-    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-  }
-
-  function handleErrors(type: string) {
-    if (type == "password") {
-      return capitalizeFirstLetter(errors.password);
-    }
-  }
+  const { values, errors, touched, handleSubmit, handleChange, dirty } =
+    useFormik<ResetPasswordValues>({
+      enableReinitialize: true,
+      initialValues: {
+        password: "",
+      },
+      validationSchema: resetPasswordSchema,
+      onSubmit: async (values) => {
+        await handleResetPassword(values.password);
+        router.push("/login");
+      },
+    });
 
   return (
     <div className="mx-10">
@@ -86,7 +68,7 @@ export default function ResetPasswordPage() {
                   size={"none"}
                   disabled={!dirty || isReseting}
                   isPending={isReseting}
-                  pendingText="UPDATING . . ."
+                  pendingText="UPDATING"
                   onClick={handleChange}
                   className="bg-primary hover:bg-secondary disabled:opacity-50 px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer disabled:cursor-not-allowed"
                 >
@@ -94,12 +76,6 @@ export default function ResetPasswordPage() {
                 </Button>
               </div>
             </div>
-            {/* <div className="flex justify-center items-center gap-1 text-zinc-400 hover:text-primary transition-colors duration-300 hover:cursor-pointer">
-              <IconArrowLeft className="size-" />
-              <Link href="/signup" className="">
-                Back to login
-              </Link>
-            </div> */}
           </div>
         </div>
       </form>

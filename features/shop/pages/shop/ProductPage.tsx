@@ -4,7 +4,6 @@ import { Heart } from "@/components/animate-ui/icons/heart";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import Counter from "@/components/Counter";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { useGetCart, useToggleCart } from "@/features/cart/pages/hooks/useCart";
 import {
@@ -15,10 +14,10 @@ import {
 import { FavoriteItem } from "@/types/shop/favoriteItem";
 import { ProductType } from "@/types/shop/product";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import ProductCard from "../../components/ProductCard";
+import ProductPageSkeleton from "../../components/ProductPageSkelton";
 import {
   useGetShopProduct,
   useGetShopRelatedProductsByCategory,
@@ -127,12 +126,10 @@ const ProductPage = ({ productId }: ViewProps) => {
     });
   };
 
-  if (isProductLoading) {
+  if (isProductLoading || isRelatedCategoryLoading) {
     return (
-      <div className="flex justify-center items-center gap-2 h-[calc(100vh-155px)] text-primary text-4xl">
-        {/* 1 */}
-        <Spinner className="size-8" data-icon="inline-start" />
-        <div className="text-primary text-3xl">Loading Product . . .</div>
+      <div>
+        <ProductPageSkeleton />
       </div>
     );
   }
@@ -223,12 +220,6 @@ const ProductPage = ({ productId }: ViewProps) => {
               </div>
             ) : null}
 
-            {product.stock == 0 ? (
-              <div className="flex items-center gap-2 mt-6 text-primary">
-                <div className="text-destructive text-sm">Out of stock</div>
-              </div>
-            ) : null}
-
             {product.stock == cartItem?.quantity ? (
               <div className="flex items-center gap-2 mt-6 text-primary">
                 <div className="text-destructive text-sm">
@@ -254,14 +245,14 @@ const ProductPage = ({ productId }: ViewProps) => {
               ) : (
                 <Button
                   size={"none"}
-                  disabled={(product.stock == 0, isPending)}
+                  disabled={product.stock == 0 || isPending}
                   isPending={isPending}
                   onClick={(e) => {
                     handleCartClick(e, "add");
                   }}
                   className="bg-primary hover:bg-secondary px-4 py-6 rounded-2xl w-full h-20 text-lg text-center"
                 >
-                  "ADD TO CART"
+                  {product.stock == 0 ? "OUT OF STOCK" : "ADD TO CART"}
                 </Button>
               )}
             </div>
@@ -299,18 +290,11 @@ const ProductPage = ({ productId }: ViewProps) => {
           <div className="text-primary text-3xl uppercase">
             MORE FROM {product?.category.name}
           </div>
-
-          {isRelatedCategoryLoading ? (
-            <div className="flex justify-center items-center p-8">
-              <Loader2 className="w-8 h-8 text-primary animate-spin" />
-            </div>
-          ) : (
-            <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
-              {relatedProducts?.map((product: ProductType) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
+          <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
+            {relatedProducts?.map((product: ProductType) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

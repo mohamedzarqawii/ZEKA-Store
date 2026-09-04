@@ -449,7 +449,7 @@ const CreateProductPage = () => {
               <Button
                 type="submit"
                 isPending={isCreating || isMediaUploading}
-                pendingText="Creating . . ."
+                pendingText="Creating"
                 disabled={!dirty || isCreating || isMediaUploading}
                 className="px-4 py-4 rounded-lg w-full h-12 font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
               >

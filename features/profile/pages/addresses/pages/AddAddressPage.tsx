@@ -330,7 +330,7 @@ const AddAddressPage = () => {
             size={"lg"}
             disabled={!dirty}
             isPending={isAdding}
-            pendingText="Creating . . ."
+            pendingText="Creating"
             type="submit"
             className="flex justify-center mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >

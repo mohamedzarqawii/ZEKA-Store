@@ -7,6 +7,15 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";
 
+type CounterProps = {
+  product: ProductType;
+  classname?: string;
+  plusClass?: string;
+  minusClass?: string;
+  spanClass?: string;
+  trashSize?: string;
+  isLoading?: boolean;
+};
 const Counter = ({
   product,
   classname,
@@ -14,22 +23,16 @@ const Counter = ({
   minusClass,
   spanClass,
   trashSize,
-}: {
-  product: ProductType;
-  classname?: string;
-  plusClass?: string;
-  minusClass?: string;
-  spanClass?: string;
-  trashSize?: string;
-}) => {
+  isLoading,
+}: CounterProps) => {
   const {
     data,
     isLoading: isProductLoading,
     refetch: reGetProduct,
   } = useGetShopProduct(Number(product.id));
-  const { data: currentUser, refetch } = useGetCurrentUser();
+  const { data: currentUser, refetch: reGetCurrentUser } = useGetCurrentUser();
   const { data: cart = [], refetch: reGetCart } = useGetCart(currentUser?.id);
-  const { mutateAsync: toggleCart, isPending } = useToggleCart();
+  const { mutateAsync: toggleCart, isPending: isToggleCart } = useToggleCart();
 
   const cartItem = cart.find((item) => item?.productId === product?.id);
 
@@ -72,16 +75,16 @@ const Counter = ({
       <Button
         size={"none"}
         variant={"none"}
-        className={minusClass}
+        disabled={isToggleCart}
         onClick={(e) => {
           handleCartClick(e, "decrease");
         }}
-        disabled={isPending}
+        className={minusClass}
       >
         {cartItem.quantity > 1 ? "-" : <IconTrash className={trashSize} />}
       </Button>
       <div className={` ${spanClass}`}>
-        {isPending ? (
+        {isToggleCart ? (
           <span className="flex justify-center items-center gap-2">
             <Spinner data-icon="inline-start" />
           </span>
@@ -92,11 +95,11 @@ const Counter = ({
       <Button
         variant={"none"}
         size={"none"}
-        className={plusClass}
-        disabled={isPending || disabled()}
+        disabled={isToggleCart || disabled()}
         onClick={(e) => {
           handleCartClick(e, "add");
         }}
+        className={plusClass}
       >
         +
       </Button>

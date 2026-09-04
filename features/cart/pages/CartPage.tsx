@@ -6,12 +6,14 @@ import ItemCart from "@/features/cart/components/CartItemCard";
 import { useCreateOrder } from "@/features/profile/pages/orders/pages/hooks/useOrder";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import CartPageSkeleton from "../components/CartPageSkeleton";
 import { useGetCart } from "./hooks/useCart";
 
 const CartPage = () => {
   const router = useRouter();
 
-  const { data: currentUser, isLoading } = useGetCurrentUser();
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useGetCurrentUser();
   const { mutate: createOrderMutation, isPending: isCreateOrder } =
     useCreateOrder();
 
@@ -34,12 +36,8 @@ const CartPage = () => {
   const shippingFee = cart.length > 0 ? 20 : 0;
   const total = subtotal + shippingFee;
 
-  if (isLoadingCart) {
-    return (
-      <div className="flex justify-center items-center h-[calc(100vh-155px)] text-primary">
-        Loading Cart...
-      </div>
-    );
+  if (isLoadingCart || isCurrentUserLoading) {
+    return <CartPageSkeleton />;
   }
   return (
     <div className="mx-10">

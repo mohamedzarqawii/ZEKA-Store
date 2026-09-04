@@ -369,7 +369,7 @@ const UpdateAddressPage = () => {
             type="submit"
             disabled={!dirty || isAddressUpdating}
             isPending={isAddressUpdating}
-            pendingText="Updating . . ."
+            pendingText="Updating"
             className="flex justify-center mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >
             Update Address
