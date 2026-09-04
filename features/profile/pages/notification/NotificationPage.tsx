@@ -1,13 +1,4 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
+import SelectInput from "@/components/myComponents/select";
 import {
   Field,
   FieldContent,
@@ -29,18 +20,10 @@ const NotificationPage = () => {
           <div className="flex flex-col gap-2 mt-5">
             <div className="text-primary text-sm">Languange</div>
 
-            <Select>
-              <SelectTrigger className="w-full max-w-100">
-                <SelectValue placeholder="Select Language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="english">English</SelectItem>
-                  <SelectItem value="arabic">Arabic</SelectItem>
-                </SelectGroup>
-                <SelectSeparator />
-              </SelectContent>
-            </Select>
+            <SelectInput
+              placeholder="Select Language"
+              selectItems={["English", "Arabic"]}
+            />
           </div>
         </div>
 
