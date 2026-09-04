@@ -55,7 +55,7 @@ const Header = () => {
         </div>
 
         {isCurrentUserLoading || isCartLoading ? (
-          <div className="flex justify-center items-center gap-3 -m-1">
+          <div className="flex justify-end items-center gap-3 w-20">
             <Skeleton className="rounded-md w-7 h-7" />
             <Skeleton className="rounded-md w-7 h-7" />
           </div>
