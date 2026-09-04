@@ -70,7 +70,7 @@ export const ActionCell = ({ product, viewHref }: ActionCellProps) => {
       <Button
         variant="outline"
         size="icon-sm"
-        isLoading={isDeleting}
+        isPending={isDeleting}
         disabled={isDeleting}
         onClick={handleDelete}
         className="p-2 border border-border cursor-pointer"

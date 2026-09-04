@@ -255,7 +255,7 @@ const ProductPage = ({ productId }: ViewProps) => {
                 <Button
                   size={"none"}
                   disabled={(product.stock == 0, isPending)}
-                  isLoading={isPending}
+                  isPending={isPending}
                   onClick={(e) => {
                     handleCartClick(e, "add");
                   }}

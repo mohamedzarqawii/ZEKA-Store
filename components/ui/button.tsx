@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 type ButtonProps = {
-  loadingText?: string;
-  isLoading?: boolean;
+  pendingText?: string;
+  isPending?: boolean;
 };
 
 const buttonVariants = cva(
@@ -65,8 +65,8 @@ function Button({
   variant = "default",
   size = "default",
   asChild = false,
-  isLoading,
-  loadingText,
+  isPending,
+  pendingText,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
@@ -79,14 +79,14 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      disabled={isLoading || props.disabled} // تعطيل الزر أثناء التحميل
+      disabled={isPending || props.disabled} // تعطيل الزر أثناء التحميل
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
-      {isLoading ? (
+      {isPending ? (
         <>
           <Loader2 className="w-4 h-4 animate-spin" />
-          {loadingText ? <span className="ml-1">{loadingText}</span> : null}
+          {pendingText ? <span className="ml-1">{pendingText}</span> : null}
         </>
       ) : (
         props.children

@@ -162,7 +162,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                     size={"none"}
                     variant={"none"}
                     disabled={product.stock == 0}
-                    isLoading={isToggleCart}
+                    isPending={isToggleCart}
                     onClick={(e) => {
                       handleCartClick(e, "add");
                     }}

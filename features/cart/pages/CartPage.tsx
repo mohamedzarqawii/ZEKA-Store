@@ -87,8 +87,8 @@ const CartPage = () => {
                   size={"none"}
                   onClick={handleCreateOrder}
                   disabled={isCreateOrder}
-                  isLoading={isCreateOrder}
-                  loadingText="PROCESSING..."
+                  isPending={isCreateOrder}
+                  pendingText="PROCESSING..."
                   className="bg-primary hover:bg-secondary disabled:opacity-70 px-4 py-4 rounded-lg font-extrabold text-center transition-colors duration-300"
                 >
                   PROCEED TO CHECKOUT

@@ -85,8 +85,8 @@ export default function ResetPasswordPage() {
                   variant={"none"}
                   size={"none"}
                   disabled={!dirty || isReseting}
-                  isLoading={isReseting}
-                  loadingText="UPDATING . . ."
+                  isPending={isReseting}
+                  pendingText="UPDATING . . ."
                   onClick={handleChange}
                   className="bg-primary hover:bg-secondary disabled:opacity-50 px-4 py-4 rounded-lg w-full font-extrabold text-center transition-colors duration-300 hover:cursor-pointer disabled:cursor-not-allowed"
                 >

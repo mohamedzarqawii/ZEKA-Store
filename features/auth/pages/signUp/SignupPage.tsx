@@ -137,8 +137,8 @@ const SignUpPage = () => {
           <div className="flex flex-col justify-center items-center gap-4 w-full">
             <Button
               type="submit"
-              isLoading={isSignUp}
-              loadingText="Registering . . ."
+              isPending={isSignUp}
+              pendingText="Registering . . ."
               disabled={!dirty || isSignUp}
               className="bg-primary hover:bg-secondary px-4 py-4 rounded-lg w-full h-15 text-center"
             >

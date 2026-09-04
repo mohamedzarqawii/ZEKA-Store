@@ -100,8 +100,8 @@ const LoginPage = () => {
               variant={"none"}
               size={"none"}
               disabled={!dirty || isLogin}
-              isLoading={isLogin}
-              loadingText="Wait . . ."
+              isPending={isLogin}
+              pendingText="Wait . . ."
               type="submit"
               className="bg-primary hover:bg-secondary px-4! py-4! rounded-lg w-full h-15 text-center hover:cursor-pointer"
             >

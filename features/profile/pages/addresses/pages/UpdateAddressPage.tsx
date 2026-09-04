@@ -368,8 +368,8 @@ const UpdateAddressPage = () => {
             size={"lg"}
             type="submit"
             disabled={!dirty || isAddressUpdating}
-            isLoading={isAddressUpdating}
-            loadingText="Updating . . ."
+            isPending={isAddressUpdating}
+            pendingText="Updating . . ."
             className="flex justify-center mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >
             Update Address

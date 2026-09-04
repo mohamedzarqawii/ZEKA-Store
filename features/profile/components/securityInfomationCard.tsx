@@ -83,8 +83,8 @@ const SecurityInformationCard = () => {
         <Button
           type="submit"
           variant="default"
-          isLoading={isEmailSending}
-          loadingText="Sending reset link. . ."
+          isPending={isEmailSending}
+          pendingText="Sending reset link. . ."
           disabled={isEmailSending || cooldown > 0}
           className="justify-start p-6 rounded-lg outline-none text-md"
         >

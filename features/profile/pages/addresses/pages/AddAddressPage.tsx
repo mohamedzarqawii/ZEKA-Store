@@ -329,8 +329,8 @@ const AddAddressPage = () => {
           <Button
             size={"lg"}
             disabled={!dirty}
-            isLoading={isAdding}
-            loadingText="Creating . . ."
+            isPending={isAdding}
+            pendingText="Creating . . ."
             type="submit"
             className="flex justify-center mt-6 p-6 rounded-lg outline-none text-md hover:cursor-pointer"
           >

@@ -28,7 +28,7 @@ const AddressCard = ({ address }: { address: AddressType }) => {
               variant="outline"
               size="icon-sm"
               disabled={isDeleting}
-              isLoading={isDeleting}
+              isPending={isDeleting}
               onClick={() => {
                 handleDelete(address.id);
               }}
@@ -62,7 +62,7 @@ const AddressCard = ({ address }: { address: AddressType }) => {
               <Button
                 variant="outline"
                 size={"icon-sm"}
-                isLoading={isAddressUpdating}
+                isPending={isAddressUpdating}
                 onClick={() => {
                   handleSetDefault(address.id);
                 }}

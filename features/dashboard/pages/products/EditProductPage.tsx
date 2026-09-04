@@ -503,8 +503,8 @@ const EditProductPage = ({ productId }: EditProductPageProps) => {
             <Button
               type="submit"
               variant="default"
-              isLoading={isUpdating || isMediaUploading}
-              loadingText="Updating . . ."
+              isPending={isUpdating || isMediaUploading}
+              pendingText="Updating . . ."
               disabled={
                 (!dirty && selectedImages.length === 0) ||
                 isUpdating ||
