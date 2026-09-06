@@ -2,19 +2,22 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between items-center gap-2 bg-[#1a1a1a]/20 mt-10 px-25 py-6 border border-t-border w-full">
-      <div className="font-normal! text-primary text-xs">
+    <footer className="border-t-border mt-10 flex w-full items-center justify-between gap-2 border border-x-0 border-b-0 bg-[#1a1a1a]/20 px-25 py-6">
+      <div className="text-primary text-xs font-normal!">
         <span className="font-serif">&copy;</span> {new Date().getFullYear()}{" "}
         ZEKA. All rights reserved
       </div>
-      <div className="flex gap-6 text-primary text-xs">
+      <div className="text-primary flex gap-6 text-xs">
         <Link href={"/aboutUs"} className="hover:cursor-pointer">
           About Us
         </Link>
         <Link href={"/contact"} className="hover:cursor-pointer">
           Contact
         </Link>
-        <div className="hover:cursor-pointer">Privacy policy</div>
+
+        <Link href={"/privacy-policy"} className="hover:cursor-pointer">
+          Privacy policy
+        </Link>
       </div>
     </footer>
   );

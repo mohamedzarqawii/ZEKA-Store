@@ -1,4 +1,5 @@
 import {
+  getProductsPrices,
   getShopBrands,
   getShopCategories,
   getShopProduct,
@@ -57,6 +58,16 @@ export const useGetShopBrands = () => {
     queryFn: () => getShopBrands(),
   });
 };
+
+// -------------- getProducts --------------
+
+export const useGetProductPrices = () => {
+  return useQuery({
+    queryKey: ["products prices"],
+    queryFn: () => getProductsPrices(),
+  });
+};
+
 // -------------- get related products by category --------------
 
 export const useGetShopRelatedProductsByCategory = (categoryId?: number) => {

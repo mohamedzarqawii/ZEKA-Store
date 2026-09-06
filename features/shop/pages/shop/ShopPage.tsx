@@ -1,7 +1,6 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetCurrentUser } from "@/features/auth/pages/hooks/useAuth";
 import { ProductType } from "@/types/shop/product";
 import * as React from "react";
 import { useState } from "react";
@@ -10,6 +9,7 @@ import { FilterLeftBarSkeleton } from "../../components/FilterLeftBarSkilton";
 import ProductCard from "../../components/ProductCard";
 import { ProductCardSkeleton } from "../../components/ProductCardSkilton";
 import {
+  useGetProductPrices,
   useGetShopBrands,
   useGetShopCategories,
   useGetShopProducts,
@@ -28,9 +28,8 @@ const ShopPage = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
   const [value, setValue] = useState<number[]>([0, 1000]);
+  const { data: prices, isLoading: isPricesLoading } = useGetProductPrices();
 
-  const { data: currentUser, isLoading: isCurrentUserLoading } =
-    useGetCurrentUser();
   const { data: products, isLoading: isProductsLoading } = useGetShopProducts(
     currentPage,
     selectedCategories,
@@ -114,7 +113,7 @@ const ShopPage = () => {
       <div className="flex flex-wrap gap-10 mt-15">
         {/* Left - Filter Component */}
 
-        {isCategoriesLoading || isBrandsLoading ? (
+        {isCategoriesLoading || isBrandsLoading || isPricesLoading ? (
           <FilterLeftBarSkeleton />
         ) : (
           <FilterBar

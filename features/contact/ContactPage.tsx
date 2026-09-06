@@ -88,7 +88,7 @@ const ContactPage = () => {
                 >
                   <PhoneIcon duration={1} className="size-5 text-primary" />
                 </Button>
-                <div>+1 234 567 890</div>
+                <div>+1 (555) 000-0000</div>
               </div>
 
               {/* 2 */}
@@ -109,7 +109,7 @@ const ContactPage = () => {
                 >
                   <MailIcon duration={1} className="size-5 text-primary" />
                 </Button>
-                <div>info@myshop.com</div>
+                <div>support@zekastore.com</div>
               </div>
 
               {/* 3 */}
@@ -132,7 +132,7 @@ const ContactPage = () => {
                 >
                   <MapPinIcon duration={2} className="size-5 text-primary" />
                 </Button>
-                <div>123 Main Street, City, Country</div>
+                <div>81 New Cairo, Cairo, Egypt</div>
               </div>
             </div>
           </div>

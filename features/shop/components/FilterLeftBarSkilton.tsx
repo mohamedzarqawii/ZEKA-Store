@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldTitle } from "@/components/ui/field";
+import { Field, FieldTitle } from "@/components/ui/field";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
 
@@ -43,26 +43,14 @@ export function FilterLeftBarSkeleton() {
 
         {/* Section 3: Price Filter */}
         <div className="flex flex-col gap-4 w-full">
-          {/* <div className="flex flex-col w-full">
-            <div className="text-primary text-lg">PRICE</div>
-            <div className="flex flex-col mt-2">
-              <div className="-mt-1 text-muted-foreground text-sm">
-                ($
-                <span className="font-medium tabular-nums">0</span> -{" "}
-                <span className="font-medium tabular-nums">1000</span>)
-              </div>
-              <Skeleton className="bg-zinc-800 mt-2 rounded-full w-full h-2.5" />
-            </div>
-          </div> */}
-
           <div>
             <Field className="w-full max-w-xs">
               <FieldTitle className="text-primary text-lg">PRICE</FieldTitle>
-              <FieldDescription className="text-sm">
-                ($
-                <span className="font-medium tabular-nums">0</span> -{" "}
-                <span className="font-medium tabular-nums">1000</span>)
-              </FieldDescription>
+              {/* <FieldDescription className="text-sm"></FieldDescription> */}
+
+              <div>
+                <Skeleton className="mb-1.5 rounded-full w-25 h-2.5" />
+              </div>
               <Slider
                 value={[0, 1000000]}
                 onValueChange={(val) => {}}

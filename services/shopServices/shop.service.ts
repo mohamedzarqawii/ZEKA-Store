@@ -65,6 +65,18 @@ export const getShopProduct = async (productId: number) => {
   }
   return data;
 };
+
+// -------------- get products prices --------------
+
+export const getProductsPrices = async () => {
+  const { data, error } = await supabase.from("products").select("price");
+
+  if (error) {
+    throw error;
+  }
+  return data;
+};
+
 // -------------- get categories --------------
 
 export const getShopCategories = async () => {

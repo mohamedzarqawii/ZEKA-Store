@@ -5,6 +5,7 @@ import { Field, FieldDescription, FieldTitle } from "@/components/ui/field";
 import { Slider } from "@/components/ui/slider";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { useGetProductPrices } from "../pages/shop/hooks/useShop";
 
 type Option = {
   label: string;
@@ -44,8 +45,15 @@ export const FilterBar = ({
 }: FilterBarProps) => {
   const [tempCategories, setTempCategories] =
     useState<string[]>(selectedCategories);
+
+  const { data: prices, isLoading: isPricesLoading } = useGetProductPrices();
+
+  const priceValues = prices?.map((item) => item.price);
+  const minPrice = priceValues?.length ? Math.min(...priceValues) : 0;
+  const maxPrice = priceValues?.length ? Math.max(...priceValues) : 1000;
+
   const [tempBrands, setTempBrands] = useState<string[]>(selectedBrands);
-  const [tempPrice, setTempPrice] = useState<number[]>([0, 1000]);
+  const [tempPrice, setTempPrice] = useState<number[]>([minPrice, maxPrice]);
 
   useEffect(() => {
     setTempCategories(selectedCategories);
@@ -81,8 +89,8 @@ export const FilterBar = ({
     tempCategories.every((cat) => selectedCategories.includes(cat)) &&
     tempBrands.length === selectedBrands.length &&
     tempBrands.every((brand) => selectedBrands.includes(brand)) &&
-    tempPrice[0] === 0 &&
-    tempPrice[1] === 1000;
+    tempPrice[0] === minPrice &&
+    tempPrice[1] === maxPrice;
 
   return (
     <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-full max-w-xs h-fit">
@@ -159,9 +167,9 @@ export const FilterBar = ({
               <Slider
                 value={tempPrice}
                 onValueChange={(val) => setTempPrice(val)}
-                min={0}
-                max={1000}
-                step={10}
+                min={minPrice}
+                max={maxPrice}
+                step={5}
                 className="mt-2 w-full"
                 aria-label="Price Range"
               />
