@@ -1,4 +1,4 @@
-import SelectInput from "@/components/myComponents/Select";
+import SelectInput from "@/components/myComponents/SelectInput";
 import {
   Field,
   FieldContent,

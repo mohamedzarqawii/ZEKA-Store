@@ -23,7 +23,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import SelectInput from "@/components/myComponents/Select";
+import SelectInput from "@/components/myComponents/SelectInput";
 import { FilterPopover } from "../../components/FilterPopover";
 
 type Option = {
