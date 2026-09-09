@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: ["@animateicons/react"],
+
+  allowedDevOrigins: ["192.168.0.102"],
 };
 
 export default nextConfig;

@@ -73,7 +73,7 @@ input[type="number"] {
 
 @layer base {
   * {
-    @apply box-border border-border outline-ring/50;
+    @apply border-border outline-ring/50 box-border;
   }
   body {
     @apply bg-background text-foreground;
@@ -84,40 +84,22 @@ input[type="number"] {
 }
 
 .menu-item {
-  @apply relative
-  after:absolute
-  after:left-1/2
-  after:-bottom-0.75
-  after:h-0.5
-  after:rounded-full
-  hover:rounded-full
-  rounded-full
-  after:w-full
-  after:bg-primary
-  after:content-['']
-  after:-translate-x-1/2
-  after:origin-center
-  after:transition-transform;
+  @apply after:bg-primary relative rounded-full after:absolute after:-bottom-0.75 after:left-1/2 after:h-0.5 after:w-full after:origin-center after:-translate-x-1/2 after:rounded-full after:transition-transform after:content-[''] hover:rounded-full;
 }
 .menu-item-inactive {
-  @apply after:bg-primary
-  after:scale-x-0
-  hover:after:scale-x-100;
+  @apply after:bg-primary after:scale-x-0 hover:after:scale-x-100;
 }
 
 .menu-item-active {
-  @apply text-primary
-  after:bg-primary
-  after:scale-x-10
-  after:rounded-3xl;
+  @apply text-primary after:bg-primary after:scale-x-10 after:rounded-3xl;
 }
 
 .login-button {
-  @apply p-1.5 border rounded-lg transition-colors duration-300;
+  @apply rounded-lg border p-1.5 transition-colors duration-300;
 }
 
 .size-option {
-  @apply flex justify-center items-center hover:bg-primary p-4 border border-primary rounded-lg w-full transition-colors duration-300 cursor-pointer;
+  @apply hover:bg-primary border-primary flex w-full cursor-pointer items-center justify-center rounded-lg border p-4 transition-colors duration-300;
 }
 
 @keyframes heartPop {

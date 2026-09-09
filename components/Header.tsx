@@ -26,26 +26,21 @@ const Header = () => {
   ];
 
   return (
-    <header className="top-0 left-0 z-50 sticky backdrop-blur-md w-full">
-      <div className="flex justify-between items-center px-10 w-full h-20">
-        <div
-          className="hover:cursor-pointer"
-          //  onClick={router.push("/admin")}
-        >
-          <img
-            src="/images/zekaLogo.png"
-            className="bg-transparent w-30 object-contain"
-          />
-        </div>
+    <header className="bg-background sticky top-0 left-0 z-50 w-full border-b lg:border-0 lg:bg-transparent lg:backdrop-blur-md">
+      <div className="flex h-20 w-full items-center justify-between px-4 lg:px-10">
+        <img
+          src="/images/zekaLogo.png"
+          className="absolute top-1/2 left-1/2 w-24 -translate-x-1/2 -translate-y-1/2 object-contain sm:w-28 lg:static lg:w-30 lg:translate-x-0 lg:translate-y-0"
+        />
 
-        <div className="flex items-center gap-5">
+        <div className="hidden items-center gap-5 lg:flex">
           {menuItems.map((item, i) => (
             <Link key={i} href={item.href}>
               <Button
-                className={`menu-item hover:cursor-pointer rounded-full ${
+                className={`menu-item rounded-full hover:cursor-pointer ${
                   pathname === item.href
                     ? "menu-item-active rounded-full"
-                    : "menu-item-inactive "
+                    : "menu-item-inactive"
                 }`}
               >
                 {item.name}
@@ -55,18 +50,18 @@ const Header = () => {
         </div>
 
         {isCurrentUserLoading || isCartLoading ? (
-          <div className="flex justify-end items-center gap-3 w-20">
-            <Skeleton className="rounded-md w-7 h-7" />
-            <Skeleton className="rounded-md w-7 h-7" />
+          <div className="hidden w-20 items-center justify-end gap-3 lg:flex">
+            <Skeleton className="h-7 w-7 rounded-md" />
+            <Skeleton className="h-7 w-7 rounded-md" />
           </div>
         ) : (
-          <div className="flex justify-center items-center gap-3">
-            <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center">
               {currentUser?.role === "admin" ? (
                 <Button className="hover:cursor-pointer">
                   <Link href="/admin">
                     <ShieldCogCorner
-                      className={`p-1 size-8 hover:cursor-pointer hover:text-primary transition-color duration-300  ${
+                      className={`hover:text-primary transition-color size-8 p-1 duration-300 hover:cursor-pointer ${
                         pathname.includes("/admin")
                           ? "text-primary"
                           : "hover:text-primary"
@@ -76,13 +71,13 @@ const Header = () => {
                 </Button>
               ) : null}
             </div>
-            <div className="flex justify-center items-center mt-1">
+            <div className="mt-1 hidden items-center justify-center lg:flex">
               {currentUser ? (
                 <Link href="/profile">
                   <Button className="hover:cursor-pointer">
                     <AnimateIcon animateOnHover>
                       <User
-                        className={`p-1 size-8 hover:cursor-pointer hover:text-primary transition-color duration-300  ${
+                        className={`hover:text-primary transition-color size-8 p-1 duration-300 hover:cursor-pointer ${
                           pathname.includes("/profile")
                             ? "text-primary"
                             : "hover:text-primary"
@@ -97,7 +92,7 @@ const Header = () => {
                   // className={`login-button ${pathname === "/login" ? "text-primary border-primary " : " hover:text-primary hover:border-primary "}`}
                 >
                   <Button
-                    className={`relative hover:cursor-pointer login-button ${pathname === "/login" ? "text-primary border-primary " : " hover:text-primary hover:border-primary "}`}
+                    className={`login-button relative hover:cursor-pointer ${pathname === "/login" ? "text-primary border-primary" : "hover:text-primary hover:border-primary"}`}
                   >
                     LOG IN
                   </Button>
@@ -105,13 +100,13 @@ const Header = () => {
               )}
             </div>
             {currentUser && (
-              <Link href="/cart" className="inline-flex relative">
-                <Button className="flex justify-center items-center hover:cursor-pointer">
+              <Link href="/cart" className="relative hidden lg:inline-flex">
+                <Button className="flex items-center justify-center hover:cursor-pointer">
                   <ShoppingCartIcon
                     className={`hover:cursor-pointer ${pathname === "/cart" ? "text-primary" : "hover:text-primary"}`}
                   />
                   {cart.length > 0 ? (
-                    <span className="-top-2 -right-2 absolute flex justify-center items-center bg-primary/70 rounded-full w-4 h-4 text-[8px]">
+                    <span className="bg-primary/70 absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[8px]">
                       {cart.length}
                     </span>
                   ) : null}

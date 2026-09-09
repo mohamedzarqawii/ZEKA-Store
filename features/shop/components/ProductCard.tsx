@@ -82,7 +82,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
   return (
     <div>
       <Link href={`/shop/${product.id}`}>
-        <div className="group flex flex-col bg-card hover:bg-zinc-900 border border-border hover:border-zinc-600 rounded-2xl w-full h-99 overflow-hidden transition-all duration-300">
+        <div className="group bg-card border-border flex h-fit w-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:border-zinc-600 hover:bg-zinc-900 md:h-99">
           {/* image & cart icon */}
 
           <div className="relative">
@@ -92,34 +92,34 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 variant="none"
                 size="none"
                 onClick={handleFavoriteClick}
-                className="top-4 right-4 absolute p-1.5 rounded-lg cursor-pointer"
+                className="absolute top-2 right-2 cursor-pointer rounded-lg p-1.5 md:top-4 md:right-4"
               >
                 {isToggleFavorite ? (
                   <AnimateIcon loop animateOnView loopDelay={100}>
                     <Heart
-                      className="size-5 text-primary cursor-pointer"
+                      className="text-primary size-5 cursor-pointer"
                       animation="path"
                     />
                   </AnimateIcon>
                 ) : isInFavorite ? (
                   <AnimateIcon animateOnView>
                     <Heart
-                      className="size-5 text-primary cursor-pointer"
+                      className="text-primary size-5 cursor-pointer"
                       animation="fill"
                     />
                   </AnimateIcon>
                 ) : (
-                  <Heart className="size-5 text-primary cursor-pointer" />
+                  <Heart className="text-primary size-5 cursor-pointer" />
                 )}
               </Button>
 
               {/* Out of stock */}
 
-              <div className="top-4 left-4 absolute flex flex-col gap-2">
+              <div className="absolute top-4 left-3 flex flex-col gap-2 md:top-4 md:left-4">
                 {product.stock < 5 && product.stock > 0 ? (
                   <Badge
                     variant={"default"}
-                    className="bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
+                    className="bg-primary/80 cursor-pointer rounded-lg border p-1.5 text-[9px] transition-transform duration-300 md:text-[10px]"
                   >
                     {product?.stock} Left in stock
                   </Badge>
@@ -128,7 +128,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 {product.stock == 0 ? (
                   <Badge
                     variant={"default"}
-                    className="bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
+                    className="bg-primary/80 cursor-pointer rounded-lg border p-1.5 text-[9px] transition-transform duration-300 md:text-[10px]"
                   >
                     Out of stock
                   </Badge>
@@ -137,7 +137,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 {product.stock == cartItem?.quantity ? (
                   <Badge
                     variant={"destructive"}
-                    className="bg-primary/80 p-1.5 border rounded-lg text-[10px] transition-transform duration-300 cursor-pointer"
+                    className="bg-primary/80 cursor-pointer rounded-lg border p-1.5 text-[9px] transition-transform duration-300 md:text-[10px]"
                   >
                     Maximum items added in cart
                   </Badge>
@@ -145,7 +145,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
               </div>
               {/* add to cart */}
 
-              <div className="right-3 bottom-3 absolute">
+              <div className="absolute right-2 bottom-2 md:right-3 md:bottom-3">
                 {isInCart && cartItem ? (
                   <>
                     <Counter
@@ -166,7 +166,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                     onClick={(e) => {
                       handleCartClick(e, "add");
                     }}
-                    className="bg-primary/80 p-1.5 border border-primary rounded-lg group-hover:cursor-pointer"
+                    className="bg-primary/80 border-primary rounded-lg border p-1.5 group-hover:cursor-pointer"
                   >
                     <IconShoppingCartPlus className="size-4" />
                   </Button>
@@ -177,30 +177,33 @@ const ProductCard = ({ product }: { product: ProductType }) => {
             <img
               src={product.images?.[0] || "/images/placeholder.jpeg"}
               alt={product.name || "Product Image"}
-              className="w-full h-64 object-center object-cover hover:cursor-pointer"
+              className="h-46 w-full object-cover object-center hover:cursor-pointer md:h-64"
             />
           </div>
           {/* content */}
-          <div className="flex flex-col justify-between bg-card p-4 h-full">
+          <div className="bg-card flex h-full flex-col justify-between p-3 md:p-4">
             <div className="flex flex-col gap-1">
-              <div className="text-zinc-400 text-xs">
+              <div className="text-[10px] text-zinc-400 md:text-xs">
                 {product.brand?.name ? product.brand.name : "No Brand"}
               </div>
-              <div className="text-sm line-clamp-2">{product.name}</div>
+              <div className="line-clamp-2 text-[11px] md:text-sm">
+                {product.name}
+              </div>
             </div>
 
-            <div className="flex justify-between items-center mt-3 w-full">
-              <div className="flex flex-col gap-2 w-full">
-                <div className="flex justify-between items-center w-full">
-                  <Badge variant={"outline"} className="bg-primary/20!">
-                    {product.category?.name
-                      ? product.category.name
-                      : "No Category"}
-                  </Badge>
+            <div className="mt-2 flex w-full items-center justify-between md:mt-3">
+              <div className="flex w-full flex-col-reverse items-start gap-2 md:flex-row md:items-center md:justify-between md:gap-0">
+                <Badge
+                  variant={"outline"}
+                  className="bg-primary/20! text-[8px] md:text-[0.625rem]"
+                >
+                  {product.category?.name
+                    ? product.category.name
+                    : "No Category"}
+                </Badge>
 
-                  <div className="text-primary text-sm">
-                    ${product.price ? product.price.toFixed(2) : "0.00"}
-                  </div>
+                <div className="text-primary text-xs md:text-sm">
+                  ${product.price ? product.price.toFixed(2) : "0.00"}
                 </div>
               </div>
             </div>

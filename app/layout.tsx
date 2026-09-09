@@ -1,5 +1,7 @@
+// app/layout.tsx
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import MobileBottomNav from "@/components/MobileBottomNav"; // استيراد الشريط السفلي
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
@@ -20,18 +22,17 @@ const bruno = Bruno_Ace({
 export const metadata: Metadata = {
   title: "ZEKA Store",
   description: "A store for all sports equipment",
-
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/apple-icon.png",
   },
-
   appleWebApp: {
     title: "ZEKA",
     statusBarStyle: "default",
   },
 };
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -43,13 +44,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("font-sans dark", inter.variable)}>
-      <body className={cn("flex flex-col min-h-screen", bruno.className)}>
+    <html lang="en" className={cn("dark font-sans", inter.variable)}>
+      <body className={cn("flex min-h-screen flex-col", bruno.className)}>
         <Providers>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-20 lg:pb-0">{children}</main>
           <Footer />
-          <Toaster className="font-bruno!" />
+          <MobileBottomNav />
+          <Toaster className="font-bruno! hidden lg:flex" />
         </Providers>
       </body>
     </html>
