@@ -82,7 +82,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
   return (
     <div>
       <Link href={`/shop/${product.id}`}>
-        <div className="group bg-card border-border flex h-fit w-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:border-zinc-600 hover:bg-zinc-900 md:h-99">
+        <div className="group bg-card border-border flex h-79 w-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:border-zinc-600 hover:bg-zinc-900 md:h-99">
           {/* image & cart icon */}
 
           <div className="relative">

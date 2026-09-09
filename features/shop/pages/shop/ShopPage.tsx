@@ -14,6 +14,17 @@ import {
   useGetShopCategories,
   useGetShopProducts,
 } from "./hooks/useShop";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import SelectInput from "@/components/myComponents/Select";
+import { FilterPopover } from "../../components/FilterPopover";
 
 type Option = {
   label: string;
@@ -108,9 +119,9 @@ const ShopPage = () => {
   //   );
   // }
   return (
-    <div className="mx-10">
+    <div className="mx-4 md:mx-10">
       {/* body */}
-      <div className="flex flex-wrap gap-10 mt-15">
+      <div className="mt-6 flex flex-wrap gap-6 md:mt-15 md:gap-10">
         {/* Left - Filter Component */}
 
         {isCategoriesLoading || isBrandsLoading || isPricesLoading ? (
@@ -130,32 +141,41 @@ const ShopPage = () => {
           />
         )}
 
-        <div className="flex flex-col flex-1 gap-10 w-full min-h-screen">
+        <div className="flex min-h-screen w-full flex-1 flex-col gap-6 md:gap-10">
           {/* 1 R - Header */}
-          <div className="flex sm:flex-row flex-col justify-between items-start sm:items-end gap-2">
-            <h1 className="font-bold text-primary text-2xl sm:text-3xl tracking-tight">
-              PRODUCTS
-            </h1>
+          <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-end">
+            <div className="flex w-full items-center justify-between">
+              <div className="text-primary text-xl md:text-3xl">PRODUCTS</div>
 
+              <FilterPopover
+                filterMenu={filterMenu}
+                selectedCategories={selectedCategories}
+                selectedBrands={selectedBrands}
+                handleFilterChange={handleFilterChange}
+                setSelectedCategories={setSelectedCategories}
+                setSelectedBrands={setSelectedBrands}
+                value={value}
+                setValue={setValue}
+                setPriceRange={setPriceRange}
+                setCurrentPage={setCurrentPage}
+              />
+            </div>
             {isProductsLoading ? (
-              <Skeleton className="bg-zinc-800 rounded-sm w-65 h-4" />
+              <Skeleton className="h-4 w-65 rounded-sm bg-zinc-800" />
             ) : (
-              <div className="text-zinc-400 text-xs sm:text-sm">
+              <div className="text-xs text-zinc-400 sm:text-sm">
                 Showing{" "}
-                <span className="font-medium text-primary">
+                <span className="text-primary">
                   {fromItem} - {toItem}
                 </span>{" "}
-                of{" "}
-                <span className="font-medium text-primary">
-                  {productsNumber}
-                </span>{" "}
+                of <span className="text-primary">{productsNumber}</span>{" "}
                 products
               </div>
             )}
           </div>
 
           {/* 2 R - Flexible Grid */}
-          <div className="gap-4 sm:gap-6 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] w-full">
+          <div className="grid w-full grid-cols-2 gap-3 md:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] md:gap-6">
             {isProductsLoading ? (
               Array.from({ length: 8 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
@@ -165,7 +185,7 @@ const ShopPage = () => {
                 <ProductCard key={product.id} product={product} />
               ))
             ) : (
-              <div className="col-span-full py-10 text-muted-foreground text-center">
+              <div className="text-muted-foreground col-span-full py-10 text-center">
                 No products found.
               </div>
             )}
@@ -173,20 +193,21 @@ const ShopPage = () => {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center mb-8 w-full">
+        <div className="mb-8 flex w-full justify-center">
           <div className="flex gap-3">
             {Array.from({
               length: totalPages,
             }).map((_, index) => (
-              <button
+              <Button
+                variant={"outline"}
                 key={index}
                 onClick={() => setCurrentPage(index + 1)}
-                className={`w-10 h-10 border rounded-md cursor-pointer transition ${
-                  currentPage === index + 1 ? "bg-primary" : ""
+                className={`border-border h-8 w-8 cursor-pointer border! text-sm md:h-10 md:w-10 ${
+                  currentPage === index + 1 ? "bg-primary!" : ""
                 }`}
               >
                 {index + 1}
-              </button>
+              </Button>
             ))}
           </div>
         </div>

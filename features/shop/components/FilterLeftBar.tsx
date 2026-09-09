@@ -93,14 +93,14 @@ export const FilterBar = ({
     tempPrice[1] === maxPrice;
 
   return (
-    <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary rounded-3xl w-full max-w-xs h-fit">
+    <div className="border-primary sticky top-24 hidden h-fit w-full max-w-xs flex-col gap-5 rounded-3xl border bg-[#1a1a1a]/20 p-7 backdrop-blur-md md:flex">
       {/* Header */}
-      <div className="flex flex-col gap-3 text-primary">
+      <div className="text-primary flex flex-col gap-3">
         <div>FILTERS</div>
-        <div className="bg-primary w-full h-px"></div>
+        <div className="bg-primary h-px w-full"></div>
       </div>
 
-      <div className="flex flex-col gap-8 mt-4">
+      <div className="mt-4 flex flex-col gap-8">
         {filterMenu.map((menu, i) => (
           <div key={i} className="flex flex-col gap-4">
             <div className="text-primary text-lg">{menu.title}</div>
@@ -139,7 +139,7 @@ export const FilterBar = ({
                     />
                     <label
                       htmlFor={checkboxId}
-                      className="text-zinc-400 text-sm cursor-pointer"
+                      className="cursor-pointer text-sm text-zinc-400"
                     >
                       {option.label}
                     </label>
@@ -151,7 +151,7 @@ export const FilterBar = ({
         ))}
 
         {/* Price Filter */}
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex w-full flex-col gap-4">
           <div>
             <Field className="w-full max-w-xs">
               <FieldTitle className="text-primary text-lg">PRICE</FieldTitle>

@@ -18,8 +18,10 @@ const HomePage = () => {
         {/* first slide */}
 
         <div className="relative mt-10 flex h-75 items-start justify-end gap-6 overflow-x-hidden md:mt-15 md:h-fit md:flex-row md:items-center md:justify-center md:gap-0 md:overflow-visible">
-          <div className="z-20 flex flex-col gap-6 px-6 md:static md:gap-15 md:px-0">
-            <div className="text-primary font-bold">NEW COLLECTION</div>
+          <div className="z-20 flex flex-col gap-6 px-6 md:static md:gap-10 md:px-0">
+            <div className="text-primary font-bold md:text-xl">
+              NEW COLLECTION
+            </div>
 
             <div className="flex flex-col items-start gap-6 md:gap-10">
               <div className="text-[26px] md:text-4xl lg:text-6xl">
@@ -47,14 +49,14 @@ const HomePage = () => {
         </div>
 
         {/* second slide */}
-        <div className="mx-3 mt-5 flex flex-col gap-10 md:mx-0 md:mt-20">
+        <div className="mx-4 mt-5 flex flex-col gap-10 md:mx-0 md:mt-20">
           <div className="flex items-end justify-between">
             <div className="text-primary text-lg md:text-3xl">
               MOST PRODUCT POPULAR
             </div>
           </div>
           {isProductsLoading ? (
-            <div className="grid w-full grid-cols-2 gap-4 sm:gap-6 md:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+            <div className="grid w-full grid-cols-2 gap-3 md:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] md:gap-6">
               <ProductCardSkeleton />
               <ProductCardSkeleton />
               <ProductCardSkeleton />

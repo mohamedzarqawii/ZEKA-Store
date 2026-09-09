@@ -155,18 +155,18 @@ const CreateProductPage = () => {
     <div>
       <div className="text-primary text-3xl">CREATE PRODUCT</div>
       <div className="mt-10">
-        <div className="flex justify-center items-center w-full">
+        <div className="flex w-full items-center justify-center">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col justify-center items-center gap-7 w-full h-fit"
+            className="flex h-fit w-full flex-col items-center justify-center gap-7"
             noValidate
           >
             {/* 1 */}
-            <div className="flex flex-col justify-center items-center gap-4"></div>
+            <div className="flex flex-col items-center justify-center gap-4"></div>
 
             {/* 2 */}
 
-            <div className="group flex flex-col justify-center items-end gap-4 w-full">
+            <div className="group flex w-full flex-col items-end justify-center gap-4">
               <Input
                 name="name"
                 type="text"
@@ -194,7 +194,7 @@ const CreateProductPage = () => {
               )}
 
               {/* ----------------------------------------------------- */}
-              <div className="flex gap-4 w-full">
+              <div className="flex w-full gap-4">
                 <Input
                   name="price"
                   type="number"
@@ -223,7 +223,7 @@ const CreateProductPage = () => {
               </div>
 
               {/* ----------------------------------------------------- */}
-              <div className="flex gap-4 w-full">
+              <div className="flex w-full gap-4">
                 <Field>
                   <FieldLabel htmlFor="category">
                     Category<span className="text-destructive">*</span>
@@ -294,10 +294,10 @@ const CreateProductPage = () => {
               <div className="w-full">
                 <div className="mb-2 w-full">Gallery Images</div>
 
-                <div className="flex flex-col p-4 border border-primary rounded-lg w-full h-fit">
+                <div className="border-primary flex h-fit w-full flex-col rounded-lg border p-4">
                   {selectedImages.length > 0 ? (
-                    <div className="flex justify-between items-center">
-                      <div className="text-[#A1A1A1] text-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm text-[#A1A1A1]">
                         Selected Images ({selectedImages.length})
                       </div>
 
@@ -343,17 +343,17 @@ const CreateProductPage = () => {
                   ) : null}
 
                   {selectedImages.length > 0 ? (
-                    <div className="flex flex-col justify-center items-center gap-2 p-3 w-full">
+                    <div className="flex w-full flex-col items-center justify-center gap-2 p-3">
                       {selectedImages.length > 0 && (
-                        <div className="gap-4 grid grid-cols-5 w-full">
+                        <div className="grid w-full grid-cols-5 gap-4">
                           {/* <FieldLabel className="w-full text-primary text-sm">
                               New photos to upload ({selectedImages.length})
                             </FieldLabel> */}
                           {selectedImages.map((image, index) => (
-                            <div key={index} className="relative w-full h-49">
+                            <div key={index} className="relative h-49 w-full">
                               <img
                                 src={image.previewUrl}
-                                className="border rounded-md w-full object-cover aspect-square"
+                                className="aspect-square w-full rounded-md border object-cover"
                               />
 
                               <Button
@@ -361,15 +361,15 @@ const CreateProductPage = () => {
                                 variant="outline"
                                 size="rounded-icon-sm"
                                 onClick={() => handleRemoveSelectedImage(index)}
-                                className="top-2 right-2 absolute border border-border rounded-full text-white cursor-pointer hover:cursor-pointer"
+                                className="border-border absolute top-2 right-2 cursor-pointer rounded-full border text-white hover:cursor-pointer"
                               >
-                                <IconTrash className="w-4 h-4 text-destructive hover:cursor-pointer" />
+                                <IconTrash className="text-destructive h-4 w-4 hover:cursor-pointer" />
                               </Button>
 
                               {index === 0 ? (
                                 <Badge
                                   variant="outline"
-                                  className="top-3 left-2 absolute border border-border rounded-full text-white"
+                                  className="border-border absolute top-3 left-2 rounded-full border text-white"
                                 >
                                   Main
                                 </Badge>
@@ -379,9 +379,9 @@ const CreateProductPage = () => {
                                   variant="outline"
                                   size="rounded-icon-sm"
                                   onClick={() => handleSetMainImage(index)}
-                                  className="top-2 left-2 absolute border border-border rounded-full text-white"
+                                  className="border-border absolute top-2 left-2 rounded-full border text-white"
                                 >
-                                  <Pin className="w-4 h-4" />
+                                  <Pin className="h-4 w-4" />
                                 </Button>
                               )}
                             </div>
@@ -390,13 +390,13 @@ const CreateProductPage = () => {
                       )}
                     </div>
                   ) : (
-                    <div className="flex flex-col justify-center items-center gap-2">
+                    <div className="flex flex-col items-center justify-center gap-2">
                       <Image
-                        className="w-12 h-12 text-[#A1A1A1]"
+                        className="h-12 w-12 text-[#A1A1A1]"
                         strokeWidth={1}
                       />
                       <div className="text-sm">Drop your image here</div>
-                      <div className="text-[#A1A1A1] text-xs">
+                      <div className="text-xs text-[#A1A1A1]">
                         Accepts PNG, JPG, WebP
                       </div>
 
@@ -445,13 +445,13 @@ const CreateProductPage = () => {
             </div>
 
             {/* 3 */}
-            <div className="flex flex-col justify-center items-center gap-4 w-full">
+            <div className="flex w-full flex-col items-center justify-center gap-4">
               <Button
                 type="submit"
                 isPending={isCreating || isMediaUploading}
                 pendingText="Creating"
                 disabled={!dirty || isCreating || isMediaUploading}
-                className="px-4 py-4 rounded-lg w-full h-12 font-extrabold text-center transition-colors duration-300 hover:cursor-pointer"
+                className="h-12 w-full rounded-lg px-4 py-4 text-center font-extrabold transition-colors duration-300 hover:cursor-pointer"
               >
                 CREATE PRODUCT
               </Button>

@@ -6,23 +6,23 @@ import { Slider } from "@/components/ui/slider";
 export function FilterLeftBarSkeleton() {
   const disabled = true;
   return (
-    <div className="top-24 sticky flex flex-col gap-5 bg-[#1a1a1a]/20 backdrop-blur-md p-7 border border-primary/30 rounded-3xl w-full max-w-xs h-fit">
+    <div className="border-primary/30 sticky top-24 hidden h-fit w-full max-w-xs flex-col gap-5 rounded-3xl border bg-[#1a1a1a]/20 p-7 backdrop-blur-md md:flex">
       {/* Header Skeleton */}
-      <div className="flex flex-col gap-3 text-primary">
+      <div className="text-primary flex flex-col gap-3">
         <div>FILTERS</div>
-        <div className="bg-primary w-full h-px"></div>
+        <div className="bg-primary h-px w-full"></div>
       </div>
 
-      <div className="flex flex-col gap-8 mt-4">
+      <div className="mt-4 flex flex-col gap-8">
         {/* Section 1: Categories (6 Items) */}
         <div className="flex flex-col gap-4">
           <div className="text-primary text-lg">CATEGORY</div>
 
-          <div className="flex flex-col gap-6 mt-1">
+          <div className="mt-1 flex flex-col gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="flex items-center gap-3">
-                <Skeleton className="bg-zinc-800 rounded-sm w-4 h-4" />
-                <Skeleton className="bg-zinc-800/70 rounded-sm w-30 h-4" />
+                <Skeleton className="h-4 w-4 rounded-sm bg-zinc-800" />
+                <Skeleton className="h-4 w-30 rounded-sm bg-zinc-800/70" />
               </div>
             ))}
           </div>
@@ -30,26 +30,26 @@ export function FilterLeftBarSkeleton() {
 
         {/* Section 2: Brands (6 Items) */}
         <div className="flex flex-col gap-4">
-          <div className="font-bold text-primary text-lg">BRAND</div>
-          <div className="flex flex-col gap-6 mt-1">
+          <div className="text-primary text-lg font-bold">BRAND</div>
+          <div className="mt-1 flex flex-col gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="flex items-center gap-3">
-                <Skeleton className="bg-zinc-800 rounded-sm w-4 h-4" />
-                <Skeleton className="bg-zinc-800/70 rounded-sm w-30 h-4" />
+                <Skeleton className="h-4 w-4 rounded-sm bg-zinc-800" />
+                <Skeleton className="h-4 w-30 rounded-sm bg-zinc-800/70" />
               </div>
             ))}
           </div>
         </div>
 
         {/* Section 3: Price Filter */}
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex w-full flex-col gap-4">
           <div>
             <Field className="w-full max-w-xs">
               <FieldTitle className="text-primary text-lg">PRICE</FieldTitle>
               {/* <FieldDescription className="text-sm"></FieldDescription> */}
 
               <div>
-                <Skeleton className="mb-1.5 rounded-full w-25 h-2.5" />
+                <Skeleton className="mb-1.5 h-2.5 w-25 rounded-full" />
               </div>
               <Slider
                 value={[0, 1000000]}
