@@ -15,9 +15,9 @@ const NotificationPage = () => {
     <div>
       <div className="text-primary text-3xl">NOTIFICATIONS</div>
       <div className="mt-10">
-        <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-10 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
+        <div className="border-primary mt-10 flex h-fit w-full flex-col rounded-3xl border bg-[#1a1a1a]/20 px-8 py-10 backdrop-blur-md">
           <div className="text-md">Receive Communications In</div>
-          <div className="flex flex-col gap-2 mt-5">
+          <div className="mt-5 flex flex-col gap-2">
             <div className="text-primary text-sm">Language</div>
 
             <SelectInput
@@ -28,9 +28,9 @@ const NotificationPage = () => {
         </div>
 
         {/* ------------------- */}
-        <div className="flex flex-col bg-[#1a1a1a]/20 backdrop-blur-md mt-10 px-8 py-10 border border-primary rounded-3xl w-full h-fit">
+        <div className="border-primary mt-10 flex h-fit w-full flex-col rounded-3xl border bg-[#1a1a1a]/20 px-8 py-10 backdrop-blur-md">
           <div className="text-md">Marketing Preferences</div>
-          <div className="flex flex-col gap-2 mt-5">
+          <div className="mt-5 flex flex-col gap-2">
             <FieldGroup className="w-full min-w-sm">
               <div className="flex gap-3">
                 <FieldLabel
@@ -39,10 +39,10 @@ const NotificationPage = () => {
                 >
                   <Field
                     orientation="horizontal"
-                    className="flex justify-between items-center"
+                    className="flex items-center justify-between"
                   >
                     <FieldContent>
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <Mail size={20} />
                           <FieldTitle className="text-md">Email</FieldTitle>
@@ -59,10 +59,10 @@ const NotificationPage = () => {
                 >
                   <Field
                     orientation="horizontal"
-                    className="flex justify-between items-center"
+                    className="flex items-center justify-between"
                   >
                     <FieldContent>
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <MessageCircleMore size={20} />
                           <FieldTitle className="text-md">SMS</FieldTitle>
@@ -79,10 +79,10 @@ const NotificationPage = () => {
                 >
                   <Field
                     orientation="horizontal"
-                    className="flex justify-between items-center"
+                    className="flex items-center justify-between"
                   >
                     <FieldContent>
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <IconBrandWhatsapp size={23} />
                           <FieldTitle className="text-md">Whatsapp</FieldTitle>
@@ -95,7 +95,7 @@ const NotificationPage = () => {
               </div>
             </FieldGroup>
 
-            <div className="mt-2 text-zinc-500 text-xs">
+            <div className="mt-2 text-xs text-zinc-500">
               Opting out halts promotional messages, but you’ll still receive
               important service updates.
             </div>
