@@ -23,7 +23,6 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import SelectInput from "@/components/myComponents/SelectInput";
 import { FilterPopover } from "../../components/FilterPopover";
 
 type Option = {
@@ -143,7 +142,7 @@ const ShopPage = () => {
 
         <div className="flex min-h-screen w-full flex-1 flex-col gap-6 md:gap-10">
           {/* 1 R - Header */}
-          <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-end">
+          <div className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-end">
             <div className="flex w-full items-center justify-between">
               <div className="text-primary text-xl md:text-3xl">PRODUCTS</div>
 
@@ -160,10 +159,11 @@ const ShopPage = () => {
                 setCurrentPage={setCurrentPage}
               />
             </div>
+
             {isProductsLoading ? (
               <Skeleton className="h-4 w-65 rounded-sm bg-zinc-800" />
             ) : (
-              <div className="text-xs text-zinc-400 sm:text-sm">
+              <div className="text-xs whitespace-nowrap text-zinc-400 md:text-sm">
                 Showing{" "}
                 <span className="text-primary">
                   {fromItem} - {toItem}
