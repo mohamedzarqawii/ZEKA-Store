@@ -1,22 +1,21 @@
 const AboutUsPage = () => {
   return (
-    <div className="mx-10">
+    <div className="md:mx-10">
       {/* body */}
 
-      <div className="flex flex-col">
+      <div className="flex flex-row md:flex-col">
         {/* first slide */}
-        <div className="flex justify-between items-center mt-15">
+        <div className="mt-15 flex items-center justify-between">
           {/* image */}
-          <div className="w-400 h-170">
-            <img
-              src="/images/dummbles10.jpeg"
-              className="shadow-[#FEFEFE] shadow-[0_0_15px] rounded-[65px] w-full h-full object-cover object-left"
-            />
-          </div>
+
+          <img
+            src="/images/dummbles10.jpeg"
+            className="hidden w-50 rounded-xl object-cover object-left shadow-[0_0_15px] shadow-[#FEFEFE] md:block md:h-170 md:w-400 md:rounded-[65px]"
+          />
 
           {/* text */}
 
-          <div className="flex flex-col gap-15 ml-20">
+          <div className="flex flex-col gap-15 md:ml-20">
             <div className="flex flex-col gap-10">
               <div className="text-primary text-4xl">OUR MESSION</div>
               <div className="flex flex-col gap-15">
@@ -30,14 +29,14 @@ const AboutUsPage = () => {
                 </div>
 
                 <div className="flex gap-10">
-                  <div className="flex flex-col gap-2 p-2 border-primary border-l-2">
+                  <div className="border-primary flex flex-col gap-2 border-l-2 p-2">
                     <div className="text-primary">Durability</div>
                     <div className="text-[12px]">
                       Built to last the toughest training sessions.
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2 p-2 border-primary border-l-2">
+                  <div className="border-primary flex flex-col gap-2 border-l-2 p-2">
                     <div className="text-primary">Innovation</div>
                     <div className="text-[12px]">
                       Constantly refining materials and design.

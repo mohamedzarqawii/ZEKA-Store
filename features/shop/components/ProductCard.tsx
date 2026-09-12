@@ -92,7 +92,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                 variant="none"
                 size="none"
                 onClick={handleFavoriteClick}
-                className="absolute top-2 right-2 cursor-pointer rounded-lg p-1.5 md:top-4 md:right-4"
+                className="absolute top-3 right-3 cursor-pointer rounded-lg md:top-5 md:right-4"
               >
                 {isToggleFavorite ? (
                   <AnimateIcon loop animateOnView loopDelay={100}>
@@ -115,7 +115,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
               {/* Out of stock */}
 
-              <div className="absolute top-4 left-3 flex flex-col gap-2 md:top-4 md:left-4">
+              <div className="absolute top-3 left-3 flex flex-col gap-2 md:top-5 md:left-4">
                 {product.stock < 5 && product.stock > 0 ? (
                   <Badge
                     variant={"default"}
@@ -143,9 +143,10 @@ const ProductCard = ({ product }: { product: ProductType }) => {
                   </Badge>
                 ) : null}
               </div>
+
               {/* add to cart */}
 
-              <div className="absolute right-2 bottom-2 md:right-3 md:bottom-3">
+              <div className="absolute right-3 bottom-3 md:right-4 md:bottom-5">
                 {isInCart && cartItem ? (
                   <>
                     <Counter
